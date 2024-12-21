@@ -15,6 +15,13 @@ const ProductPage = () => {
         "/assets/ImageComponent/5.jpg",
     ];
 
+    const pictures09 = [
+        "/assets/TransparantImages/6 (1).jpg",
+        "/assets/TransparantImages/nappe-mat-2.png",
+        "/assets/TransparantImages/11.png",
+         
+    ];
+
     const pictureso1 = [
         "/assets/ImageComponent/bg-img-2-mat.png",
       
@@ -32,6 +39,7 @@ const ProductPage = () => {
                         title="Nappe transparente"
                         text="Conçu spécialement pour protéger votre table à manger."
                         pictures={pictures}
+                        pictures09={pictures09}
                     />
  
                

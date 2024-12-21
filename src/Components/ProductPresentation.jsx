@@ -4,6 +4,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { styled } from '@mui/material/styles';
 import AssistanceComponent from "./AssistanceComponent";
 import DynamicCircleSVG from "./DynamicCircleSVG"; 
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import OctaShapeSVG from "./OctaShapeSVG";
 import OvaldynamicSvg from "./OvaldynamicSvg";
 import RectangleACoinsArrondis from "./RectangleACoinsArrondis";
@@ -15,12 +16,73 @@ import OvaleSVG from "./OvaleSVG";
 
 
 
-const ProductPresentation = ({ title, text, pictures }) => {
+const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
 
   const theme = useTheme();
   const [showMessage, setShowMessage] = useState(true);
   const [prixTotal, setPrixTotal] = useState(0);
   const [deliveryDates, setDeliveryDates] = useState({ startDate: "", endDate: "" });
+
+ 
+  const [formData, setFormData] = useState({
+    email: "",
+    fullName: "",
+    phone: "",
+    address: "",
+    promoCode: ""
+  });
+
+  const handleFormChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Create FormData object with all form fields
+    const formDataToSubmit = new FormData();
+    
+    // Add form fields
+    formDataToSubmit.append("Email", formData.email);
+    formDataToSubmit.append("Nom_complet", formData.fullName);
+    formDataToSubmit.append("Telephone", formData.phone);
+    formDataToSubmit.append("Adresse", formData.address);
+    
+    // Add product details
+    
+
+    // Submit form
+    fetch(
+      "https://script.google.com/macros/s/AKfycbwzUiRIFcGRaf9PlfwYKJnufwekHB6zvaAeLz1RsUiYBbZLaky-1AasGcqRqnc267oQ/exec",
+      {
+        method: "POST",
+        body: formDataToSubmit
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Form submitted successfully:", data);
+        // Reset form after successful submission
+        setFormData({
+          email: "",
+          fullName: "",
+          phone: "",
+          address: "",
+          promoCode: ""
+        });
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      });
+  };
+
+
+
+
 
   useEffect(() => {
     const today = new Date();
@@ -309,133 +371,200 @@ const ProductPresentation = ({ title, text, pictures }) => {
   };
 
 
+   // Add state for current picture index
+   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
+
+   // Navigation functions
+   const goToNextPicture = () => {
+     setCurrentPictureIndex((prevIndex) => 
+       prevIndex === pictures.length - 1 ? 0 : prevIndex + 1
+     );
+   };
+ 
+   const goToPreviousPicture = () => {
+     setCurrentPictureIndex((prevIndex) => 
+       prevIndex === 0 ? pictures.length - 1 : prevIndex - 1
+     );
+   };
+ 
+   // Navigation button styles
+   const NavigationButton = styled(Button)({
+     minWidth: '48px',
+     height: '48px',
+     borderRadius: '50%',
+     padding: 0,
+     position: 'absolute',
+     top: '50%',
+     transform: 'translateY(-50%)',
+     backgroundColor: 'rgba(255, 255, 255, 0.8)',
+     '&:hover': {
+       backgroundColor: 'rgba(255, 255, 255, 0.9)',
+     },
+   });
+ 
+   // Replace the existing image gallery section with this:
+   const renderMainImage = () => (
+     <Box sx={{ position: 'relative', marginBottom: 2 }}>
+       {isDynamicSVG ? (
+         selectedShape === 0 ? (
+           <DynamicCircleSVG
+             diameter={dimensions.diametre || 30}
+             color="#9BC953"
+           />
+         ) : /* ... (keep all other shape conditions) */ null
+       ) : (
+         <Box sx={{ position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+           <Box
+             component="img"
+             src={pictures[currentPictureIndex]}
+             alt="Main Product"
+             sx={{
+               width: "100%",
+               height: "auto",
+               border: "1px solid #ddd",
+               borderRadius: "8px",
+             }}
+           />
+           <NavigationButton
+             onClick={goToPreviousPicture}
+             sx={{ left: -24 }}
+           >
+             <ChevronLeft />
+           </NavigationButton>
+           <NavigationButton
+             onClick={goToNextPicture}
+             sx={{ right: -24 }}
+           >
+             <ChevronRight />
+           </NavigationButton>
+         </Box>
+       )}
+     </Box>
+   );
+
+
+
   const [mainPicture, setMainPicture] = useState(pictures[0]);
 
   const handlePictureClick = (picture) => {
     setMainPicture(picture);
   };
 
+  
   return (
-    <div style={{ flex: 1,display: 'flex', gap: '20px', padding: '20px',  }}>
-       <Box sx={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column', 
-      
+    <Box sx={{
+      display: 'flex', 
+      flexDirection: { xs: 'column', md: 'row' },
+      gap: '20px',
+      padding: '20px',
+    }}>
+      {/* First Box - Images and Title Section */}
+      <Box sx={{ 
+        flex: 1,
+        width: '100%',
+        order: { xs: 1, md: 1 }
       }}>
-
-    
-    
-    <Box sx={{ padding: 2 ,justifyItems:"center"}}>
-      {/* Titre et texte */}
-      <Box sx={{ marginBottom: 2 }}>
-        <Typography variant="h4" sx={{ marginBottom: 1 }}>
-          {title}
-        </Typography>
-        <Typography variant="body1">{text}</Typography>
-      </Box>
-
-      {/* Image principale */}
-      <Box sx={{ textAlign: "center", marginBottom: 2 }}>
-      {isDynamicSVG ? (
-        selectedShape === 0 ? (
-        <DynamicCircleSVG
-            diameter={dimensions.diametre || 30}
-            color="#9BC953"
-           
-          />
-         ): selectedShape === 2 ? (  
-          <OvaldynamicSvg
-      width={dimensions.longueur || 80}
-      height={dimensions.largeur || 40}
- 
-      color="#9BC953"
-    />
-  ) : selectedShape === 3 ? (    <OctaShapeSVG 
-    length={dimensions.longueur || 300} 
-    arc={dimensions.arc || 200} 
-    color="#9BC953" 
-  />):selectedShape === 4 ? ( <RectangleACoinsArrondis 
-    height ={dimensions.longueur || 400 } 
-    width={dimensions.largeur || 400} 
-  radius={dimensions.arc ||40 } 
-  color="#9BC953" 
-/>):selectedShape === 6 ? ( <RectangleACoinCarres 
-  width={dimensions.longueur || 240} 
-  height={dimensions.largeur || 400} 
-  color="#9BC953" 
-/>):
-selectedShape === 5 ? ( <RectangleChanfreine 
-  width={dimensions.longueur || 240} 
-  height={dimensions.largeur || 400} 
-  arcA={dimensions.arca || 20}
-  arcB={dimensions.arcb || 20}
-  color="#9BC953" 
-/>):
-selectedShape === 1 ? ( <OvaleSVG 
-  width={dimensions.longueur || 200} 
-  height={dimensions.largeur || 300} 
-  color="#9BC953" 
-/>):
-  null
-) : (
-        <Box
-          component="img"
-          src={mainPicture}
-          alt="Main Product"
-          sx={{
-            width: "100%",
-            maxWidth: "500px",
-            height: "auto",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-          }}
-        />
-         )}
-      </Box>
-
-      {/* Galerie d'images */}
-      <Grid2 container spacing={1} justifyContent="center">
-        {pictures.map((picture, index) => (
-          <Grid2 item key={index} xs={3} sm={2} md={1}>
-            <Box
-              component="img"
-              src={picture}
-              alt={`Thumbnail ${index}`}
-              onClick={() => handlePictureClick(picture)}
-              sx={{
-                width: "100%",
-                maxWidth: "70px",
-                height: "auto",
-                cursor: "pointer",
-                border: picture === mainPicture ? "2px solid #007BFF" : "1px solid #ddd",
-                borderRadius: "4px",
-                padding: "2px",
-              }}
-            />
+        <Box sx={{ padding: 2 }}>
+          {/* Title and text */}
+          <Box sx={{ marginBottom: 2 }}>
+            <Typography variant="h4" sx={{ marginBottom: 1 }}>
+              {title}
+            </Typography>
+            <Typography variant="body1">{text}</Typography>
+          </Box>
+  
+          {/* Main Image */}
+          <Box sx={{ textAlign: "center", marginBottom: 2 }}>
+            {isDynamicSVG ? (
+              selectedShape === 0 ? (
+                <DynamicCircleSVG
+                  diameter={dimensions.diametre || 30}
+                  color="#9BC953"
+                />
+              ) : selectedShape === 2 ? (
+                <OvaldynamicSvg
+                  width={dimensions.longueur || 80}
+                  height={dimensions.largeur || 40}
+                  color="#9BC953"
+                />
+              ) : selectedShape === 3 ? (
+                <OctaShapeSVG 
+                  length={dimensions.longueur || 300} 
+                  arc={dimensions.arc || 200} 
+                  color="#9BC953" 
+                />
+              ) : selectedShape === 4 ? (
+                <RectangleACoinsArrondis 
+                  height={dimensions.longueur || 400} 
+                  width={dimensions.largeur || 400}
+                  radius={dimensions.arc || 40}
+                  color="#9BC953" 
+                />
+              ) : selectedShape === 6 ? (
+                <RectangleACoinCarres 
+                  width={dimensions.longueur || 240}
+                  height={dimensions.largeur || 400}
+                  color="#9BC953" 
+                />
+              ) : selectedShape === 5 ? (
+                <RectangleChanfreine 
+                  width={dimensions.longueur || 240}
+                  height={dimensions.largeur || 400}
+                  arcA={dimensions.arca || 20}
+                  arcB={dimensions.arcb || 20}
+                  color="#9BC953" 
+                />
+              ) : selectedShape === 1 ? (
+                <OvaleSVG 
+                  width={dimensions.longueur || 200}
+                  height={dimensions.largeur || 300}
+                  color="#9BC953" 
+                />
+              ) : null
+            ) : (
+              renderMainImage()
+            )}
+          </Box>
+  
+          {/* Image Gallery */}
+          <Grid2 container spacing={1} justifyContent="center">
+            {pictures09.map((picture, index) => (
+              <Grid2 item key={index} xs={3} sm={2} md={1}>
+                <Box
+                  component="img"
+                  src={picture}
+                  alt={`Thumbnail ${index}`}
+                  onClick={() => handlePictureClick(picture)}
+                  sx={{
+                    width: "100%",
+                    maxWidth: "90px",
+                    height: "auto",
+                    cursor: "pointer",
+                    border: picture === mainPicture ? "2px solid #007BFF" : "1px solid #ddd",
+                    borderRadius: "4px",
+                    padding: "2px",
+                  }}
+                />
+              </Grid2>
+            ))}
           </Grid2>
-        ))}
-      </Grid2>
-      
-    </Box>
-    </Box>
-    <Box sx={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column' ,
-       
+        </Box>
+      </Box>
+  
+      {/* Second Box - Best Seller Section */}
+      <Box sx={{ 
+        flex: 1,
+        width: '100%',
+        order: { xs: 2, md: 2 }
       }}>
-    <Box 
-          sx={{ 
-            padding: isMobile ? 2 : 4, 
-            maxWidth: "800px", 
-            margin: "0 auto", 
-            border: "1px solid #ddd", 
-            borderRadius: "8px" ,
-              
-          }}
-        >
-          {/* Header */}
+        <Box sx={{ 
+          padding: { xs: 2, md: 4 },
+          maxWidth: "800px",
+          margin: "0 auto",
+          border: "1px solid #ddd",
+          borderRadius: "8px"
+        }}>
+          {/* Rest of the Best-seller content remains the same */}
           <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: 2 }}>
             Best-seller
           </Typography>
@@ -563,55 +692,106 @@ selectedShape === 1 ? ( <OvaleSVG
         
           </Box>
           
-          
 
 
-          {/* Personal Information */}
-          <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: 2 }}>
-            Vos informations :
-          </Typography>
-    
-          <Grid2 container direction="column" spacing={2} sx={{ marginBottom: 3 }}>
-  {["Email:", "Nom complet:", "Téléphone:", "Adresse complète:", "Code de réduction:"].map((label, index) => (
-    <Grid2 item xs={12} key={index}>
-      <TextField
-        label={label}
-        variant="standard"
-        fullWidth
-        sx={{ marginBottom: 2 }}
-      />
-    </Grid2>
-  ))}
-</Grid2>
+  
+          <form onSubmit={handleSubmit}>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: 2 }}>
+          Vos informations :
+        </Typography>
 
-          {/* Submit Button */}
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{
-              backgroundColor: "#9BC953",
-              color: "white",
-              fontWeight: "bold",
-              borderRadius: "20px",
-              padding: "12px 20px",
-              textTransform: "none",
-              "&:hover": {
-                backgroundColor: "#7CA43B",
-              },
-            }}
-          >
-           Commander Maintenant
-          </Button>
+        <Grid2 container direction="column" spacing={2} sx={{ marginBottom: 3 }}>
+          <Grid2 item xs={12}>
+            <TextField
+              label="Email:"
+              variant="standard"
+              fullWidth
+              value={formData.email}
+              onChange={(e) => handleFormChange("email", e.target.value)}
+              required
+              sx={{ marginBottom: 2 }}
+            />
+          </Grid2>
+          <Grid2 item xs={12}>
+            <TextField
+              label="Nom complet:"
+              variant="standard"
+              fullWidth
+              value={formData.fullName}
+              onChange={(e) => handleFormChange("fullName", e.target.value)}
+              required
+              sx={{ marginBottom: 2 }}
+            />
+          </Grid2>
+          <Grid2 item xs={12}>
+            <TextField
+              label="Téléphone:"
+              variant="standard"
+              fullWidth
+              value={formData.phone}
+              onChange={(e) => handleFormChange("phone", e.target.value)}
+              required
+              sx={{ marginBottom: 2 }}
+            />
+          </Grid2>
+          <Grid2 item xs={12}>
+            <TextField
+              label="Adresse complète:"
+              variant="standard"
+              fullWidth
+              value={formData.address}
+              onChange={(e) => handleFormChange("address", e.target.value)}
+              required
+              sx={{ marginBottom: 2 }}
+            />
+          </Grid2>
+          <Grid2 item xs={12}>
+            <TextField
+              label="Code de réduction:"
+              variant="standard"
+              fullWidth
+              value={formData.promoCode}
+              onChange={(e) => handleFormChange("promoCode", e.target.value)}
+              sx={{ marginBottom: 2 }}
+            />
+          </Grid2>
+        </Grid2>
+
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          sx={{
+            backgroundColor: "#9BC953",
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "20px",
+            padding: "12px 20px",
+            textTransform: "none",
+            "&:hover": {
+              backgroundColor: "#7CA43B",
+            },
+          }}
+        >
+          Commander Maintenant
+        </Button>
+      </form>
+
         </Box>
-        <div style={{marginTop:'2%'}}>
-                    <AssistanceComponent/>
-                   
+
+
+
+        <div style={{marginTop:'4%'}}>
+<AssistanceComponent/>
         </div>
         </Box>
     
       
    
-    </div>
+  
+        
+ 
+    </Box>
   );
 };
 
