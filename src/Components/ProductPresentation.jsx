@@ -72,8 +72,8 @@ const ProductPresentation = ({ title, text, pictures }) => {
 
   const shapes = [
     "/assets/shapes/circle.png",
-    "/assets/shapes/demi-cercle-ovale.png",
-    "/assets/shapes/ovale.png",
+   // "/assets/shapes/demi-cercle-ovale.png",
+    //"/assets/shapes/ovale.png",
     "/assets/shapes/octa.png",
     "/assets/shapes/rect-arrand.png",
     "/assets/shapes/rect-chanfr.png",
@@ -600,7 +600,7 @@ selectedShape === 1 ? ( <OvaleSVG
               },
             }}
           >
-            Voir les produits
+           Commander Maintenant
           </Button>
         </Box>
         <div style={{marginTop:'2%'}}>
