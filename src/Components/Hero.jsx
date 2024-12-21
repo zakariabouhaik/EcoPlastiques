@@ -1,22 +1,51 @@
-import React, { useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, IconButton, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const images = [
-    '/assets/Heropic/XX.jpg',
-    '/assets/Heropic/bg-img-2.png',
+  const slides = [
+    {
+      image: '/assets/Heropic/XX.jpg',
+      title: 'Black Week – 10% SUR TOUT',
+      description: 'Code : blackweek\nA partir de 80€, un support de bricolage est offert en cadeau pour toute commande.\nVotre cadeau sera automatiquement ajouté.'
+    },
+    {
+      image: '/assets/Heropic/bg-img-2.png',
+      title: 'Black Week – 20% SUR TOUT',
+      description: 'Code : blackweeeek\nA partir de 80€, un suuupport de bricolage est offert en cadeau pour toute commande.\nVotre cadeau sera automatiquement ajouté.'
+    }
   ];
 
+  useEffect(() => {
+    let interval;
+    if (isAutoPlaying && !isTransitioning) {
+      interval = setInterval(() => {
+        handleNextImage();
+      }, 5000);
+    }
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, currentImageIndex, isTransitioning]);
+
+  const handleImageTransition = (newIndex) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentImageIndex(newIndex);
+    setTimeout(() => setIsTransitioning(false), 600);
+  };
+
   const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    const newIndex = (currentImageIndex + 1) % slides.length;
+    handleImageTransition(newIndex);
   };
 
   const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    const newIndex = (currentImageIndex - 1 + slides.length) % slides.length;
+    handleImageTransition(newIndex);
   };
 
   return (
@@ -28,51 +57,27 @@ const Hero = () => {
         overflow: 'hidden',
       }}
     >
-      {/* Afficher l'image courante */}
-      <img
-        src={images[currentImageIndex]}
-        alt={`Hero background ${currentImageIndex + 1}`}
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }}
-      />
-
-      {/* Boutons de navigation */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: 0,
-          right: 0,
-          display: 'flex',
-          justifyContent: 'space-between',
-          transform: 'translateY(-50%)',
-          px: 2,
-        }}
-      >
-        <Button
-          onClick={handlePrevImage}
+      {slides.map((slide, index) => (
+        <Box
+          key={index}
+          component="img"
+          src={slide.image}
+          alt={`Slide ${index + 1}`}
           sx={{
-            bgcolor: 'rgba(0,0,0,0.5)',
-            color: 'white',
-            '&:hover': { bgcolor: 'rgba(0,0,0,0.7)' },
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: currentImageIndex === index ? 1 : 0,
+            transition: 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out',
+            transform: currentImageIndex === index ? 'scale(1)' : 'scale(1.05)',
+            transformOrigin: 'center',
+            willChange: 'opacity, transform',
           }}
-        >
-          <ArrowBackIosIcon />
-        </Button>
-        <Button
-          onClick={handleNextImage}
-          sx={{
-            bgcolor: 'rgba(0,0,0,0.5)',
-            color: 'white',
-            '&:hover': { bgcolor: 'rgba(0,0,0,0.7)' },
-          }}
-        >
-          <ArrowForwardIosIcon />
-        </Button>
-      </Box>
+        />
+      ))}
 
       {/* Contenu du Hero */}
       <Box
@@ -80,11 +85,13 @@ const Hero = () => {
           position: 'absolute',
           top: '50%',
           left: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, -50%)`,
           textAlign: 'center',
           color: 'white',
           width: '100%',
           px: 2,
+          opacity: !isTransitioning ? 1 : 0,
+          transition: 'opacity 0.3s ease-in-out',
         }}
       >
         <Typography
@@ -95,7 +102,7 @@ const Hero = () => {
             mb: 2,
           }}
         >
-          Black Week – 10% SUR TOUT
+          {slides[currentImageIndex].title}
         </Typography>
         <Typography
           variant="body1"
@@ -103,12 +110,96 @@ const Hero = () => {
             maxWidth: '600px',
             margin: '0 auto',
             textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+            whiteSpace: 'pre-line',
           }}
         >
-          Code : blackweek
-          A partir de 80€, un support de bricolage est offert en cadeau pour toute commande.
-          Votre cadeau sera automatiquement ajouté.
+          {slides[currentImageIndex].description}
         </Typography>
+      </Box>
+
+      {/* Boutons de navigation */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          px: 2,
+        }}
+      >
+        <IconButton
+          onClick={handlePrevImage}
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => setIsAutoPlaying(true)}
+          disabled={isTransitioning}
+          sx={{
+            color: 'white',
+            transition: 'all 0.3s ease',
+            backgroundColor: 'transparent',
+            '&:hover': {
+              backgroundColor: 'rgba(0,0,0,0.3)',
+            },
+            width: '48px',
+            height: '48px',
+          }}
+        >
+          <ArrowBackIosIcon />
+        </IconButton>
+        
+        <IconButton
+          onClick={handleNextImage}
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => setIsAutoPlaying(true)}
+          disabled={isTransitioning}
+          sx={{
+            color: 'white',
+            transition: 'all 0.3s ease',
+            backgroundColor: 'transparent',
+            '&:hover': {
+              backgroundColor: 'rgba(0,0,0,0.3)',
+            },
+            width: '48px',
+            height: '48px',
+          }}
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
+      </Box>
+
+      {/* Indicateurs de slide */}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 24,
+          left: 0,
+          right: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 1,
+          zIndex: 2,
+        }}
+      >
+        {slides.map((_, index) => (
+          <Box
+            key={index}
+            onClick={() => !isTransitioning && handleImageTransition(index)}
+            sx={{
+              width: 12,
+              height: 12,
+              borderRadius: '50%',
+              bgcolor: currentImageIndex === index ? 'white' : 'rgba(255,255,255,0.5)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease-in-out',
+              '&:hover': {
+                bgcolor: currentImageIndex === index ? 'white' : 'rgba(255,255,255,0.7)',
+              },
+            }}
+          />
+        ))}
       </Box>
     </Box>
   );
