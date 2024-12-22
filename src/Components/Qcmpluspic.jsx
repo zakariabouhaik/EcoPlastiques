@@ -1,35 +1,87 @@
 import React from 'react';
 import ProductInfo from './ProductInfo';
+import { Box, useTheme, useMediaQuery } from '@mui/material';
 
 const Qcmpluspic = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: {
+          xs: 'column', // Mobile : en colonne
+          md: 'row'     // Desktop : en ligne
+        },
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh', // Occupe toute la hauteur de la page
+        minHeight: '100vh',
+        gap: { xs: 4, md: 2 }, // Espacement entre les éléments
+        padding: {
+          xs: '20px 10px', // Padding plus petit sur mobile
+          sm: '20px',      // Padding normal sur tablet et desktop
+        },
       }}
     >
       {/* Première moitié : ProductInfo */}
-      <div style={{ flex: 1, padding: '20px' }}>
+      <Box
+        sx={{
+          flex: 1,
+          width: '100%', // Prend toute la largeur sur mobile
+          maxWidth: {
+            xs: '100%',
+            md: '50%'
+          },
+          order: {
+            xs: 2,  // Sur mobile, ProductInfo apparaît en second
+            md: 1   // Sur desktop, ProductInfo apparaît en premier
+          },
+          padding: {
+            xs: '10px',
+            sm: '20px'
+          }
+        }}
+      >
         <ProductInfo />
-      </div>
+      </Box>
 
       {/* Deuxième moitié : Image */}
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <img
+      <Box
+        sx={{
+          flex: 1,
+          width: '100%',
+          maxWidth: {
+            xs: '100%',
+            md: '50%'
+          },
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          order: {
+            xs: 1,  // Sur mobile, l'image apparaît en premier
+            md: 2   // Sur desktop, l'image apparaît en second
+          }
+        }}
+      >
+        <Box
+          component="img"
           src="/assets/ImageComponent/5.jpg"
           alt="EcoPlastique logo"
-          style={{
-            maxWidth: '80%',
+          sx={{
+            maxWidth: {
+              xs: '90%',  // Plus large sur mobile
+              sm: '85%',  // Un peu moins large sur tablet
+              md: '80%'   // Taille normale sur desktop
+            },
             height: 'auto',
-            borderRadius:10
+            borderRadius: 2,
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
           }}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

@@ -1,17 +1,15 @@
-import React , {useState} from 'react';
-import { Box, Button, useMediaQuery ,Typography, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, useMediaQuery, Typography, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import StarIcon from '@mui/icons-material/Star';
 import MenuIcon from '@mui/icons-material/Menu';
 
-
 const Header = () => {
-  const isMobile = useMediaQuery('(max-width:768px)'); // Détecte si l'écran est inférieur ou égal à 768px
+  const isMobile = useMediaQuery('(max-width:768px)');
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = (open) => (event) => { 
-
+  const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
@@ -25,7 +23,6 @@ const Header = () => {
     { text: 'العربية', link: '#' },
   ];
 
-
   const TopNavigation = () => {
     const NavigationItem = ({ icon: Icon, text }) => (
       <Box
@@ -36,7 +33,7 @@ const Header = () => {
           color: 'white',
           py: 0.2,
           px: 2,
-          mx: { xs: 0.5, md: 2 }, // Espacement adaptatif
+          mx: { xs: 0.5, md: 2 },
           borderRadius: 2,
           height: 50,
         }}
@@ -54,19 +51,20 @@ const Header = () => {
     );
 
     return (
-      <Box sx={{ bgcolor: '#687273', py: 0.001 }}>
+      <Box sx={{ bgcolor: '#687273', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <Box
           sx={{
+            width: '100%',
+            maxWidth: '1200px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             flexWrap: 'wrap',
+            padding: '0 24px',
           }}
         >
-          {/* Navigation items visibles sur tous les écrans */}
           <NavigationItem icon={LocalShippingIcon} text="Livraison gratuite" />
           <NavigationItem icon={StraightenIcon} text="Découper sur mesure" />
-          {/* Item supplémentaire uniquement pour les grands écrans */}
           {!isMobile && (
             <NavigationItem icon={StarIcon} text="Meilleur rapport qualité prix" />
           )}
@@ -83,7 +81,7 @@ const Header = () => {
         justifyContent: 'center',
         bgcolor: 'white',
         color: 'black',
-        px: { xs: 1, sm: 1.5 }, // Padding adaptatif
+        px: { xs: 1, sm: 1.5 },
         py: 0.2,
         margin: { xs: 0.3, md: 0.5 },
       }}
@@ -109,94 +107,99 @@ const Header = () => {
       }}
     >
       <TopNavigation />
-      <Box
-        sx={{
-          bgcolor: 'white',
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: { xs: 2, md: 10 },
-          py: 2,
-          flexDirection: { xs: 'row', md: 'row' }, // Responsive layout
-        }}
-      >
-        {/* Logo */}
-        <img
-          src="/assets/logo/EcoPlastique-logo.png"
-          alt="EcoPlastique logo"
-          style={{
-            width: '15%',
-            maxWidth: 150,
-            objectFit: 'cover',
-          }}
-        />
-
-        {/* Menu complet pour les grands écrans */}
+      <Box sx={{ 
+        bgcolor: 'white',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+      }}>
         <Box
           sx={{
-            display: { xs: 'none', md: 'flex' },
-            justifyContent: 'center',
+            width: '100%',
+            maxWidth: '1200px',
+            display: 'flex',
             alignItems: 'center',
-            gap: { md: 4 },
-            marginRight: { md: 10 },
+            justifyContent: 'space-between',
+            padding: '16px 24px',
           }}
         >
-          {MenuItems.slice(0, 3).map((item, index) => (
-            <NavigationItem key={index} text={item.text} />
-          ))}
-        </Box>
+          {/* Logo */}
+          <img
+            src="/assets/logo/EcoPlastique-logo.png"
+            alt="EcoPlastique logo"
+            style={{
+              width: '15%',
+              maxWidth: 150,
+              objectFit: 'cover',
+            }}
+          />
 
-        {/* Bouton العربية sur grands écrans */}
-        <Button
-          sx={{
-            display: { xs: 'none', md: 'block' },
-            border: '1px solid black',
-            color: 'black',
-            mt: { xs: 1, sm: 0 },
-          }}
-        >
-          العربية
-        </Button>
-
-        {/* Menu Hamburger pour les petits écrans */}
-        <IconButton
-          sx={{
-            display: { xs: 'block', md: 'none' },
-          }}
-          onClick={toggleDrawer(true)}
-        >
-          <MenuIcon fontSize="large" />
-        </IconButton>
-
-        {/* Drawer pour les petits écrans */}
-        <Drawer
-          anchor="right"
-          open={isDrawerOpen}
-          onClose={toggleDrawer(false)}
-        >
+          {/* Menu complet pour les grands écrans */}
           <Box
             sx={{
-              width: 250,
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              p: 2,
+              display: { xs: 'none', md: 'flex' },
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: { md: 4 },
             }}
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
           >
-            <List>
-              {MenuItems.map((item, index) => (
-                <ListItem button key={index}>
-                  <ListItemText primary={item.text} sx={{ textAlign: 'center' }} />
-                </ListItem>
-              ))}
-            </List>
+            {MenuItems.slice(0, 3).map((item, index) => (
+              <NavigationItem key={index} text={item.text} />
+            ))}
           </Box>
-        </Drawer>
+
+          {/* Bouton العربية sur grands écrans */}
+          <Button
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              border: '1px solid black',
+              color: 'black',
+              mt: { xs: 1, sm: 0 },
+            }}
+          >
+            العربية
+          </Button>
+
+          {/* Menu Hamburger pour les petits écrans */}
+          <IconButton
+            sx={{
+              display: { xs: 'block', md: 'none' },
+            }}
+            onClick={toggleDrawer(true)}
+          >
+            <MenuIcon fontSize="large" />
+          </IconButton>
+
+          {/* Drawer pour les petits écrans */}
+          <Drawer
+            anchor="right"
+            open={isDrawerOpen}
+            onClose={toggleDrawer(false)}
+          >
+            <Box
+              sx={{
+                width: 250,
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                p: 2,
+              }}
+              role="presentation"
+              onClick={toggleDrawer(false)}
+              onKeyDown={toggleDrawer(false)}
+            >
+              <List>
+                {MenuItems.map((item, index) => (
+                  <ListItem button key={index}>
+                    <ListItemText primary={item.text} sx={{ textAlign: 'center' }} />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </Drawer>
+        </Box>
       </Box>
     </Box>
   );

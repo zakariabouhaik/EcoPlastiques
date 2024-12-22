@@ -8,61 +8,111 @@ const Footer = () => {
         bgcolor: '#687273',
         width: '100%',
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center',
         color: 'white',
-        padding: '0 24px',
-        flexDirection: 'column', // Stack content vertically on small screens
-        paddingBottom: '16px', // Add some padding at the bottom
       }}
     >
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
           width: '100%',
           maxWidth: '1200px',
-          flexDirection: { xs: 'column', sm: 'row' }, // Stack on small screens, row on larger
-          textAlign: { xs: 'center', sm: 'left' }, // Center text on small screens
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '24px',
         }}
       >
-        <img
-          src="/assets/logo/EcoPlastique-logo.png"
-          alt="EcoPlastique logo"
-          style={{
-            width: '30%', // Reduce logo size for smaller screens
-            maxWidth: '150px', // Set a maximum size for the logo
-            objectFit: 'cover',
-            marginBottom: { xs: '16px', sm: '0' }, // Add margin on small screens
-          }}
-        />
         <Box
           sx={{
             display: 'flex',
-            gap: 4,
-            fontSize: '16px',
-            flexDirection: { xs: 'column', sm: 'row' }, // Stack links vertically on small screens
-            alignItems: { xs: 'center', sm: 'flex-start' }, // Center links on small screens
-            marginBottom: { xs: '16px', sm: '0' }, // Add margin on small screens
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: { xs: 3, sm: 0 },
           }}
         >
-          <Link href="#" color="inherit" underline="hover">
-            Politique de Confidentialité
-          </Link>
-          <Link href="#" color="inherit" underline="hover">
-            Politique de Retour et Remboursement
-          </Link>
-          <Link href="#" color="inherit" underline="hover">
-            À Propos de Nous
-          </Link>
-          <Link href="#" color="inherit" underline="hover">
-            Contactez-nous
-          </Link>
+          {/* Logo */}
+          <Box
+            component="img"
+            src="/assets/logo/EcoPlastique-logo.png"
+            alt="EcoPlastique logo"
+            sx={{
+              width: { xs: '30%', sm: '15%' },
+              maxWidth: '150px',
+              height: 'auto',
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Liens de navigation */}
+          <Box
+            sx={{
+              display: 'flex',
+              gap: { xs: 2, sm: 4 },
+              fontSize: '16px',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <Link 
+              href="#" 
+              color="inherit" 
+              underline="hover"
+              sx={{ 
+                fontSize: { xs: '14px', sm: '16px' },
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Politique de Confidentialité
+            </Link>
+            <Link 
+              href="#" 
+              color="inherit" 
+              underline="hover"
+              sx={{ 
+                fontSize: { xs: '14px', sm: '16px' },
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Politique de Retour et Remboursement
+            </Link>
+            <Link 
+              href="#" 
+              color="inherit" 
+              underline="hover"
+              sx={{ 
+                fontSize: { xs: '14px', sm: '16px' },
+                whiteSpace: 'nowrap'
+              }}
+            >
+              À Propos de Nous
+            </Link>
+            <Link 
+              href="#" 
+              color="inherit" 
+              underline="hover"
+              sx={{ 
+                fontSize: { xs: '14px', sm: '16px' },
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Contactez-nous
+            </Link>
+          </Box>
+
+          {/* Copyright */}
+          <Typography 
+            variant="body2" 
+            sx={{
+              textAlign: { xs: 'center', sm: 'right' },
+              fontSize: { xs: '12px', sm: '14px' },
+              whiteSpace: 'nowrap'
+            }}
+          >
+            Copyright ©2024 All rights reserved
+          </Typography>
         </Box>
-        <Typography variant="body2" color="inherit" sx={{ textAlign: { xs: 'center', sm: 'right' } }}>
-          Copyright ©2024 All rights reserved
-        </Typography>
       </Box>
     </Box>
   );

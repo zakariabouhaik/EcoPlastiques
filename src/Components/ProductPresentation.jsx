@@ -134,8 +134,8 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
 
   const shapes = [
     "/assets/shapes/circle.png",
-   // "/assets/shapes/demi-cercle-ovale.png",
-    //"/assets/shapes/ovale.png",
+  // "/assets/shapes/demi-cercle-ovale.png",
+    // "/assets/shapes/ovale.png",
     "/assets/shapes/octa.png",
     "/assets/shapes/rect-arrand.png",
     "/assets/shapes/rect-chanfr.png",
@@ -169,22 +169,22 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
       setIsDynamicSVG(true);
       setMainContent(null);  
         break;
-      case 1: // Demi-cercle-ovale
+   /*   case 1: // Demi-cercle-ovale  no
       setDimensions({ width: '', height: '' });
       setIsDynamicSVG(true);
       setMainContent(null);  
-        break;
-      case 2: 
-      case 6: // Square
-      case 4: // Rect-arrand
+        break;*/
+      //case 2: //no
+      case 4: // Square
+      case 2: // Rect-arrand
         setDimensions({ longueur: '', largeur: '' });
         break;
-      case 3: // Octa
+      case 1: // Octa 
         setDimensions({ longueur: '', arc: '' });
         setIsDynamicSVG(true);
         setMainContent(null);  
         break;
-      case 5: // Rect-chanfr
+      case 3: // Rect-chanfr
         setDimensions({ 
           longueur: '', 
           largeur: '', 
@@ -236,7 +236,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
           </Grid2>
         );
         
-        case 1: // Demi-cercle-ovale
+        case 4: // Demi-cercle-ovale
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             <Grid2 item xs={6}>
@@ -261,8 +261,10 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
             </Grid2>
           </Grid2>
         );
-      case 6: // Square
-      case 2:
+
+       
+     // case 2: // Square
+      case 6:
       
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
@@ -288,7 +290,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
             </Grid2>
           </Grid2>
         );
-      case 4: // Rect-arrand
+      case 2: // Rect-arrand
       return (
         <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
           <Grid2 item xs={6}>
@@ -323,7 +325,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
           </Grid2>
         </Grid2>
       );
-      case 3: // Octa
+      case 1: // Octa
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             <Grid2 item xs={6}>
@@ -348,7 +350,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
             </Grid2>
           </Grid2>
         );
-      case 5: // Rect-chanfr
+      case 3: // Rect-chanfr
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             {["Longueur", "Largeur", "Arc A", "Arc B"].map((label, index) => (
@@ -481,32 +483,32 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
                   diameter={dimensions.diametre || 30}
                   color="#9BC953"
                 />
-              ) : selectedShape === 2 ? (
+              ) :/* selectedShape === 2 ? (
                 <OvaldynamicSvg
                   width={dimensions.longueur || 80}
                   height={dimensions.largeur || 40}
                   color="#9BC953"
                 />
-              ) : selectedShape === 3 ? (
+              ) :*/ selectedShape === 1 ? (
                 <OctaShapeSVG 
                   length={dimensions.longueur || 300} 
                   arc={dimensions.arc || 200} 
                   color="#9BC953" 
                 />
-              ) : selectedShape === 4 ? (
+              ) : selectedShape === 2 ? (
                 <RectangleACoinsArrondis 
                   height={dimensions.longueur || 400} 
                   width={dimensions.largeur || 400}
                   radius={dimensions.arc || 40}
                   color="#9BC953" 
                 />
-              ) : selectedShape === 6 ? (
+              ) : selectedShape === 4 ? (
                 <RectangleACoinCarres 
                   width={dimensions.longueur || 240}
                   height={dimensions.largeur || 400}
                   color="#9BC953" 
                 />
-              ) : selectedShape === 5 ? (
+              ) : selectedShape === 3 ? (
                 <RectangleChanfreine 
                   width={dimensions.longueur || 240}
                   height={dimensions.largeur || 400}
@@ -514,13 +516,15 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
                   arcB={dimensions.arcb || 20}
                   color="#9BC953" 
                 />
-              ) : selectedShape === 1 ? (
+              )
+              : /*  selectedShape === 1 ? (
                 <OvaleSVG 
                   width={dimensions.longueur || 200}
                   height={dimensions.largeur || 300}
                   color="#9BC953" 
                 />
-              ) : null
+              ) */
+               null
             ) : (
               renderMainImage()
             )}
@@ -745,16 +749,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
               sx={{ marginBottom: 2 }}
             />
           </Grid2>
-          <Grid2 item xs={12}>
-            <TextField
-              label="Code de réduction:"
-              variant="standard"
-              fullWidth
-              value={formData.promoCode}
-              onChange={(e) => handleFormChange("promoCode", e.target.value)}
-              sx={{ marginBottom: 2 }}
-            />
-          </Grid2>
+          
         </Grid2>
 
         <Button
@@ -776,14 +771,14 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
           Commander Maintenant
         </Button>
       </form>
-
+        <div style={{marginTop:'4%'}}>
+<AssistanceComponent/>
+        </div>
         </Box>
 
 
 
-        <div style={{marginTop:'4%'}}>
-<AssistanceComponent/>
-        </div>
+
         </Box>
     
       
