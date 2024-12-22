@@ -1,6 +1,8 @@
 import React from 'react';
+import {useTheme, useMediaQuery} from "@mui/material";
 
 const RectangleChanfreine = ({
+  
   width = 400,
   height = 300,
   color = '#9BC953',
@@ -9,11 +11,13 @@ const RectangleChanfreine = ({
   arcA = 40,
   arcB = 40
 }) => {
-  // Calcul des dimensions du SVG
-  const svgSize = 600;
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const svgSize = isMobile? 300:600;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
-
+  
   // Convertir les valeurs en nombres, utiliser 0 si pas un nombre valide
   const parsedWidth = Number(width) || 400;
   const parsedHeight = Number(height) || 300;

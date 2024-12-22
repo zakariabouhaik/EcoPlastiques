@@ -86,10 +86,10 @@ const Theendofthepage = ({
         {/* Image principale */}
         <Box
           component="img"
-          src={pictureso1[0]}
+          src={pictureso1}
           sx={{
             width: '100%',
-            height: 'auto',
+           maxHeight:500,
             borderRadius: 6,
             marginBottom: 1,
           }}

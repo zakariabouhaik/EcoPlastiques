@@ -1,17 +1,26 @@
 import React from 'react';
-
+import {useTheme, useMediaQuery} from "@mui/material";
+ 
 const DynamicCircleSVG = ({
+
+
+
   width = 20,
   height = 20,
   diameter = 30, // Default value
   color = '#00BFFF',
   showPlaceholder = true,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  
+
   const radius = diameter * 10 / 2;
-  const svgSize = 600;
+  const svgSize = isMobile? 300:600;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
-
+ 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

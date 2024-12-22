@@ -2,7 +2,7 @@ import React from 'react';
 import ProductInfo from './ProductInfo';
 import { Box, useTheme, useMediaQuery } from '@mui/material';
 
-const Qcmpluspic = () => {
+const Qcmpluspic = ({image}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -67,7 +67,7 @@ const Qcmpluspic = () => {
       >
         <Box
           component="img"
-          src="/assets/ImageComponent/5.jpg"
+          src={image[0]}
           alt="EcoPlastique logo"
           sx={{
             maxWidth: {

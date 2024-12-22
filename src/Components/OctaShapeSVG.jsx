@@ -1,8 +1,13 @@
 import React from 'react';
+import {useTheme, useMediaQuery} from "@mui/material";
 
 const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
+
+  const theme = useTheme();
+   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   // Calcul dynamique de la taille du SVG en fonction des dimensions
-  const svgSize = 600; // Taille de base augmentée
+   const svgSize = isMobile? 300:600;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
 
@@ -19,7 +24,7 @@ const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
     }
     return points.join(' ');
   };
-
+   
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

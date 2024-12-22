@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTheme, useMediaQuery} from "@mui/material";
 
 const RectangleACoinsArrondis = ({ 
   width, 
@@ -8,8 +9,11 @@ const RectangleACoinsArrondis = ({
   strokeColor  ,
   strokeWidth = 2 
 }) => {
-  // Calcul des dimensions du SVG
-  const svgSize = 600;
+  const theme = useTheme();
+   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  // Calcul dynamique de la taille du SVG en fonction des dimensions
+   const svgSize = isMobile? 300:600;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2; // Positionné vers le bas
 

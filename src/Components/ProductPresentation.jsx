@@ -16,7 +16,7 @@ import OvaleSVG from "./OvaleSVG";
 
 
 
-const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
+const ProductPresentation = ({ title, text, pictures,pictures09 ,onImageClick  }) => {
 
   const theme = useTheme();
   const [showMessage, setShowMessage] = useState(true);
@@ -166,6 +166,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
     switch(index) {
       case 0: // Circle
       setDimensions({ diametre: '' });
+      setShowMessage(true);
       setIsDynamicSVG(true);
       setMainContent(null);  
         break;
@@ -178,10 +179,12 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
       case 4: // Square
       case 2: // Rect-arrand
         setDimensions({ longueur: '', largeur: '' });
+        setShowMessage(true);
         break;
       case 1: // Octa 
         setDimensions({ longueur: '', arc: '' });
         setIsDynamicSVG(true);
+        setShowMessage(true);
         setMainContent(null);  
         break;
       case 3: // Rect-chanfr
@@ -191,10 +194,12 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
           arcA: '', 
           arcB: '' 
         });
+        setShowMessage(true);
         break;
       default:
         setDimensions({});
         setIsDynamicSVG(false);
+        setShowMessage(true);
         setMainContent(pictures[0]); 
     }
   };
@@ -209,7 +214,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
 
     if (longueur && largeur) {
       setShowMessage(false); // Cachez le message
-      setPrixTotal(longueur * largeur * 10); // Exemple de calcul de prix
+      setPrixTotal(longueur*0.01 * largeur*0.01+215+50); // Exemple de calcul de prix
     } else {
       setShowMessage(true); // Affichez le message si un champ est vide
       setPrixTotal(0); // Réinitialisez le prix
@@ -409,10 +414,13 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
      <Box sx={{ position: 'relative', marginBottom: 2 }}>
        {isDynamicSVG ? (
          selectedShape === 0 ? (
+          
+
            <DynamicCircleSVG
              diameter={dimensions.diametre || 30}
              color="#9BC953"
            />
+           
          ) : /* ... (keep all other shape conditions) */ null
        ) : (
          <Box sx={{ position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
@@ -480,9 +488,9 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
             {isDynamicSVG ? (
               selectedShape === 0 ? (
                 <DynamicCircleSVG
-                  diameter={dimensions.diametre || 30}
+                  diameter={dimensions.diametre ||  isMobile ? 20 : 30 }
                   color="#9BC953"
-                />
+                /> 
               ) :/* selectedShape === 2 ? (
                 <OvaldynamicSvg
                   width={dimensions.longueur || 80}
@@ -491,29 +499,29 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
                 />
               ) :*/ selectedShape === 1 ? (
                 <OctaShapeSVG 
-                  length={dimensions.longueur || 300} 
+                  length={dimensions.longueur || isMobile ? 100 : 300} 
                   arc={dimensions.arc || 200} 
                   color="#9BC953" 
                 />
               ) : selectedShape === 2 ? (
                 <RectangleACoinsArrondis 
-                  height={dimensions.longueur || 400} 
-                  width={dimensions.largeur || 400}
-                  radius={dimensions.arc || 40}
+                  height={dimensions.longueur || isMobile ? 100 : 400} 
+                  width={dimensions.largeur ||  isMobile ? 100 :400}
+                  radius={dimensions.arc ||  isMobile ? 40 :40}
                   color="#9BC953" 
                 />
               ) : selectedShape === 4 ? (
                 <RectangleACoinCarres 
-                  width={dimensions.longueur || 240}
-                  height={dimensions.largeur || 400}
+                  width={dimensions.longueur || isMobile ? 40 :240}
+                  height={dimensions.largeur || isMobile ? 120 : 400}
                   color="#9BC953" 
                 />
               ) : selectedShape === 3 ? (
                 <RectangleChanfreine 
-                  width={dimensions.longueur || 240}
-                  height={dimensions.largeur || 400}
-                  arcA={dimensions.arca || 20}
-                  arcB={dimensions.arcb || 20}
+                  width={dimensions.longueur ||isMobile ? 40 : 240}
+                  height={dimensions.largeur || isMobile ? 100 : 400}
+                  arcA={dimensions.arca || isMobile ? 10 :40}
+                  arcB={dimensions.arcb || isMobile ? 10 : 40}
                   color="#9BC953" 
                 />
               )
@@ -532,26 +540,29 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
   
           {/* Image Gallery */}
           <Grid2 container spacing={1} justifyContent="center">
-            {pictures09.map((picture, index) => (
-              <Grid2 item key={index} xs={3} sm={2} md={1}>
-                <Box
-                  component="img"
-                  src={picture}
-                  alt={`Thumbnail ${index}`}
-                  onClick={() => handlePictureClick(picture)}
-                  sx={{
-                    width: "100%",
-                    maxWidth: "90px",
-                    height: "auto",
-                    cursor: "pointer",
-                    border: picture === mainPicture ? "2px solid #007BFF" : "1px solid #ddd",
-                    borderRadius: "4px",
-                    padding: "2px",
-                  }}
-                />
-              </Grid2>
-            ))}
-          </Grid2>
+  {pictures09.map((picture, index) => (
+    <Grid2 item key={index} xs={3} sm={2} md={1}>
+      <Box
+        component="img"
+        src={picture}
+        alt={`Thumbnail ${index}`}
+        onClick={() => {
+          handlePictureClick(picture);
+          onImageClick(index); // Add this line to handle the text change
+        }}
+        sx={{
+          width: "100%",
+          maxWidth: "90px",
+          height: "auto",
+          cursor: "pointer",
+          border: picture === mainPicture ? "2px solid #007BFF" : "1px solid #ddd",
+          borderRadius: "4px",
+          padding: "2px",
+        }}
+      />
+    </Grid2>
+  ))}
+</Grid2>
         </Box>
       </Box>
   
@@ -688,9 +699,28 @@ const ProductPresentation = ({ title, text, pictures,pictures09 }) => {
           <Typography variant="h6" color="black">
             Prix total : {prixTotal} DHs
           </Typography>
-          <Button variant="contained" color="black" sx={{ marginTop: 2 }}>
-            Commander
-          </Button>
+          <Typography variant="h17" color="black">
+          La livraison est gratuite
+          </Typography>
+          <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          sx={{
+            backgroundColor: "#9BC953",
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "20px",
+            padding: "12px 20px",
+            marginTop:2,
+            textTransform: "none",
+            "&:hover": {
+              backgroundColor: "#7CA43B",
+            },
+          }}
+        >
+         Ajouter une autre nappe
+        </Button>
         </Box>
       )}
         
