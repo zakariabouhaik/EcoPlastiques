@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Box, Button } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTranslation } from 'react-i18next';
 
 const Theendofthepage = ({
   text,
@@ -17,7 +18,7 @@ const Theendofthepage = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -186,7 +187,7 @@ const Theendofthepage = ({
               },
             }}
           >
-            Entrez les dimensions
+            {t("product_info_dimension")}
           </Button>
         </Box>
       </Box>

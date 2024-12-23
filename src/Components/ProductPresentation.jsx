@@ -52,9 +52,10 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
       return date.toLocaleDateString("fr-FR", options);
     };
 
-    setDeliveryDates({ 
+    setDeliveryDates({
       startDate: formatDate(startDate),
-      endDate: formatDate(endDate),});
+      endDate: formatDate(endDate),
+    });
   }, []);
 
   const FeatureItem = ({ children }) => (

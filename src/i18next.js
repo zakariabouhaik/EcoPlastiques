@@ -5,6 +5,9 @@ import { initReactI18next } from 'react-i18next';
 i18n.use(LanguageDetector).use(initReactI18next).init({
     debug: true,
     returnObjects: true,
+    interpolation: {
+        escapeValue: false, // Disable escaping of values
+      },
     lng: 'fr',
     resources: {
         fr: {
@@ -80,6 +83,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_info_magazines_content: "Nous vous demandons de ne pas placer de magazines ou de journaux sur le film de table pendant les premières semaines, car ils risquent de tacher le film de table et sont difficiles à enlever.\n \n Après environ 2 à 3 semaines, l’effet n’est plus aussi mauvais qu’au début.",
                 product_info_donnees: "Données sur le produit",
                 product_info_donnees_content: "Matériau : PVC souple,\nAptitude au contact alimentaire : oui,\nÉpaisseur du matériau : 1.5 mm et 2 mm,\nTaille max. largeur: 140 cm,\nLongueur max. Longueur: 1000 cm,\nTempérature d’utilisation : -5°C à +40°C,\nAptitude à l’extérieur : Limitée,\nRésistance aux UV : non,\nConseils pour l’entretien : Nettoyer avec de l’eau savonneuse, ne pas utiliser de produits abrasifs ou de blanchiment.",
+                product_info_dimension:"Entrez les dimensions",
                 product_presentation_title: "Présentation du produit",
                 product_presentation_text: "Texte de présentation du produit",
                 product_presentation_best_seller: "Best-seller",
@@ -155,7 +159,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 footer3: "معلومات عنا",
                 footer4: "اتصل بنا",
                 product_page1:"مفرش شفاف حسب الطلب في Nappe.ma",
-                product_page2:"اكتشف الأناقة الراقية لمفارشنا الشفافة حسب الطلب في nappe.ma. يبدون بمظهرهم الشفاف البلوري الجذاب، مستحضرين جمال سطح زجاجي دون المخاطر المرتبطة به. يتمسك كل مفرش، مفكك برفق، بأثاثك بشكل مثالي بفضل وزنه، مما يضمن الاستقرار والأناقة بدون جهد.",
+                product_page2:"اكتشف الأناقة الراقية لمفارشنا الشفافة حسب الطلب في nappe.ma يبدون بمظهرهم الشفاف البلوري الجذاب، مستحضرين جمال سطح زجاجي دون المخاطر المرتبطة به. يتمسك كل مفرش، مفكك برفق، بأثاثك بشكل مثالي بفضل وزنه، مما يضمن الاستقرار والأناقة بدون جهد.",
                 product_page3:"مثالية لأي غرفة في المنزل، سواء كانت طاولة الطعام الخاصة بك، أو خزانتك، أو مكتبك، تتجاوز مفارشنا الشفافة التوقعات. إنها لا تقتصر على إضافة لمسة من الأناقة؛ بل توفر حماية لا مثيل لها ضد الخدوش والبقع والتآكل اليومي.",
                 product_page4:"لا بقع على طاولاتك",
                 product_page5:"لا تقلق بشأن ما يسكبه أطفالك على طاولة الطعام أو كيفية التعامل معه. يحمي فيلم الطاولة بسماكة 1.5 مم و 2 مم طاولتك الجميلة بشكل فعال من الأضرار ولا يترك أي فرصة للبقع. يكفي مسح المفرش الشفاف للطاولة ويصبح نظيفًا مرة أخرى.",
@@ -186,6 +190,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_info_magazines_content: "نطلب منك عدم وضع المجلات أو الصحف على فيلم الطاولة خلال الأسابيع الأولى، لأنها قد تلطخ فيلم الطاولة وتكون صعبة الإزالة.\n \n بعد حوالي 2 إلى 3 أسابيع، لم يعد التأثير سيئًا مثل البداية.",
                 product_info_donnees: "بيانات المنتج",
                 product_info_donnees_content: "المواد: PVC مرنة،\nالتوافق مع الاتصال الغذائي: نعم،\nسمك المادة: 1.5 مم و 2 مم،\nالعرض الأقصى: 140 سم،\nالطول الأقصى: 1000 سم،\nدرجة حرارة الاستخدام: -5 درجة مئوية إلى +40 درجة مئوية،\nالتوافق مع الهواء الطلق: محدود،\nمقاومة الأشعة فوق البنفسجية: لا،\nنصائح العناية: تنظيف بالماء والصابون، عدم استخدام المنظفات الكاشطة أو المبيضات.",
+                product_info_dimension:"أدخل الأبعاد",
                 product_presentation_title: "عرض المنتج",
                 product_presentation_text: "نص عرض المنتج",
                 product_presentation_best_seller: "الأكثر مبيعًا",
@@ -214,7 +219,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_promo_code: "رمز الترويجي:",
                 assistance1:"تحتاج مساعدة في تقديم طلبك؟",
                 assistance2:"نحن هنا لمساعدتك!",
-                assistance3:"اتصل بنا على ",
+                assistance3:" اتصل بنا على ",
                 assistance4:"وسنرشدك خلال عملية الطلب بأكملها."
             }
         }

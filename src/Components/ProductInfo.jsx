@@ -95,7 +95,7 @@ const ProductInfo = () => {
           },
         }}
       >
-        Entrez les dimensions
+        {t("product_info_dimension")}
       </Button>
     </div>
   );
