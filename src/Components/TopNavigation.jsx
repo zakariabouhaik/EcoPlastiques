@@ -4,10 +4,15 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import StarIcon from '@mui/icons-material/Star';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../Translation/language-selector';
 
 const Header = () => {
   const isMobile = useMediaQuery('(max-width:768px)');
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const {t, i18n} = useTranslation();
+  const [language, setLanguage] = useState('fr');
+
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -16,15 +21,22 @@ const Header = () => {
     setDrawerOpen(open);
   };
 
+  const toggleLanguage = () => {
+    const newLanguage = language === 'fr' ? 'ar' : 'fr';
+    setLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage);
+  };
+
   const MenuItems = [
-    { text: 'Home', link: '#' },
-    { text: 'Commander', link: '#' },
-    { text: 'Contactez-nous', link: '#' },
-    { text: 'العربية', link: '#' },
+    { text: t("Home"), link: '#' },
+    { text: t("Command"), link: '#' },
+    { text: t("Contact"), link: '#' },
+    { text: t("Language"), link: '#' },
   ];
 
   const TopNavigation = () => {
     const NavigationItem = ({ icon: Icon, text }) => (
+      
       <Box
         sx={{
           display: 'flex',
@@ -63,10 +75,10 @@ const Header = () => {
             padding: '0 24px',
           }}
         >
-          <NavigationItem icon={LocalShippingIcon} text="Livraison gratuite" />
-          <NavigationItem icon={StraightenIcon} text="Découper sur mesure" />
+          <NavigationItem icon={LocalShippingIcon} text= {t("text1")} />
+          <NavigationItem icon={StraightenIcon} text= {t("text2")}/>
           {!isMobile && (
-            <NavigationItem icon={StarIcon} text="Meilleur rapport qualité prix" />
+            <NavigationItem icon={StarIcon} text= {t("text3")}/>
           )}
         </Box>
       </Box>
@@ -92,6 +104,7 @@ const Header = () => {
         color="inherit"
         sx={{ fontSize: { xs: 12, sm: 18, md: 23 } }}
       >
+        <LanguageSelector/>
         {text}
       </Typography>
     </Box>
@@ -157,8 +170,9 @@ const Header = () => {
               color: 'black',
               mt: { xs: 1, sm: 0 },
             }}
+            onClick={toggleLanguage}
           >
-            العربية
+            {t("Language")}
           </Button>
 
           {/* Menu Hamburger pour les petits écrans */}

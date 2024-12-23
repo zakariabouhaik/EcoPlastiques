@@ -1,8 +1,10 @@
 import React from 'react'
 import { Box,Button,Typography } from "@mui/material";
-
+import { useTranslation } from "react-i18next";
 
 const TextZwintwo = () => {
+    const { t } = useTranslation();
+  
     return (
         <Box
           sx={{
@@ -24,7 +26,7 @@ const TextZwintwo = () => {
               
             }}
           >
-            Sécurité alimentaire
+            {t("textZwintwo_title")}
           </Typography>
           <Typography
             variant="body1"
@@ -33,10 +35,7 @@ const TextZwintwo = () => {
               color: 'black',
             }}
           >
-            Notre nappe est souvent utilisée sur la table de la salle à manger. C’est pourquoi, nous avons pris un soin particulier pour 
-					le choix des matières premières et pouvons maintenant dire que le film de protection est conforme aux normes de sécurité 
-					alimentaire et sans danger lors d’un contact avec les aliments. Habituellement, nous avons besoin d’une assiette pour manger. 
-					Cependant, chaque parent sait que cela ne fonctionne pas toujours avec les enfants. Avec notre film, ne doutez plus.
+            {t("twin_two1")}
           </Typography>
 
           <Button
@@ -55,7 +54,7 @@ const TextZwintwo = () => {
           },
         }}
       >
-        Voir les produits
+        {t("twin_two2")}
       </Button>
         </Box>
       );

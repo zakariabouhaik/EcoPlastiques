@@ -1,7 +1,10 @@
 import React from 'react'; 
 import { Box, Button, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const Type = () => {
+  const { t } = useTranslation();
+
   const Blan = ({ image, titre, text }) => {
     return (
       <Box
@@ -60,7 +63,7 @@ const Type = () => {
                 },
               }}
             >
-              Voir le produit
+              {t('product_button')}
             </Button>
           </Box>
         </Box>
@@ -77,7 +80,7 @@ const Type = () => {
           marginBottom: 4,
         }}
       >
-        Nos Nappes de Table
+        {t('tablecloths_title')}
       </Typography>
 
       <Box
@@ -91,18 +94,18 @@ const Type = () => {
       >
         <Blan
           image="/assets/Typepic/12.png"
-          titre="Nappe Tri-or"
-          text="La nappe Tri-Or inspirée par le riche héritage du Zelij marocain, cette création transparente est une célébration de l'artisanat marocain."
+          titre={t('tablecloth_tri_or_title')}
+          text={t('tablecloth_tri_or_text')}
         />
         <Blan
           image="/assets/Typepic/3.jpg"
-          titre="Nappe transparente"
-          text="À première vue, cette nappe transparente de table ressemble à une plaque de verre, mais avec l'avantage qu'elle ne peut pas se rompre."
+          titre={t('tablecloth_transparent_title')}
+          text={t('tablecloth_transparent_text')}
         />
         <Blan
           image="/assets/Typepic/nappe-mat-1.jpg"
-          titre="Nappe mat"
-          text="La nappe mat convient parfaitement aux tables et aux surfaces en verre extrêmement lisses. Sa surface légèrement mate ne permet pas la formation de bulles d’air."
+          titre={t('tablecloth_mat_title')}
+          text={t('tablecloth_mat_text')}
         />
       </Box>
     </div>
