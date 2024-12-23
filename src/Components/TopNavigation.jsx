@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, useMediaQuery, Typography, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import StraightenIcon from '@mui/icons-material/Straighten';
@@ -11,7 +11,8 @@ const Header = () => {
   const isMobile = useMediaQuery('(max-width:768px)');
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const {t, i18n} = useTranslation();
-  const [language, setLanguage] = useState('fr');
+  const [language, setLanguage] = useState(localStorage.getItem('language') || 'fr');
+
 
 
   const toggleDrawer = (open) => (event) => {
@@ -20,12 +21,17 @@ const Header = () => {
     }
     setDrawerOpen(open);
   };
+  useEffect(() => {
+    i18n.changeLanguage(language); // Change language on load
+  }, [language, i18n]);
 
   const toggleLanguage = () => {
     const newLanguage = language === 'fr' ? 'ar' : 'fr';
     setLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
+    localStorage.setItem('language', newLanguage); // Save language in localStorage
   };
+  
 
   const MenuItems = [
     { text: t("Home"), link: '#' },
