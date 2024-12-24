@@ -22,7 +22,14 @@ const ProductPresentation = ({ title, text, pictures,pictures09 ,onImageClick  }
   const [showMessage, setShowMessage] = useState(true);
   const [prixTotal, setPrixTotal] = useState(0);
   const [deliveryDates, setDeliveryDates] = useState({ startDate: "", endDate: "" });
-
+  const [dimensionErrors, setDimensionErrors] = useState({
+    longueur: '',
+    arc: ''
+  });
+  const [rectangleErrors, setRectangleErrors] = useState({
+    longueur: '',
+    largeur: ''
+  });
  
   const [formData, setFormData] = useState({
     email: "",
@@ -162,7 +169,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 ,onImageClick  }
 
   const handleShapeSelection = (index) => {
     setSelectedShape(index);
-    // Réinitialiser les dimensions en fonction de la forme
+    setDimensionErrors({ longueur: '', arc: '' });
     switch(index) {
       case 0: // Circle
       setDimensions({ diametre: '' });
@@ -241,32 +248,66 @@ const ProductPresentation = ({ title, text, pictures,pictures09 ,onImageClick  }
           </Grid2>
         );
         
-        case 4: // Demi-cercle-ovale
+        case 4: // Rectangle à coins carrés
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             <Grid2 item xs={6}>
-              <TextField
-                label="Longueur (cm)"
-                variant="outlined"
-                size="small"
-                fullWidth
+              <TextField 
+                label="Longueur (cm)" 
+                variant="outlined" 
+                size="small" 
+                fullWidth 
                 value={dimensions.longueur || ''}
-                onChange={(e) => handleDimensionChange('longueur', e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  handleDimensionChange('longueur', value);
+                  
+                  if (Number(value) > 1000) {
+                    setRectangleErrors(prev => ({
+                      ...prev,
+                      longueur: 'La longueur ne peut pas dépasser 1000 cm'
+                    }));
+                  } else {
+                    setRectangleErrors(prev => ({
+                      ...prev,
+                      longueur: ''
+                    }));
+                  }
+                }}
+                error={!!rectangleErrors.longueur}
+                helperText={rectangleErrors.longueur}
               />
             </Grid2>
             <Grid2 item xs={6}>
-              <TextField
-                label="Largeur (cm)"
-                variant="outlined"
-                size="small"
-                fullWidth
+              <TextField 
+                label="Largeur (cm)" 
+                variant="outlined" 
+                size="small" 
+                fullWidth 
                 value={dimensions.largeur || ''}
-                onChange={(e) => handleDimensionChange('largeur', e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  handleDimensionChange('largeur', value);
+                  
+                  if (Number(value) > 144) {
+                    setRectangleErrors(prev => ({
+                      ...prev,
+                      largeur: 'La largeur ne peut pas dépasser 140 cm'
+                    }));
+                  } else {
+                    setRectangleErrors(prev => ({
+                      ...prev,
+                      largeur: ''
+                    }));
+                  }
+                }}
+                error={!!rectangleErrors.largeur}
+                helperText={rectangleErrors.largeur}
               />
             </Grid2>
           </Grid2>
         );
-
+        
        
      // case 2: // Square
       case 6:
@@ -331,30 +372,82 @@ const ProductPresentation = ({ title, text, pictures,pictures09 ,onImageClick  }
         </Grid2>
       );
       case 1: // Octa
-        return (
-          <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-            <Grid2 item xs={6}>
-              <TextField 
-                label="Longueur (cm)" 
-                variant="outlined" 
-                size="small" 
-                fullWidth 
-                value={dimensions.longueur || ''}
-                onChange={(e) => handleDimensionChange('longueur', e.target.value)}
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField 
-                label="Arc (cm)" 
-                variant="outlined" 
-                size="small" 
-                fullWidth 
-                value={dimensions.arc || ''}
-                onChange={(e) => handleDimensionChange('arc', e.target.value)}
-              />
-            </Grid2>
-          </Grid2>
-        );
+  return (
+    <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+      <Grid2 item xs={6}>
+        <TextField 
+          label="Longueur (cm)" 
+          variant="outlined" 
+          size="small" 
+          fullWidth 
+          value={dimensions.longueur || ''}
+          onChange={(e) => {
+            const value = e.target.value;
+            handleDimensionChange('longueur', value);
+            
+            // Validation de la longueur
+            if (Number(value) > 140) {
+              setDimensionErrors(prev => ({
+                ...prev,
+                longueur: 'La longueur ne peut pas dépasser 140 cm'
+              }));
+            } else {
+              setDimensionErrors(prev => ({
+                ...prev,
+                longueur: ''
+              }));
+              
+              // Revalider l'arc si il existe
+              if (dimensions.arc) {
+                if (Number(dimensions.arc) > Number(value)/2) {
+                  setDimensionErrors(prev => ({
+                    ...prev,
+                    arc: "L'arc ne peut pas dépasser la moitié de la longueur"
+                  }));
+                } else {
+                  setDimensionErrors(prev => ({
+                    ...prev,
+                    arc: ''
+                  }));
+                }
+              }
+            }
+          }}
+          error={!!dimensionErrors.longueur}
+          helperText={dimensionErrors.longueur}
+        />
+      </Grid2>
+      <Grid2 item xs={6}>
+        <TextField 
+          label="Arc (cm)" 
+          variant="outlined" 
+          size="small" 
+          fullWidth 
+          value={dimensions.arc || ''}
+          onChange={(e) => {
+            const value = e.target.value;
+            handleDimensionChange('arc', value);
+            
+            // Validation de l'arc
+            if (dimensions.longueur && Number(value) > Number(dimensions.longueur)/2) {
+              setDimensionErrors(prev => ({
+                ...prev,
+                arc: "L'arc ne peut pas dépasser la moitié de la longueur"
+              }));
+            } else {
+              setDimensionErrors(prev => ({
+                ...prev,
+                arc: ''
+              }));
+            }
+          }}
+          error={!!dimensionErrors.arc}
+          helperText={dimensionErrors.arc}
+        />
+      </Grid2>
+    </Grid2>
+  );
+        
       case 3: // Rect-chanfr
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
@@ -488,7 +581,7 @@ const ProductPresentation = ({ title, text, pictures,pictures09 ,onImageClick  }
             {isDynamicSVG ? (
               selectedShape === 0 ? (
                 <DynamicCircleSVG
-                  diameter={dimensions.diametre ||  isMobile ? 20 : 30 }
+                  diameter={dimensions.diametre }
                   color="#9BC953"
                 /> 
               ) :/* selectedShape === 2 ? (
@@ -499,29 +592,29 @@ const ProductPresentation = ({ title, text, pictures,pictures09 ,onImageClick  }
                 />
               ) :*/ selectedShape === 1 ? (
                 <OctaShapeSVG 
-                  length={dimensions.longueur || isMobile ? 100 : 300} 
-                  arc={dimensions.arc || 200} 
+                  length={dimensions.longueur   } 
+                  arc={dimensions.arc } 
                   color="#9BC953" 
                 />
               ) : selectedShape === 2 ? (
-                <RectangleACoinsArrondis 
-                  height={dimensions.longueur || isMobile ? 100 : 400} 
-                  width={dimensions.largeur ||  isMobile ? 100 :400}
-                  radius={dimensions.arc ||  isMobile ? 40 :40}
-                  color="#9BC953" 
-                />
-              ) : selectedShape === 4 ? (
-                <RectangleACoinCarres 
-                  width={dimensions.longueur || isMobile ? 40 :240}
-                  height={dimensions.largeur || isMobile ? 120 : 400}
-                  color="#9BC953" 
-                />
-              ) : selectedShape === 3 ? (
+            <RectangleACoinsArrondis 
+                        height={dimensions.longueur}
+                       width={dimensions.largeur}
+                       radius={dimensions.arc}
+    color="#9BC953" 
+  />
+              ) :selectedShape === 4 ? (
+  <RectangleACoinCarres 
+    width={dimensions.longueur}
+    height={dimensions.largeur}
+    color="#9BC953" 
+  />
+): selectedShape === 3 ? (
                 <RectangleChanfreine 
-                  width={dimensions.longueur ||isMobile ? 40 : 240}
-                  height={dimensions.largeur || isMobile ? 100 : 400}
-                  arcA={dimensions.arca || isMobile ? 10 :40}
-                  arcB={dimensions.arcb || isMobile ? 10 : 40}
+               height={dimensions.longueur ||(isMobile ? 40 : 400 )}
+                 width={dimensions.largeur || (isMobile ? 100 :240 )}
+                  arcA={dimensions.arca || (isMobile ? 10 :40)}
+                  arcB={dimensions.arcb || (isMobile ? 10 : 40)}
                   color="#9BC953" 
                 />
               )

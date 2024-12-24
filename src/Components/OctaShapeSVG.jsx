@@ -1,20 +1,21 @@
 import React from 'react';
-import {useTheme, useMediaQuery} from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
-
   const theme = useTheme();
-   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  // Calcul dynamique de la taille du SVG en fonction des dimensions
-   const svgSize = isMobile? 300:600;
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  
+  // Limiter les dimensions visuelles tout en gardant les valeurs originales pour l'affichage
+  const visualLength = isMobile ? Math.min(length || 50, 20) : Math.min(length|| 100, 45);
+  const visualArc = isMobile ? Math.min(arc || 50, 20) : Math.min(arc || 50, 45);
+  
+  const svgSize = isMobile ? 300 : 600;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
 
-  // Calcul des points de l'octogone basé sur les dimensions
+  // Calcul des points de l'octogone basé sur les dimensions visuelles
   const calculateOctagonPoints = () => {
-    // Utiliser la plus petite dimension pour le rayon
-    const octagonRadius = Math.min(length, arc) * 0.8;
+    const octagonRadius = Math.min(visualLength, visualArc) * 3; // Multiplié par 3 pour une meilleure visibilité
     const points = [];
     for (let i = 0; i < 8; i++) {
       const angle = (Math.PI / 4) * i - Math.PI / 2;
@@ -24,7 +25,11 @@ const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
     }
     return points.join(' ');
   };
-   
+
+  // Calculer la longueur des lignes de mesure en fonction des dimensions visuelles
+  const lengthLineWidth = visualLength * 5;
+  const arcLineWidth = visualArc * 2;
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -93,19 +98,20 @@ const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
 
       {/* Length Measurement Line */}
       <line
-        x1={centerX - 150}
+        x1={centerX - lengthLineWidth/2}
         y1={centerY * 1.85}
-        x2={centerX + 150}
+        x2={centerX + lengthLineWidth/2}
         y2={centerY * 1.85}
         stroke={color}
         strokeWidth="2"
         markerStart="url(#leftArrow)"
         markerEnd="url(#rightArrow)"
       />
-        <line
-        x1={centerX - 55}
+
+      <line
+        x1={centerX - arcLineWidth/2}
         y1={centerY * 1.6}
-        x2={centerX + 55}
+        x2={centerX + arcLineWidth/2}
         y2={centerY * 1.6}
         stroke={color}
         strokeWidth="2"
@@ -113,29 +119,28 @@ const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
         markerEnd="url(#rightArrow)"
       />
 
-      {/* Length Text */}
+      {/* Afficher les valeurs réelles entrées par l'utilisateur */}
       <text
         x={centerX}
-        y={centerY * 1.92}
+        y={centerY * 1.97}
         textAnchor="middle"
         fontSize="12"
         fill="#666"
       >
-        Longueur: {length} cm
+        Longueur {length} cm
       </text>
 
       <text
         x={centerX}
-        y={centerY * 1.65}
+        y={centerY * 1.73}
         textAnchor="middle"
         fontSize="12"
         fill="#666"
       >
-         Arc: {arc} cm
+        Arc {arc} cm
       </text>
 
-     
- 
+    
     </svg>
   );
 };
