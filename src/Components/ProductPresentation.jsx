@@ -21,6 +21,22 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
   const [showMessage, setShowMessage] = useState(true);
   const [prixTotal, setPrixTotal] = useState(0);
   const [deliveryDates, setDeliveryDates] = useState({ startDate: "", endDate: "" });
+  const [dimensionErrors, setDimensionErrors] = useState({
+    longueur: '',
+    arc: ''
+  });
+  const [rectangleErrors, setRectangleErrors] = useState({
+    longueur: '',
+    largeur: ''
+  });
+ 
+
+  const handleFormChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
   const [formData, setFormData] = useState({
     email: "",
@@ -30,13 +46,45 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
     promoCode: ""
   });
 
-  const handleFormChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
+    
+    // Create FormData object with all form fields
+    const formDataToSubmit = new FormData();
+    
+    // Add form fields
+    formDataToSubmit.append("Email", formData.email);
+    formDataToSubmit.append("Nom_complet", formData.fullName);
+    formDataToSubmit.append("Telephone", formData.phone);
+    formDataToSubmit.append("Adresse", formData.address);
+    
+    // Add product details
+    
+
+    // Submit form
+    fetch(
+      "https://script.google.com/macros/s/AKfycbwzUiRIFcGRaf9PlfwYKJnufwekHB6zvaAeLz1RsUiYBbZLaky-1AasGcqRqnc267oQ/exec",
+      {
+        method: "POST",
+        body: formDataToSubmit
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Form submitted successfully:", data);
+        // Reset form after successful submission
+        setFormData({
+          email: "",
+          fullName: "",
+          phone: "",
+          address: "",
+          promoCode: ""
+        });
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      });
   };
   
   useEffect(() => {

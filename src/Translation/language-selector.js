@@ -14,13 +14,13 @@ const LanguageSelector = () => {
     };
 
     useEffect(() => {
-        const savedLanguage = localStorage.getItem("language");
-        if (savedLanguage) {
-          i18n.changeLanguage(savedLanguage); // Restore saved language
-          document.body.dir = i18n.dir(); // Ensure correct directionality
-        }
-      }, [i18n]);
-    
-      return null; 
+      const savedLanguage = localStorage.getItem("language") || "fr";
+      if (i18n.language !== savedLanguage) {
+        i18n.changeLanguage(savedLanguage); // Avoid redundant calls
+        document.body.dir = i18n.dir(savedLanguage);
+      }
+    }, [i18n]);
+  
+    return null; // No UI
 }
 export default LanguageSelector;
