@@ -6,19 +6,21 @@ const languages =[
     { code: "ar", lang: "Arabic" }, 
 ]
 
-
 const LanguageSelector = () => {
-    const {i18n} = useTranslation();
-    const changeLanguage =(lng) => {
+    const { i18n } = useTranslation();
+    const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
+        localStorage.setItem('language', lng); // Save language in localStorage
     };
 
     useEffect(() => {
-        document.body.dir = i18n.dir();
-    }, [i18n,i18n.language]);
-
-    return (
-        null
-    )
+        const savedLanguage = localStorage.getItem("language");
+        if (savedLanguage) {
+          i18n.changeLanguage(savedLanguage); // Restore saved language
+          document.body.dir = i18n.dir(); // Ensure correct directionality
+        }
+      }, [i18n]);
+    
+      return null; 
 }
 export default LanguageSelector;

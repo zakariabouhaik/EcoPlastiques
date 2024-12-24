@@ -23,13 +23,14 @@ const Header = () => {
   };
   useEffect(() => {
     i18n.changeLanguage(language); // Change language on load
+    document.body.dir = i18n.dir(); // Set text direction
   }, [language, i18n]);
 
   const toggleLanguage = () => {
-    const newLanguage = language === 'fr' ? 'ar' : 'fr';
+    const newLanguage = language === "fr" ? "ar" : "fr";
     setLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
-    localStorage.setItem('language', newLanguage); // Save language in localStorage
+    localStorage.setItem("language", newLanguage); // Save to localStorage
   };
   
 
