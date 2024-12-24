@@ -11,15 +11,18 @@ const App = () => {
   const {t} = useTranslation();
   const object = t("Home");
   return (
-    <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/ProductPage" element={<ProductPage />} />
-          <Route path="/test" element={<Test />} />
-        </Routes>
-      </div>
-    </Router>
+    <div>
+      <LanguageSelector />
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/ProductPage" element={<ProductPage />} />
+            <Route path="/test" element={<Test />} />
+          </Routes>
+        </div>
+      </Router>
+    </div>
   );
 };
 

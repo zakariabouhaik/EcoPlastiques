@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-const languages =[
+const language =[
     { code: "fr", lang: "French" },
     { code: "ar", lang: "Arabic" }, 
 ]
@@ -14,13 +14,13 @@ const LanguageSelector = () => {
     };
 
     useEffect(() => {
-      const savedLanguage = localStorage.getItem("language") || "fr";
-      if (i18n.language !== savedLanguage) {
-        i18n.changeLanguage(savedLanguage); // Avoid redundant calls
-        document.body.dir = i18n.dir(savedLanguage);
-      }
-    }, [i18n]);
-  
-    return null; // No UI
+        const savedLanguage = localStorage.getItem("language");
+        if (i18n.language !== savedLanguage) {
+          i18n.changeLanguage(savedLanguage); // Restore saved language
+          document.body.dir = i18n.dir(); // Ensure correct directionality
+        }
+      }, [i18n]);
+    
+      return null; 
 }
 export default LanguageSelector;

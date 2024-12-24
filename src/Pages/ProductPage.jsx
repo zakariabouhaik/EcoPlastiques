@@ -115,14 +115,14 @@ const ProductPage = () => {
             setSelectedText(t("product_page1"));
             setSelectedtitre1(t("product_page2"));
             setSelectedtitre2(t("product_page3"));
-            setSelectpictureso1(pictureso1);
-            setSelectpictureso2(picturesoo3);
             setSelectedtitre3(t("product_page4"));
             setSelectedText2(t("product_page5"));
             setSelectedtitre4(t("product_page6"));
             setSelectedText3(t("product_page7"));
             setSelectedTitle001(t("product_page8"));
             setSelectedTitle002(t("product_page9"));
+            setSelectpictureso1(pictureso1);
+            setSelectpictureso2(picturesoo3);
             setSelectpictures001(pictures);
             setSelectpictures004(ImageQcm1);
         }
@@ -130,18 +130,32 @@ const ProductPage = () => {
             setSelectedText(t("product_page10"));
             setSelectedtitre1(t("product_page11"));
             setSelectedtitre2(t("product_page12"));
-            setSelectpictureso1(pictureso1);
-            setSelectpictureso2(pictureso2);
             setSelectedtitre3(t("product_page13"));
             setSelectedText2(t("product_page14"));
             setSelectedtitre4(t("product_page15"));
             setSelectedText3(t("product_page16"));
             setSelectedTitle001(t("product_page17"));
             setSelectedTitle002(t("product_page18"));
-            setSelectpictures001(pictures);
-            setSelectpictures004(ImageQcm1);
+            setSelectpictureso1(pictureso1);
+            setSelectpictureso2(pictureso2);
+            setSelectpictures001(pictures05);
+            setSelectpictures004(ImageQcm2);
         }
-        // Add more conditions for other indices if needed
+        if (index === 2) {
+            setSelectedText(t("product_page19"));
+            setSelectedtitre1(t("product_page20"));
+            setSelectedtitre2(t("product_page21"));
+            setSelectedtitre3(t("product_page22"));
+            setSelectedText2(t("product_page23"));
+            setSelectedtitre4(t("product_page24"));
+            setSelectedText3(t("product_page25"));
+            setSelectedTitle001(t("product_page26"));
+            setSelectedTitle002(t("product_page27"));
+            setSelectpictureso1(picturesooo3);
+            setSelectpictureso2(picturesoo4);
+            setSelectpictures001(pictures002);
+            setSelectpictures004(ImageQcm3);
+        }
     };
 
     return (

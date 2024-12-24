@@ -86,7 +86,9 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
         console.error("Error submitting form:", error);
       });
   };
-  
+
+  const isArabic = i18n.language === 'ar';
+
   useEffect(() => {
     const today = new Date();
     const startDate = new Date(today);
@@ -374,6 +376,9 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
       prevIndex === 0 ? pictures.length - 1 : prevIndex - 1
     );
   };
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'MAD' }).format(price);
+  };
 
   // Navigation button styles
   const NavigationButton = styled(Button)({
@@ -436,11 +441,6 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
     setMainPicture(picture);
   };
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'MAD' }).format(price);
-  };
-
-  
 
   return (
     <Box sx={{
@@ -705,89 +705,92 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
             )}
 
           </Box>
+          
 
-          <form onSubmit={handleSubmit}>
-            <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: 2 }}>
-              {t('product_presentation_your_info')}
-            </Typography>
+      <form onSubmit={handleSubmit} style={{ textAlign: isArabic ? 'right' : 'left' }}>
+      
+      <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: 2 }}>
+        {t('product_presentation_your_info')}
+      </Typography>
 
-            <Grid2 container direction="column" spacing={2} sx={{ marginBottom: 3 }}>
-              <Grid2 item xs={12}>
-                <TextField
-                  label={t('product_presentation_email')}
-                  variant="standard"
-                  fullWidth
-                  value={formData.email}
-                  onChange={(e) => handleFormChange("email", e.target.value)}
-                  required
-                  sx={{ marginBottom: 2 }}
-                />
-              </Grid2>
-              <Grid2 item xs={12}>
-                <TextField
-                  label={t('product_presentation_full_name')}
-                  variant="standard"
-                  fullWidth
-                  value={formData.fullName}
-                  onChange={(e) => handleFormChange("fullName", e.target.value)}
-                  required
-                  sx={{ marginBottom: 2 }}
-                />
-              </Grid2>
-              <Grid2 item xs={12}>
-                <TextField
-                  label={t('product_presentation_phone')}
-                  variant="standard"
-                  fullWidth
-                  value={formData.phone}
-                  onChange={(e) => handleFormChange("phone", e.target.value)}
-                  required
-                  sx={{ marginBottom: 2 }}
-                />
-              </Grid2>
-              <Grid2 item xs={12}>
-                <TextField
-                  label={t('product_presentation_address')}
-                  variant="standard"
-                  fullWidth
-                  value={formData.address}
-                  onChange={(e) => handleFormChange("address", e.target.value)}
-                  required
-                  sx={{ marginBottom: 2 }}
-                />
-              </Grid2>
-              <Grid2 item xs={12}>
-                <TextField
-                  label={t('product_presentation_promo_code')}
-                  variant="standard"
-                  fullWidth
-                  value={formData.promoCode}
-                  onChange={(e) => handleFormChange("promoCode", e.target.value)}
-                  required
-                  sx={{ marginBottom: 2 }}
-                />
-              </Grid2>
-            </Grid2>
+      <Grid2 container direction="column" spacing={2} sx={{ marginBottom: 3, textAlign: isArabic ? 'right' : 'left',
+        flex: 1 }}>
+        <Grid2 item xs={12}>
+          <TextField
+            label={t('product_presentation_email')}
+            variant="standard"
+            fullWidth
+            value={formData.email}
+            onChange={(e) => handleFormChange("email", e.target.value)}
+            required
+            sx={{ marginBottom: 2, "& .MuiInputLabel-root": { textAlign: isArabic ? "right" : "left", right: isArabic ? 0 : 'auto', left: isArabic ? 'auto' : 0 } }}
+          />
+        </Grid2>
+        <Grid2 item xs={12}>
+          <TextField
+            label={t('product_presentation_full_name')}
+            variant="standard"
+            fullWidth
+            value={formData.fullName}
+            onChange={(e) => handleFormChange("fullName", e.target.value)}
+            required
+            sx={{ marginBottom: 2, "& .MuiInputLabel-root": { textAlign: isArabic ? "right" : "left", right: isArabic ? 0 : 'auto', left: isArabic ? 'auto' : 0 } }}
+          />
+        </Grid2>
+        <Grid2 item xs={12}>
+          <TextField
+            label={t('product_presentation_phone')}
+            variant="standard"
+            fullWidth
+            value={formData.phone}
+            onChange={(e) => handleFormChange("phone", e.target.value)}
+            required
+            sx={{ marginBottom: 2, "& .MuiInputLabel-root": { textAlign: isArabic ? "right" : "left", right: isArabic ? 0 : 'auto', left: isArabic ? 'auto' : 0 } }}
+          />
+        </Grid2>
+        <Grid2 item xs={12}>
+          <TextField
+            label={t('product_presentation_address')}
+            variant="standard"
+            fullWidth
+            value={formData.address}
+            onChange={(e) => handleFormChange("address", e.target.value)}
+            required
+            sx={{ marginBottom: 2, "& .MuiInputLabel-root": { textAlign: isArabic ? "right" : "left", right: isArabic ? 0 : 'auto', left: isArabic ? 'auto' : 0 } }}
+          />
+        </Grid2>
+        <Grid2 item xs={12}>
+          <TextField
+            label={t('product_presentation_promo_code')}
+            variant="standard"
+            fullWidth
+            value={formData.promoCode}
+            onChange={(e) => handleFormChange("promoCode", e.target.value)}
+            required
+            sx={{ marginBottom: 2, "& .MuiInputLabel-root": { textAlign: isArabic ? "right" : "left", right: isArabic ? 0 : 'auto', left: isArabic ? 'auto' : 0 } }}
+          />
+        </Grid2>
+      </Grid2>
 
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{
-                backgroundColor: "#9BC953",
-                color: "white",
-                fontWeight: "bold",
-                borderRadius: "20px",
-                padding: "12px 20px",
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: "#7CA43B",
-                },
-              }}
-            >
-              {t('product_presentation_order_now')}
-            </Button>
-          </form>
+      <Button
+        type="submit"
+        variant="contained"
+        fullWidth
+        sx={{
+          backgroundColor: "#9BC953",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "20px",
+          padding: "12px 20px",
+          textTransform: "none",
+          "&:hover": {
+            backgroundColor: "#7CA43B",
+          },
+        }}
+      >
+        {t('product_presentation_order_now')}
+      </Button>
+    </form>
           <div style={{ marginTop: '4%' }}>
             <AssistanceComponent />
           </div>
