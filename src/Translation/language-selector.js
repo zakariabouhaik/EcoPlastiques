@@ -10,7 +10,7 @@ const LanguageSelector = () => {
     const { i18n } = useTranslation();
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
-        localStorage.setItem('language', lng); // Save language in localStorage
+        localStorage.setItem("language", lng); // Save language in localStorage
     };
 
     useEffect(() => {

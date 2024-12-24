@@ -1,6 +1,8 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
+const savedLanguage = localStorage.getItem('language') || 'fr';
+
 
 i18n.use(LanguageDetector).use(initReactI18next).init({
     debug: true,
@@ -8,7 +10,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
     interpolation: {
         escapeValue: false, // Disable escaping of values
       },
-    lng: 'fr',
+    lng: savedLanguage, 
     resources: {
         fr: {
             translation: {
