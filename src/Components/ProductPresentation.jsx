@@ -19,11 +19,12 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const [showMessage, setShowMessage] = useState(true);
+  const [tableCovers, setTableCovers] = useState([]);
   const [prixTotal, setPrixTotal] = useState(0);
   const [deliveryDates, setDeliveryDates] = useState({ startDate: "", endDate: "" });
-  const [dimensionErrors, setDimensionErrors] = useState({
-    longueur: '',
-    arc: ''
+
+    
+
   });
   const [rectangleErrors, setRectangleErrors] = useState({
     longueur: '',
@@ -38,13 +39,8 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
     }));
   };
 
-  const [formData, setFormData] = useState({
-    email: "",
-    fullName: "",
-    phone: "",
-    address: "",
-    promoCode: ""
-  });
+
+
 
 
   const handleSubmit = (e) => {
@@ -59,12 +55,36 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
     formDataToSubmit.append("Telephone", formData.phone);
     formDataToSubmit.append("Adresse", formData.address);
     
-    // Add product details
+    const orderDetails = tableCovers.map(cover => {
+      let coverDescription = '';
+      switch(cover.type) {
+        case 'Cercle':
+          coverDescription = `${cover.type} (${cover.thickness}): Diamètre = ${cover.diametre}cm`;
+          break;
+        case 'Octogone':
+          coverDescription = `${cover.type} (${cover.thickness}): longueur = ${cover.longueur}cm | arc = ${cover.arc}cm`;
+          break;
+        case 'Rectangle à coins arrondis':
+          coverDescription = `${cover.type} (${cover.thickness}): longueur = ${cover.longueur}cm | largeur = ${cover.largeur}cm | rayon = ${cover.rayon}cm`;
+          break;
+        case 'Rectangle chanfreiné':
+          coverDescription = `${cover.type} (${cover.thickness}): longueur = ${cover.longueur}cm | largeur = ${cover.largeur}cm | arcA = ${cover.arcA}cm | arcB = ${cover.arcB}cm`;
+          break;
+        case 'Rectangle':
+          coverDescription = `${cover.type} (${cover.thickness}): longueur = ${cover.longueur}cm | largeur = ${cover.largeur}cm`;
+          break;
+      }
+      return coverDescription;
+    }).join('\n');
+
+    // Add order details and price to form data
+    formDataToSubmit.append("Commande", orderDetails);
+    formDataToSubmit.append("Prix_Total", `${prixTotal} DHs`);
     
 
     // Submit form
     fetch(
-      "https://script.google.com/macros/s/AKfycbwzUiRIFcGRaf9PlfwYKJnufwekHB6zvaAeLz1RsUiYBbZLaky-1AasGcqRqnc267oQ/exec",
+      "https://script.google.com/macros/s/AKfycbwOeGJm_OIRsbFkXAQ9JST5nyO_xz06mV39ttRfeBy_h8LoVxYUAdvMyRy-4BCrAMUA/exec",
       {
         method: "POST",
         body: formDataToSubmit
@@ -145,9 +165,8 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
   const ImageButton = styled(Button)(({ theme }) => ({
     padding: '8px',
     border: '1px solid #ddd',
-    height: isMobile ? '80px' : '100px',
-    width: isMobile ? '80px' : '100px',
-    margin: '1%',
+    height: '80px',
+    width: '80px',
     backgroundColor: 'white',
     '&:hover': {
       backgroundColor: theme.palette.grey[100],
@@ -157,56 +176,40 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
 
   const handleShapeSelection = (index) => {
     setSelectedShape(index);
-    // Réinitialiser les dimensions en fonction de la forme
-    switch (index) {
-      case 0: // Circle
-        setDimensions({ diametre: '' });
-        setShowMessage(true);
-        setIsDynamicSVG(true);
-        setMainContent(null);
-        break;
-      case 4: // Square
-      case 2: // Rect-arrand
-        setDimensions({ longueur: '', largeur: '' });
-        setShowMessage(true);
-        break;
-      case 1: // Octa
-        setDimensions({ longueur: '', arc: '' });
-        setIsDynamicSVG(true);
-        setShowMessage(true);
-        setMainContent(null);
-        break;
-      case 3: // Rect-chanfr
-        setDimensions({
+
+
           longueur: '',
           largeur: '',
           arcA: '',
           arcB: ''
+
+
         });
-        setShowMessage(true);
         break;
-      default:
-        setDimensions({});
-        setIsDynamicSVG(false);
-        setShowMessage(true);
-        setMainContent(pictures[0]);
+
+
     }
-  };
+};
 
   const handleDimensionChange = (field, value) => {
     const newValue = value === "" ? "" : Number(value);
     setDimensions((prev) => ({ ...prev, [field]: newValue }));
 
-    // Vérifiez si les deux champs sont remplis
-    const longueur = field === "longueur" ? newValue : dimensions.longueur;
-    const largeur = field === "largeur" ? newValue : dimensions.largeur;
+    switch(selectedShape) {
+      case 0: // Circle
+        const diametre = field === "diametre" ? newValue : dimensions.diametre;
+        if (diametre) {
+          const area = Math.PI * Math.pow(diametre/2, 2) * 0.0001; // en m²
+          setShowMessage(false);
+          setPrixTotal(area * 215 + 50);
+        } else {
+          setShowMessage(true);
+          setPrixTotal(0);
+        }
+        break;
 
-    if (longueur && largeur) {
-      setShowMessage(false); // Cachez le message
-      setPrixTotal(longueur * 0.01 * largeur * 0.01 + 215 + 50); // Exemple de calcul de prix
-    } else {
-      setShowMessage(true); // Affichez le message si un champ est vide
-      setPrixTotal(0); // Réinitialisez le prix
+
+
     }
   };
 
@@ -228,31 +231,66 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
           </Grid2>
         );
 
-      case 4: // Demi-cercle-ovale
+
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             <Grid2 item xs={6}>
-              <TextField
-                label="Longueur (cm)"
-                variant="outlined"
-                size="small"
-                fullWidth
+              <TextField 
+                label="Longueur (cm)" 
+                variant="outlined" 
+                size="small" 
+                fullWidth 
                 value={dimensions.longueur || ''}
-                onChange={(e) => handleDimensionChange('longueur', e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  handleDimensionChange('longueur', value);
+                  
+                  if (Number(value) > 1000) {
+                    setRectangleErrors(prev => ({
+                      ...prev,
+                      longueur: 'La longueur ne peut pas dépasser 1000 cm'
+                    }));
+                  } else {
+                    setRectangleErrors(prev => ({
+                      ...prev,
+                      longueur: ''
+                    }));
+                  }
+                }}
+                error={!!rectangleErrors.longueur}
+                helperText={rectangleErrors.longueur}
               />
             </Grid2>
             <Grid2 item xs={6}>
-              <TextField
-                label="Largeur (cm)"
-                variant="outlined"
-                size="small"
-                fullWidth
+              <TextField 
+                label="Largeur (cm)" 
+                variant="outlined" 
+                size="small" 
+                fullWidth 
                 value={dimensions.largeur || ''}
-                onChange={(e) => handleDimensionChange('largeur', e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  handleDimensionChange('largeur', value);
+                  
+                  if (Number(value) > 144) {
+                    setRectangleErrors(prev => ({
+                      ...prev,
+                      largeur: 'La largeur ne peut pas dépasser 140 cm'
+                    }));
+                  } else {
+                    setRectangleErrors(prev => ({
+                      ...prev,
+                      largeur: ''
+                    }));
+                  }
+                }}
+                error={!!rectangleErrors.largeur}
+                helperText={rectangleErrors.largeur}
               />
             </Grid2>
           </Grid2>
         );
+
 
       case 6:
         return (
@@ -315,30 +353,85 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
           </Grid2>
         );
       case 1: // Octa
-        return (
-          <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Longueur (cm)"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dimensions.longueur || ''}
-                onChange={(e) => handleDimensionChange('longueur', e.target.value)}
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Arc (cm)"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dimensions.arc || ''}
-                onChange={(e) => handleDimensionChange('arc', e.target.value)}
-              />
-            </Grid2>
-          </Grid2>
-        );
+
+
+    return (
+    <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+      <Grid2 item xs={6}>
+        <TextField 
+          label="Longueur (cm)" 
+          variant="outlined" 
+          size="small" 
+          fullWidth 
+          value={dimensions.longueur || ''}
+          onChange={(e) => {
+            const value = e.target.value;
+            handleDimensionChange('longueur', value);
+            
+            // Validation de la longueur
+            if (Number(value) > 140) {
+              setDimensionErrors(prev => ({
+                ...prev,
+                longueur: 'La longueur ne peut pas dépasser 140 cm'
+              }));
+            } else {
+              setDimensionErrors(prev => ({
+                ...prev,
+                longueur: ''
+              }));
+              
+              // Revalider l'arc si il existe
+              if (dimensions.arc) {
+                if (Number(dimensions.arc) > Number(value)/2) {
+                  setDimensionErrors(prev => ({
+                    ...prev,
+                    arc: "L'arc ne peut pas dépasser la moitié de la longueur"
+                  }));
+                } else {
+                  setDimensionErrors(prev => ({
+                    ...prev,
+                    arc: ''
+                  }));
+                }
+              }
+            }
+          }}
+          error={!!dimensionErrors.longueur}
+          helperText={dimensionErrors.longueur}
+        />
+      </Grid2>
+      <Grid2 item xs={6}>
+        <TextField 
+          label="Arc (cm)" 
+          variant="outlined" 
+          size="small" 
+          fullWidth 
+          value={dimensions.arc || ''}
+          onChange={(e) => {
+            const value = e.target.value;
+            handleDimensionChange('arc', value);
+            
+            // Validation de l'arc
+            if (dimensions.longueur && Number(value) > Number(dimensions.longueur)/2) {
+              setDimensionErrors(prev => ({
+                ...prev,
+                arc: "L'arc ne peut pas dépasser la moitié de la longueur"
+              }));
+            } else {
+              setDimensionErrors(prev => ({
+                ...prev,
+                arc: ''
+              }));
+            }
+          }}
+          error={!!dimensionErrors.arc}
+          helperText={dimensionErrors.arc}
+        />
+      </Grid2>
+    </Grid2>
+  );
+        
+
       case 3: // Rect-chanfr
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
@@ -469,7 +562,10 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
             {isDynamicSVG ? (
               selectedShape === 0 ? (
                 <DynamicCircleSVG
-                  diameter={dimensions.diametre || isMobile ? 20 : 30}
+
+
+                  diameter={dimensions.diametre }
+
                   color="#9BC953"
                 />
               ) : /* selectedShape === 2 ? (
@@ -479,31 +575,8 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
                   color="#9BC953"
                 />
               ) :*/ selectedShape === 1 ? (
-                <OctaShapeSVG
-                  length={dimensions.longueur || isMobile ? 100 : 300}
-                  arc={dimensions.arc || 200}
-                  color="#9BC953"
-                />
-              ) : selectedShape === 2 ? (
-                <RectangleACoinsArrondis
-                  height={dimensions.longueur || isMobile ? 100 : 400}
-                  width={dimensions.largeur || isMobile ? 100 : 400}
-                  radius={dimensions.arc || isMobile ? 40 : 40}
-                  color="#9BC953"
-                />
-              ) : selectedShape === 4 ? (
-                <RectangleACoinCarres
-                  width={dimensions.longueur || isMobile ? 40 : 240}
-                  height={dimensions.largeur || isMobile ? 120 : 400}
-                  color="#9BC953"
-                />
-              ) : selectedShape === 3 ? (
-                <RectangleChanfreine
-                  width={dimensions.longueur || isMobile ? 40 : 240}
-                  height={dimensions.largeur || isMobile ? 100 : 400}
-                  arcA={dimensions.arca || isMobile ? 10 : 40}
-                  arcB={dimensions.arcb || isMobile ? 10 : 40}
-                  color="#9BC953"
+
+
                 />
               )
                 : /*  selectedShape === 1 ? (
@@ -703,6 +776,8 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
                 </Button>
               </Box>
             )}
+
+
 
           </Box>
           

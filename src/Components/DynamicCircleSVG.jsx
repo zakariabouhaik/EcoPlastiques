@@ -1,26 +1,32 @@
 import React from 'react';
-import {useTheme, useMediaQuery} from "@mui/material";
- 
-const DynamicCircleSVG = ({
+import { useTheme, useMediaQuery } from "@mui/material";
 
-
-
-  width = 20,
-  height = 20,
-  diameter = 30, // Default value
-  color = '#00BFFF',
-  showPlaceholder = true,
-}) => {
+const DynamicCircleSVG = ({ diameter = 30, color = '#9BC953' }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   
-
-  const radius = diameter * 10 / 2;
-  const svgSize = isMobile? 300:600;
+  // Calculate SVG viewport size based on screen
+  const svgSize = isMobile ? 300 : 600;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
- 
+
+  // Limit visual diameter for mobile while keeping original value for display
+  const visualDiameter = isMobile ? Math.min(diameter||10 , 20) : Math.min(diameter || 20, 45);
+  
+  // Convert diameter from cm to pixels (1cm = 10px for better visibility)
+  const radius = (visualDiameter * 10) / 2;
+  
+  // Calculate maximum allowed radius while leaving some padding
+  const padding = 20;
+  const maxRadius = (svgSize / 2) - padding;
+  
+  // Scale the circle if it's too large
+  const scale = radius > maxRadius ? maxRadius / radius : 1;
+  const adjustedRadius = radius * scale;
+
+  // Scale the measurement line proportionally to the visual diameter
+  const lineWidth = Math.min(visualDiameter * 5, svgSize / 2 - padding);
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +39,7 @@ const DynamicCircleSVG = ({
         transition: 'all 0.3s ease',
       }}
     >
-      {/* Définition du motif de carreaux */}
+      {/* Grid pattern definition */}
       <defs>
         <pattern
           id="grid-pattern"
@@ -51,58 +57,75 @@ const DynamicCircleSVG = ({
         </pattern>
       </defs>
 
-      {/* Arrière-plan avec motif de carreaux */}
+      {/* Background grid */}
       <rect width={svgSize} height={svgSize} fill="url(#grid-pattern)" />
 
-      {/* Cercle */}
-      <circle cx={centerX} cy={centerY} r={radius} fill={color} />
+      {/* Dynamic circle */}
+      <circle 
+        cx={centerX}
+        cy={centerY-40}
+        r={adjustedRadius}
+        fill={color}
+        style={{ transition: 'r 0.3s ease' }}
+      />
 
-      {/* Ligne du diamètre */}
+  {  isMobile ? 
       <line
-        x1={centerX - width * 5}
-        y1={centerY * 1.8}
-        x2={centerX + width * 5}
-        y2={centerY * 1.8}
-        stroke="#9BC953"
+        x1={centerX - lineWidth}
+        y1={centerY * 1.70}
+        x2={centerX + lineWidth}
+        y2={centerY * 1.70}
+        stroke={color}
         strokeWidth="2"
         markerStart="url(#leftArrow)"
         markerEnd="url(#rightArrow)"
-      />
-
-      {/* Texte pour le diamètre */}
+      /> 
+      : 
+      <line
+        x1={centerX - lineWidth}
+        y1={centerY * 1.8}
+        x2={centerX + lineWidth}
+        y2={centerY * 1.8}
+        stroke={color}
+        strokeWidth="2"
+        markerStart="url(#leftArrow)"
+        markerEnd="url(#rightArrow)"
+      /> 
+  }
+      {/* Measurement text - always shows original diameter */}
       <text
-        x='50%'
-        y='95%'
+        x="50%"
+        y="95%"
         textAnchor="middle"
-        fontSize="12"
+        fontSize="16"
         fill="#666"
       >
-        {(diameter === null || diameter === undefined || diameter === 30) 
-          ? "Diamètre (cm)" 
-          : `${diameter} cm`}
+        {diameter ?  `Diamètre ${diameter} cm` : "Diamètre (cm)"}
       </text>
 
-      {/* Définitions pour les flèches */}
+      {/* Display warning if size is limited */}
+      
+      {/* Arrow markers */}
       <defs>
         <marker
           id="leftArrow"
-          markerWidth="6"
-          markerHeight="6"
-          refX="3"
-          refY="3"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
           orient="auto"
         >
-          <path d="M6,0 L0,3 L6,6 Z" fill="#9BC953" />
+          <path d="M10,0 L0,5 L10,10 Z" fill={color} />
         </marker>
         <marker
           id="rightArrow"
-          markerWidth="6"
-          markerHeight="6"
-          refX="3"
-          refY="3"
+          markerWidth="10"
+          markerHeight="10"
+          refX="5"
+          refY="5"
           orient="auto"
         >
-          <path d="M0,0 L6,3 L0,6 Z" fill="#9BC953" />
+          <path d="M0,0 L10,5 L0,10 Z" fill={color} />
         </marker>
       </defs>
     </svg>
