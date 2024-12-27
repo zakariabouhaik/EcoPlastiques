@@ -22,13 +22,25 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
   const [tableCovers, setTableCovers] = useState([]);
   const [prixTotal, setPrixTotal] = useState(0);
   const [deliveryDates, setDeliveryDates] = useState({ startDate: "", endDate: "" });
-
+  const [selectedCovers, setSelectedCovers] = useState([]);
+  const [dimensionErrors, setDimensionErrors] = useState({
+    longueur: '',
+    arc: ''
+  });
     
 
-  });
+  
   const [rectangleErrors, setRectangleErrors] = useState({
     longueur: '',
     largeur: ''
+  });
+
+  const [formData, setFormData] = useState({
+    email: "",
+    fullName: "",
+    phone: "",
+    address: "",
+    
   });
  
 
@@ -38,7 +50,6 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
       [field]: value
     }));
   };
-
 
 
 
@@ -176,42 +187,92 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
 
   const handleShapeSelection = (index) => {
     setSelectedShape(index);
-
-
+    setDimensionErrors({ longueur: '', arc: '' });
+    setRectangleErrors({ longueur: '', largeur: '' });
+    setShowMessage(true);
+    setIsDynamicSVG([0, 1,2,3,4].includes(index));
+    
+    // Réinitialiser complètement les dimensions pour chaque nouvelle forme
+    switch(index) {
+      case 0: // Circle
+        setDimensions({ diametre: '' });
+        break;
+      case 1: // Octogone
+        setDimensions({ 
+          longueur: '',
+          arc: ''
+        });
+        break;
+      case 2: // Rect-arrand
+        setDimensions({ 
+          longueur: '',
+          largeur: '',
+          arc: ''
+        });
+        break;
+      case 3: // Rect-chanfr
+        setDimensions({ 
           longueur: '',
           largeur: '',
           arcA: '',
           arcB: ''
-
-
         });
         break;
-
-
+      case 4: // Square
+        setDimensions({ 
+          longueur: '',
+          largeur: ''
+        });
+        break;
     }
 };
 
-  const handleDimensionChange = (field, value) => {
-    const newValue = value === "" ? "" : Number(value);
-    setDimensions((prev) => ({ ...prev, [field]: newValue }));
+const handleDimensionChange = (field, value) => {
+  const newValue = value === "" ? "" : Number(value);
+  setDimensions((prev) => ({ ...prev, [field]: newValue }));
 
-    switch(selectedShape) {
-      case 0: // Circle
-        const diametre = field === "diametre" ? newValue : dimensions.diametre;
-        if (diametre) {
-          const area = Math.PI * Math.pow(diametre/2, 2) * 0.0001; // en m²
-          setShowMessage(false);
-          setPrixTotal(area * 215 + 50);
-        } else {
-          setShowMessage(true);
-          setPrixTotal(0);
-        }
-        break;
+  switch(selectedShape) {
+    case 0: // Circle
+      const diametre = field === "diametre" ? newValue : dimensions.diametre;
+      if (diametre) {
+        const area = Math.PI * Math.pow(diametre/2, 2) * 0.0001; // en m²
+        setShowMessage(false);
+        setPrixTotal(area * 215 + 50);
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+      break;
 
+    case 1: // Octogone
+      const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
+      const arcOcta = field === "arc" ? newValue : dimensions.arc;
+      if (longueurOcta && arcOcta) {
+        const areaOcta = longueurOcta * longueurOcta * 0.0001; // Simplification pour l'exemple
+        setShowMessage(false);
+        setPrixTotal(areaOcta * 215 + 50);
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+      break;
 
-
-    }
-  };
+    case 2: // Rectangle coins arrondis
+    case 3: // Rectangle chanfreiné
+    case 4: // Rectangle coins carrés
+    default:
+      const longueur = field === "longueur" ? newValue : dimensions.longueur;
+      const largeur = field === "largeur" ? newValue : dimensions.largeur;
+      if (longueur && largeur) {
+        setShowMessage(false);
+        setPrixTotal(longueur * 0.01 * largeur * 0.01 * 215 + 50);
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+      break;
+  }
+};
 
   const renderDimensionFields = () => {
     switch (selectedShape) {
@@ -220,7 +281,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             <Grid2 item xs={12}>
               <TextField
-                label="Diamètre (cm)"
+                label={`${t('Diameter')} (${t('cm')})`}
                 variant="outlined"
                 size="small"
                 fullWidth
@@ -231,12 +292,12 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
           </Grid2>
         );
 
-
+        case 4: // Rectangle à coins carrés
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             <Grid2 item xs={6}>
               <TextField 
-                label="Longueur (cm)" 
+                label={`${t('Longueur')} (${t('cm')})`} 
                 variant="outlined" 
                 size="small" 
                 fullWidth 
@@ -248,7 +309,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
                   if (Number(value) > 1000) {
                     setRectangleErrors(prev => ({
                       ...prev,
-                      longueur: 'La longueur ne peut pas dépasser 1000 cm'
+                      longueur: `${t("Longueur1000")} `
                     }));
                   } else {
                     setRectangleErrors(prev => ({
@@ -263,7 +324,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
             </Grid2>
             <Grid2 item xs={6}>
               <TextField 
-                label="Largeur (cm)" 
+                label={`${t('Largeur')} (${t('cm')})`} 
                 variant="outlined" 
                 size="small" 
                 fullWidth 
@@ -275,7 +336,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
                   if (Number(value) > 144) {
                     setRectangleErrors(prev => ({
                       ...prev,
-                      largeur: 'La largeur ne peut pas dépasser 140 cm'
+                      largeur: `${t("Largeur140")} `
                     }));
                   } else {
                     setRectangleErrors(prev => ({
@@ -297,7 +358,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             <Grid2 item xs={6}>
               <TextField
-                label="Longueur (cm)"
+                label={`${t('Longueur')} (${t('cm')})`}
                 variant="outlined"
                 size="small"
                 fullWidth
@@ -307,7 +368,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
             </Grid2>
             <Grid2 item xs={6}>
               <TextField
-                label="Largeur (cm)"
+                label={`${t('Largeur')} (${t('cm')})`}
                 variant="outlined"
                 size="small"
                 fullWidth
@@ -322,7 +383,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
             <Grid2 item xs={6}>
               <TextField
-                label="Longueur (cm)"
+                label={`${t('Longueur')} (${t('cm')})`}
                 variant="outlined"
                 size="small"
                 fullWidth
@@ -332,7 +393,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
             </Grid2>
             <Grid2 item xs={6}>
               <TextField
-                label="Largeur (cm)"
+                label={`${t('Largeur')} (${t('cm')})`}
                 variant="outlined"
                 size="small"
                 fullWidth
@@ -342,7 +403,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
             </Grid2>
             <Grid2 item xs={6}>
               <TextField
-                label="Rayon (cm)"
+                label={`${t('Rayon')} (${t('cm')})`}
                 variant="outlined"
                 size="small"
                 fullWidth
@@ -359,7 +420,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
     <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
       <Grid2 item xs={6}>
         <TextField 
-          label="Longueur (cm)" 
+          label={`${t('Longueur')} (${t('cm')})`}
           variant="outlined" 
           size="small" 
           fullWidth 
@@ -372,7 +433,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
             if (Number(value) > 140) {
               setDimensionErrors(prev => ({
                 ...prev,
-                longueur: 'La longueur ne peut pas dépasser 140 cm'
+                longueur: `${t("Longueur140")} `
               }));
             } else {
               setDimensionErrors(prev => ({
@@ -385,7 +446,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
                 if (Number(dimensions.arc) > Number(value)/2) {
                   setDimensionErrors(prev => ({
                     ...prev,
-                    arc: "L'arc ne peut pas dépasser la moitié de la longueur"
+                    arc: `${t("ArcDepasse")}`
                   }));
                 } else {
                   setDimensionErrors(prev => ({
@@ -402,7 +463,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
       </Grid2>
       <Grid2 item xs={6}>
         <TextField 
-          label="Arc (cm)" 
+          label={`${t('Arc')} (${t('cm')})`} 
           variant="outlined" 
           size="small" 
           fullWidth 
@@ -415,7 +476,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
             if (dimensions.longueur && Number(value) > Number(dimensions.longueur)/2) {
               setDimensionErrors(prev => ({
                 ...prev,
-                arc: "L'arc ne peut pas dépasser la moitié de la longueur"
+                arc: `${t("ArcDepasse")}`
               }));
             } else {
               setDimensionErrors(prev => ({
@@ -435,10 +496,10 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
       case 3: // Rect-chanfr
         return (
           <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-            {["Longueur", "Largeur", "Arc A", "Arc B"].map((label, index) => (
+            {["Longueur", "Largeur", "ArcA", "ArcB"].map((label, index) => (
               <Grid2 item xs={6} sm={3} key={index}>
                 <TextField
-                  label={`${label} (cm)`}
+                  label={`${t(label)} (${t('cm')})`}
                   variant="outlined"
                   size="small"
                   fullWidth
@@ -575,10 +636,34 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
                   color="#9BC953"
                 />
               ) :*/ selectedShape === 1 ? (
-
-
-                />
-              )
+                <OctaShapeSVG 
+                length={dimensions.longueur   } 
+                arc={dimensions.arc } 
+                color="#9BC953" 
+              />
+            ) : selectedShape === 2 ? (
+          <RectangleACoinsArrondis 
+                      height={dimensions.longueur}
+                     width={dimensions.largeur}
+                     radius={dimensions.arc}
+  color="#9BC953" 
+/>
+            ) :selectedShape === 4 ? (
+<RectangleACoinCarres 
+  width={dimensions.longueur}
+  height={dimensions.largeur}
+  color="#9BC953" 
+/>
+): selectedShape === 3 ? (
+              <RectangleChanfreine 
+             height={dimensions.longueur ||(isMobile ? 40 : 400 )}
+               width={dimensions.largeur || (isMobile ? 100 :240 )}
+                arcA={dimensions.arcA || (isMobile ? 10 : 40)}
+                arcB={dimensions.arcB || (isMobile ? 10 : 40)}
+                color="#9BC953" 
+                displayValues={true}
+              />
+            )
                 : /*  selectedShape === 1 ? (
                   <OvaleSVG 
                     width={dimensions.longueur || 200}

@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { Diameter } from 'lucide-react';
 import { initReactI18next } from 'react-i18next';
 const savedLanguage = localStorage.getItem('language') || 'fr';
 
@@ -124,8 +125,20 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 assistance1:"Besoin d'aide pour passer votre commande ?",
                 assistance2:"Nous sommes là pour vous assister !",
                 assistance3:"Appelez-nous au ",
-                assistance4:"et nous vous guiderons tout au long du processus de commande."
-
+                assistance4:"et nous vous guiderons tout au long du processus de commande.",
+                Longueur: "Longueur",
+                Largeur: "Largeur",
+                cm: "cm",
+                mm: "mm",
+                Diametre: "Diamètre",
+                Arc: "Arc",
+                ArcA: "Arc A",
+                ArcB: "Arc B",
+                Rayon: "Rayon",
+                Longueur140:"La longueur ne peut pas dépasser 140 cm",
+                Longueur1000:"La longueur ne peut pas dépasser 1000 cm",
+                Largeur140:"La largeur ne peut pas dépasser 140 cm",
+                ArcDepasse:"L'arc ne peut pas dépasser la moitié de la longueur"
             }
         },
         ar: {
@@ -240,7 +253,20 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 assistance1:"تحتاج مساعدة في تقديم طلبك؟",
                 assistance2:"نحن هنا لمساعدتك!",
                 assistance3:" اتصل بنا على ",
-                assistance4:"وسنرشدك خلال عملية الطلب بأكملها."
+                assistance4:"وسنرشدك خلال عملية الطلب بأكملها.",
+                Longueur: "الطول",
+                Largeur: "العرض",
+                cm: "سم",
+                mm: "مم",
+                Diameter: "القطر",
+                Arc: "القوس",
+                ArcA: "القوس أ",
+                ArcB: "القوس ب",
+                Rayon: "النصف",
+                Longueur140:"لا يمكن أن يتجاوز الطول 140 سم",
+                Longueur1000:"لا يمكن أن يتجاوز الطول 1000 سم",
+                Largeur140:"لا يمكن أن يتجاوز العرض 140 سم",
+                ArcDepasse:"لا يمكن أن يتجاوز القوس نصف الطول"
             }
         }
     }

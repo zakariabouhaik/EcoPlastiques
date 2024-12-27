@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from "@mui/material";
+import { useTranslation } from 'react-i18next';
 
 const DynamicCircleSVG = ({ diameter = 30, color = '#9BC953' }) => {
   const theme = useTheme();
@@ -26,6 +27,8 @@ const DynamicCircleSVG = ({ diameter = 30, color = '#9BC953' }) => {
 
   // Scale the measurement line proportionally to the visual diameter
   const lineWidth = Math.min(visualDiameter * 5, svgSize / 2 - padding);
+
+  const { t } = useTranslation();
 
   return (
     <svg
@@ -100,7 +103,7 @@ const DynamicCircleSVG = ({ diameter = 30, color = '#9BC953' }) => {
         fontSize="16"
         fill="#666"
       >
-        {diameter ?  `Diamètre ${diameter} cm` : "Diamètre (cm)"}
+        {diameter ?  `${t('Diametre')} ${diameter} ${t('cm')}` : `${t('Diametre')} (${t('cm')})`}
       </text>
 
       {/* Display warning if size is limited */}

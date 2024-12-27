@@ -12,7 +12,8 @@ const Header = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const {t, i18n} = useTranslation();
   const [language, setLanguage] = useState(localStorage.getItem('language') || 'fr');
-
+  const addSpaceForArabic = (text) =>
+    i18n.language === 'ar' ? `\u00A0\u00A0${text}` : text;
 
 
   const toggleDrawer = (open) => (event) => {
@@ -82,10 +83,10 @@ const Header = () => {
             padding: '0 24px',
           }}
         >
-          <NavigationItem icon={LocalShippingIcon} text= {t("text1")} />
-          <NavigationItem icon={StraightenIcon} text= {t("text2")}/>
+          <NavigationItem icon={LocalShippingIcon} text= {addSpaceForArabic(t("text1"))} />
+          <NavigationItem icon={StraightenIcon} text= {addSpaceForArabic(t("text2"))}/>
           {!isMobile && (
-            <NavigationItem icon={StarIcon} text= {t("text3")}/>
+            <NavigationItem icon={StarIcon} text= {addSpaceForArabic(t("text3"))}/>
           )}
         </Box>
       </Box>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 const ProductInfo = () => {
   const { t } = useTranslation();
 
-  const infoItems = [
+  const sections = [
     {
       key: 'arrivee',
       title: t('product_info_arrivee'),
@@ -65,20 +65,32 @@ const ProductInfo = () => {
     borderRadius: 5,
   };
 
+  
+    const [expandedSection, setExpandedSection] = useState(null);
+  
+    const handleAccordionChange = (panel) => (_, isExpanded) => {
+      setExpandedSection(isExpanded ? panel : null);
+    };
+
   return (
     <div>
-      <Box sx={commonBoxStyles}>
-        {infoItems.map((item) => (
-          <Accordion key={item.key} sx={commonAccordionStyles}>
+      {sections.map(({ key, title, content }) => (
+        <Box key={key} sx={commonBoxStyles}>
+          <Accordion
+            expanded={expandedSection === key}
+            onChange={handleAccordionChange(key)}
+            sx={commonAccordionStyles}
+          >
             <AccordionSummary expandIcon={<ExpandMoreIcon sx={expandIconStyles} />}>
-              <Typography>{item.title}</Typography>
+              <Typography>{title}</Typography>
             </AccordionSummary>
+            <hr />
             <AccordionDetails>
-              <Typography sx={{ whiteSpace: 'pre-line' }}>{item.content}</Typography>
-            </AccordionDetails>
+  <Typography sx={{ whiteSpace: 'pre-line' }}>{content}</Typography>
+</AccordionDetails>
           </Accordion>
-        ))}
-      </Box>
+        </Box>
+      ))}
 
       <Button
         variant="contained"
@@ -100,5 +112,4 @@ const ProductInfo = () => {
     </div>
   );
 };
-
 export default ProductInfo;
