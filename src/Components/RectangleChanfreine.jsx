@@ -1,5 +1,5 @@
 import React from 'react';
-import {useTheme, useMediaQuery} from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 const RectangleChanfreine = ({
   width = 400,
@@ -8,7 +8,8 @@ const RectangleChanfreine = ({
   strokeColor,
   strokeWidth = 2,
   arcA = 40,
-  arcB = 40
+  arcB = 40,
+  displayValues = false
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -82,7 +83,8 @@ const RectangleChanfreine = ({
         textAnchor="middle"
         fill="#666"
       >
-        Largeur(cm)
+        Largeur
+        {displayValues && `: ${parsedWidth} cm`}
       </text>
 
       {/* Ligne de longueur (droite) */}
@@ -103,7 +105,8 @@ const RectangleChanfreine = ({
         fill="#666"
         transform={`rotate(-90 ${centerX + parsedWidth/2 + measureOffset + 15} ${centerY})`}
       >
-        Longueur(cm)
+        Longueur
+        {displayValues && `: ${parsedHeight} cm`}
       </text>
 
       {/* Ligne arc A (côtés gauche) */}
@@ -124,7 +127,7 @@ const RectangleChanfreine = ({
         fill="#666"
         transform={`rotate(-90 ${centerX - parsedWidth/2 - measureOffset - 15} ${centerY})`}
       >
-        arc A(cm)
+        {`Arc A${displayValues ? `: ${parsedArcA} cm` : ''}`}
       </text>
 
       {/* Ligne arc B (haut) */}
@@ -144,11 +147,23 @@ const RectangleChanfreine = ({
         textAnchor="middle"
         fill="#666"
       >
-        arc B(cm)
+        {`Arc B${displayValues ? `: ${parsedArcB} cm` : ''}`}
       </text>
 
+      {displayValues && (
+        <text
+          x={centerX}
+          y={centerY}
+          textAnchor="middle"
+          fill="#666"
+          fontSize="14"
+        >
+          {`${parsedWidth}x${parsedHeight}`}
+        </text>
+      )}
     </svg>
   );
 };
 
 export default RectangleChanfreine;
+
