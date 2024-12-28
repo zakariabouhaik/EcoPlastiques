@@ -103,7 +103,7 @@ const DynamicCircleSVG = ({ diameter = 30, color = '#9BC953' }) => {
         fontSize="16"
         fill="#666"
       >
-        {diameter ?  `${t('Diametre')} ${diameter} ${t('cm')}` : `${t('Diametre')} (${t('cm')})`}
+        {diameter ?  `${t('Diametre')}: ${diameter} ${t('cm')}` : `${t('Diametre')}: ${t('cm')}`}
       </text>
 
       {/* Display warning if size is limited */}

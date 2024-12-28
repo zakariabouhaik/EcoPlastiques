@@ -274,246 +274,396 @@ const handleDimensionChange = (field, value) => {
   }
 };
 
-  const renderDimensionFields = () => {
-    switch (selectedShape) {
-      case 0: // Circle
-        return (
-          <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-            <Grid2 item xs={12}>
-              <TextField
-                label={`${t('Diameter')} (${t('cm')})`}
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dimensions.diametre || ''}
-                onChange={(e) => handleDimensionChange('diametre', e.target.value)}
-              />
-            </Grid2>
-          </Grid2>
-        );
+const renderDimensionFields = () => {
+  switch (selectedShape) {
+    case 0: // Circle
+      return (
+        <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+  <Grid2 item xs={12}>
+    <TextField
+      label={`${t('Diametre')} (${t('cm')})`}
+      variant="outlined"
+      size="small"
+      fullWidth
+      dir={isArabic ? "rtl" : "ltr"}
+      value={dimensions.diametre || ''}
+      onChange={(e) => handleDimensionChange('diametre', e.target.value)}
+      sx={{
+        '& .MuiInputLabel-root': {
+          left: isArabic ? 'auto !important' : '0px !important',
+          right: isArabic ? '28px !important' : 'auto !important',
+          transformOrigin: isArabic ? 'right' : 'left',
+        },
+        '& .MuiOutlinedInput-root': {
+          '& > input': {
+            textAlign: isArabic ? 'right' : 'left',
+          }
+        },
+        '& legend': {
+          textAlign: isArabic ? 'right' : 'left',
+        }
+      }}
+    />
+  </Grid2>
+</Grid2>
 
-        case 4: // Rectangle à coins carrés
-        return (
-          <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-            <Grid2 item xs={6}>
-              <TextField 
-                label={`${t('Longueur')} (${t('cm')})`} 
-                variant="outlined" 
-                size="small" 
-                fullWidth 
-                value={dimensions.longueur || ''}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  handleDimensionChange('longueur', value);
-                  
-                  if (Number(value) > 1000) {
-                    setRectangleErrors(prev => ({
-                      ...prev,
-                      longueur: `${t("Longueur1000")} `
-                    }));
-                  } else {
-                    setRectangleErrors(prev => ({
-                      ...prev,
-                      longueur: ''
-                    }));
+
+
+
+      );
+
+    case 4: // Rectangle à coins carrés
+      return (
+        <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Longueur')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.longueur || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
                   }
-                }}
-                error={!!rectangleErrors.longueur}
-                helperText={rectangleErrors.longueur}
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField 
-                label={`${t('Largeur')} (${t('cm')})`} 
-                variant="outlined" 
-                size="small" 
-                fullWidth 
-                value={dimensions.largeur || ''}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  handleDimensionChange('largeur', value);
-                  
-                  if (Number(value) > 144) {
-                    setRectangleErrors(prev => ({
-                      ...prev,
-                      largeur: `${t("Largeur140")} `
-                    }));
-                  } else {
-                    setRectangleErrors(prev => ({
-                      ...prev,
-                      largeur: ''
-                    }));
-                  }
-                }}
-                error={!!rectangleErrors.largeur}
-                helperText={rectangleErrors.largeur}
-              />
-            </Grid2>
-          </Grid2>
-        );
-
-
-      case 6:
-        return (
-          <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-            <Grid2 item xs={6}>
-              <TextField
-                label={`${t('Longueur')} (${t('cm')})`}
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dimensions.longueur || ''}
-                onChange={(e) => handleDimensionChange('longueur', e.target.value)}
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label={`${t('Largeur')} (${t('cm')})`}
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dimensions.largeur || ''}
-                onChange={(e) => handleDimensionChange('largeur', e.target.value)}
-              />
-            </Grid2>
-          </Grid2>
-        );
-      case 2: // Rect-arrand
-        return (
-          <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-            <Grid2 item xs={6}>
-              <TextField
-                label={`${t('Longueur')} (${t('cm')})`}
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dimensions.longueur || ''}
-                onChange={(e) => handleDimensionChange('longueur', e.target.value)}
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label={`${t('Largeur')} (${t('cm')})`}
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dimensions.largeur || ''}
-                onChange={(e) => handleDimensionChange('largeur', e.target.value)}
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label={`${t('Rayon')} (${t('cm')})`}
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={dimensions.arc || ''}
-                onChange={(e) => handleDimensionChange('arc', e.target.value)}
-              />
-            </Grid2>
-          </Grid2>
-        );
-      case 1: // Octa
-
-
-    return (
-    <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-      <Grid2 item xs={6}>
-        <TextField 
-          label={`${t('Longueur')} (${t('cm')})`}
-          variant="outlined" 
-          size="small" 
-          fullWidth 
-          value={dimensions.longueur || ''}
-          onChange={(e) => {
-            const value = e.target.value;
-            handleDimensionChange('longueur', value);
-            
-            // Validation de la longueur
-            if (Number(value) > 140) {
-              setDimensionErrors(prev => ({
-                ...prev,
-                longueur: `${t("Longueur140")} `
-              }));
-            } else {
-              setDimensionErrors(prev => ({
-                ...prev,
-                longueur: ''
-              }));
-              
-              // Revalider l'arc si il existe
-              if (dimensions.arc) {
-                if (Number(dimensions.arc) > Number(value)/2) {
-                  setDimensionErrors(prev => ({
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => {
+                const value = e.target.value;
+                handleDimensionChange('longueur', value);
+                if (Number(value) > 1000) {
+                  setRectangleErrors((prev) => ({
                     ...prev,
-                    arc: `${t("ArcDepasse")}`
+                    longueur: `${t('Longueur1000')}`,
                   }));
                 } else {
-                  setDimensionErrors(prev => ({
+                  setRectangleErrors((prev) => ({
                     ...prev,
-                    arc: ''
+                    longueur: '',
                   }));
                 }
-              }
-            }
-          }}
-          error={!!dimensionErrors.longueur}
-          helperText={dimensionErrors.longueur}
-        />
-      </Grid2>
-      <Grid2 item xs={6}>
-        <TextField 
-          label={`${t('Arc')} (${t('cm')})`} 
-          variant="outlined" 
-          size="small" 
-          fullWidth 
-          value={dimensions.arc || ''}
-          onChange={(e) => {
-            const value = e.target.value;
-            handleDimensionChange('arc', value);
-            
-            // Validation de l'arc
-            if (dimensions.longueur && Number(value) > Number(dimensions.longueur)/2) {
-              setDimensionErrors(prev => ({
-                ...prev,
-                arc: `${t("ArcDepasse")}`
-              }));
-            } else {
-              setDimensionErrors(prev => ({
-                ...prev,
-                arc: ''
-              }));
-            }
-          }}
-          error={!!dimensionErrors.arc}
-          helperText={dimensionErrors.arc}
-        />
-      </Grid2>
-    </Grid2>
-  );
-        
-
-      case 3: // Rect-chanfr
-        return (
-          <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-            {["Longueur", "Largeur", "ArcA", "ArcB"].map((label, index) => (
-              <Grid2 item xs={6} sm={3} key={index}>
-                <TextField
-                  label={`${t(label)} (${t('cm')})`}
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  value={dimensions[label.toLowerCase().replace(' ', '')] || ''}
-                  onChange={(e) => handleDimensionChange(label.toLowerCase().replace(' ', ''), e.target.value)}
-                />
-              </Grid2>
-            ))}
+              }}
+              error={!!rectangleErrors.longueur}
+              helperText={rectangleErrors.longueur}
+            />
           </Grid2>
-        );
-      default:
-        return null;
-    }
-  };
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Largeur')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.largeur || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => {
+                const value = e.target.value;
+                handleDimensionChange('largeur', value);
+                if (Number(value) > 144) {
+                  setRectangleErrors((prev) => ({
+                    ...prev,
+                    largeur: `${t('Largeur140')}`,
+                  }));
+                } else {
+                  setRectangleErrors((prev) => ({
+                    ...prev,
+                    largeur: '',
+                  }));
+                }
+              }}
+              error={!!rectangleErrors.largeur}
+              helperText={rectangleErrors.largeur}
+            />
+          </Grid2>
+        </Grid2>
+      );
+
+    case 6: // Rectangle
+      return (
+        <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Longueur')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.longueur || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => handleDimensionChange('longueur', e.target.value)}
+            />
+          </Grid2>
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Largeur')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.largeur || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => handleDimensionChange('largeur', e.target.value)}
+            />
+          </Grid2>
+        </Grid2>
+      );
+
+    case 2: // Rect-arrand
+      return (
+        <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Longueur')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.longueur || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => handleDimensionChange('longueur', e.target.value)}
+            />
+          </Grid2>
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Largeur')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.largeur || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => handleDimensionChange('largeur', e.target.value)}
+            />
+          </Grid2>
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Rayon')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.arc || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => handleDimensionChange('arc', e.target.value)}
+            />
+          </Grid2>
+        </Grid2>
+      );
+
+    case 1: // Octa
+      return (
+        <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Longueur')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.longueur || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => {
+                const value = e.target.value;
+                handleDimensionChange('longueur', value);
+                if (Number(value) > 140) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    longueur: `${t('Longueur140')}`,
+                  }));
+                } else {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    longueur: '',
+                  }));
+                }
+              }}
+              error={!!dimensionErrors.longueur}
+              helperText={dimensionErrors.longueur}
+            />
+          </Grid2>
+          <Grid2 item xs={6}>
+            <TextField
+              label={`${t('Arc')} (${t('cm')})`}
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={dimensions.arc || ''}
+              sx={{
+                '& .MuiInputLabel-root': {
+                  left: isArabic ? 'auto !important' : '0px !important',
+                  right: isArabic ? '28px !important' : 'auto !important',
+                  transformOrigin: isArabic ? 'right' : 'left',
+                },
+                '& .MuiOutlinedInput-root': {
+                  '& > input': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                },
+                '& legend': {
+                  textAlign: isArabic ? 'right' : 'left',
+                }
+              }}
+              onChange={(e) => {
+                const value = e.target.value;
+                handleDimensionChange('arc', value);
+                if (dimensions.longueur && Number(value) > Number(dimensions.longueur) / 2) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    arc: `${t('ArcDepasse')}`,
+                  }));
+                } else {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    arc: '',
+                  }));
+                }
+              }}
+              error={!!dimensionErrors.arc}
+              helperText={dimensionErrors.arc}
+            />
+          </Grid2>
+        </Grid2>
+      );
+
+    case 3: // Rect-chanfr
+      return (
+        <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+          {["Longueur", "Largeur", "ArcA", "ArcB"].map((label, index) => (
+            <Grid2 item xs={6} sm={3} key={index}>
+              <TextField
+                label={`${t(label)} (${t('cm')})`}
+                variant="outlined"
+                size="small"
+                fullWidth
+                value={dimensions[label.toLowerCase().replace(' ', '')] || ''}
+                sx={{
+                  '& .MuiInputLabel-root': {
+                    left: isArabic ? 'auto !important' : '0px !important',
+                    right: isArabic ? '28px !important' : 'auto !important',
+                    transformOrigin: isArabic ? 'right' : 'left',
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    '& > input': {
+                      textAlign: isArabic ? 'right' : 'left',
+                    }
+                  },
+                  '& legend': {
+                    textAlign: isArabic ? 'right' : 'left',
+                  }
+                }}
+                onChange={(e) =>
+                  handleDimensionChange(label.toLowerCase().replace(' ', ''), e.target.value)
+                }
+              />
+            </Grid2>
+          ))}
+        </Grid2>
+      );
+    default:
+      return null;
+  }
+};
+
 
   // Add state for current picture index
   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
@@ -799,7 +949,7 @@ const handleDimensionChange = (field, value) => {
                   color="primary"
                   onClick={() => setThickness("1.5mm")}
                 >
-                  1.5 mm
+                  1.5 {t('mm')}
                 </Button>
               </Grid2>
               <Grid2 item xs={6}>
@@ -809,7 +959,7 @@ const handleDimensionChange = (field, value) => {
                   color="primary"
                   onClick={() => setThickness("2mm")}
                 >
-                  2 mm
+                  2 {t('mm')}
                 </Button>
               </Grid2>
             </Grid2>

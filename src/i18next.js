@@ -1,6 +1,5 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { Diameter } from 'lucide-react';
 import { initReactI18next } from 'react-i18next';
 const savedLanguage = localStorage.getItem('language') || 'fr';
 
@@ -258,7 +257,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 Largeur: "العرض",
                 cm: "سم",
                 mm: "مم",
-                Diameter: "القطر",
+                Diametre: "القطر",
                 Arc: "القوس",
                 ArcA: "القوس أ",
                 ArcB: "القوس ب",
