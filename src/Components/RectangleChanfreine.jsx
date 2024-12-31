@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from "@mui/material";
+import { useTranslation } from 'react-i18next'; 
 
 const RectangleChanfreine = ({
   width = 400,
@@ -23,6 +24,8 @@ const RectangleChanfreine = ({
   const parsedHeight = Number(height) || 300;
   const parsedArcA = Number(arcA) || 40;
   const parsedArcB = Number(arcB) || 40;
+
+  const { t } = useTranslation(); 
 
   return (
     <svg
@@ -83,8 +86,8 @@ const RectangleChanfreine = ({
         textAnchor="middle"
         fill="#666"
       >
-        Largeur
-        {displayValues && `: ${parsedWidth} cm`}
+        {t("Largeur")}
+        {displayValues && `: ${parsedWidth} ${t("cm")}`}
       </text>
 
       {/* Ligne de longueur (droite) */}
@@ -105,8 +108,8 @@ const RectangleChanfreine = ({
         fill="#666"
         transform={`rotate(-90 ${centerX + parsedWidth/2 + measureOffset + 15} ${centerY})`}
       >
-        Longueur
-        {displayValues && `: ${parsedHeight} cm`}
+        {t("Longueur")}
+        {displayValues && `: ${parsedHeight} ${t("cm")}`}
       </text>
 
       {/* Ligne arc A (côtés gauche) */}
@@ -127,7 +130,7 @@ const RectangleChanfreine = ({
         fill="#666"
         transform={`rotate(-90 ${centerX - parsedWidth/2 - measureOffset - 15} ${centerY})`}
       >
-        {`Arc A${displayValues ? `: ${parsedArcA} cm` : ''}`}
+        {`${t("ArcA")}${displayValues ? `: ${parsedArcA} ${t("cm")}` : ''}`}
       </text>
 
       {/* Ligne arc B (haut) */}
@@ -147,7 +150,7 @@ const RectangleChanfreine = ({
         textAnchor="middle"
         fill="#666"
       >
-        {`Arc B${displayValues ? `: ${parsedArcB} cm` : ''}`}
+        {`${t("ArcB")}${displayValues ? `: ${parsedArcB} ${t("cm")}` : ''}`}
       </text>
 
       {displayValues && (

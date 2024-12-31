@@ -1,5 +1,6 @@
 import React from 'react';
 import {useTheme, useMediaQuery} from "@mui/material";
+import {useTranslation} from 'react-i18next';
 
 const RectangleACoinCarres = ({ 
   width = 200,   // valeur par défaut
@@ -10,6 +11,7 @@ const RectangleACoinCarres = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { t } = useTranslation();
 
   // Limiter les dimensions visuelles tout en gardant les valeurs originales pour l'affichage
   const visualWidth = isMobile ? Math.min(width || 200, 100) : Math.min(width || 200, 200);
@@ -84,7 +86,7 @@ const RectangleACoinCarres = ({
             fontSize="14" 
             fill="#666"
           >
-            Largeur: {width} cm
+            {t('Largeur')}: {width} {t('cm')}
           </text>
         </>
      
@@ -109,7 +111,7 @@ const RectangleACoinCarres = ({
             fill="#666"
             transform={`rotate(-90 ${centerX - visualWidth/2 - measureOffset - 10} ${centerY})`}
           >
-            Longueur: {height} cm
+            {t('Longueur')}: {height} {t('cm')}
           </text>
         </>
       

@@ -1,7 +1,10 @@
 import React from "react";
 import { Typography, Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const Textzwin = () => {
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -19,7 +22,7 @@ const Textzwin = () => {
           color: "#333",
         }}
       >
-        Film de table flexible pour tous les domaines d’application
+        {t('flexible_film_title')}
       </Typography>
       <Typography
         variant="body1"
@@ -28,13 +31,7 @@ const Textzwin = () => {
           color: "#555",
         }}
       >
-        Notre nappe transparente a l’avantage d’être très élastique et
-        antidérapante. De ce fait, le film est déroulé en moins d’une minute. Il
-        suffit de poser – aligner – dérouler, c’est prêt ! Un point positif
-        supplémentaire du film de protection est qu’une fois posé, il est
-        difficile de le bouger et se trouve fixé fermement à la table. Les
-        enfants tirant sur la nappe et occasionnant des dégâts, font dorénavant
-        partie du passé.
+        {t('flexible_film_text')}
       </Typography>
     </Box>
   );
