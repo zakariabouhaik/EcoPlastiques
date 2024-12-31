@@ -1,7 +1,9 @@
 import React from 'react';
 import { Box, Link, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next'; 
 
 const Footer = () => {
+  const {t} = useTranslation();
   return (
     <Box
       sx={{
@@ -64,7 +66,7 @@ const Footer = () => {
                 whiteSpace: 'nowrap'
               }}
             >
-              Politique de Confidentialité
+              {t('footer1')}
             </Link>
             <Link 
               href="#" 
@@ -75,7 +77,7 @@ const Footer = () => {
                 whiteSpace: 'nowrap'
               }}
             >
-              Politique de Retour et Remboursement
+              {t('footer2')}
             </Link>
             <Link 
               href="#" 
@@ -86,7 +88,7 @@ const Footer = () => {
                 whiteSpace: 'nowrap'
               }}
             >
-              À Propos de Nous
+              {t('footer3')}
             </Link>
             <Link 
               href="#" 
@@ -97,7 +99,7 @@ const Footer = () => {
                 whiteSpace: 'nowrap'
               }}
             >
-              Contactez-nous
+              {t('footer4')}
             </Link>
           </Box>
 

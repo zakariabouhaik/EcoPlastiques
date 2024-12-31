@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
+  const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -11,13 +13,13 @@ const Hero = () => {
   const slides = [
     {
       image: '/assets/Heropic/XX.jpg',
-      title: 'Black Week – 10% SUR TOUT',
-      description: 'Code : blackweek\nA partir de 80€, un support de bricolage est offert en cadeau pour toute commande.\nVotre cadeau sera automatiquement ajouté.'
+      title: t('hero_slide_1_title'),
+      description: t('hero_slide_1_description')
     },
     {
       image: '/assets/Heropic/bg-img-2.png',
-      title: 'Black Week – 20% SUR TOUT',
-      description: 'Code : blackweeeek\nA partir de 80€, un suuupport de bricolage est offert en cadeau pour toute commande.\nVotre cadeau sera automatiquement ajouté.'
+      title: t('hero_slide_2_title'),
+      description: t('hero_slide_2_description')
     }
   ];
 

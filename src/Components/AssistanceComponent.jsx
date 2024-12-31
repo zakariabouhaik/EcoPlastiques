@@ -1,7 +1,11 @@
 import React from 'react';
 import { Box, Typography, Link } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const AssistanceComponent = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+
   return (
     <Box
       sx={{
@@ -15,17 +19,24 @@ const AssistanceComponent = () => {
       }}
     >
       <Typography variant="body1" sx={{ marginBottom: '8px' }}>
-        Besoin d'aide pour passer votre commande ?
+        {t("assistance1")}
       </Typography>
       <Typography variant="body1" sx={{ marginBottom: '8px' }}>
-        Nous sommes là pour vous assister !
+        {t("assistance2")}
       </Typography>
       <Typography variant="body1">
-        Appelez-nous au{' '}
-        <Link href="tel:+212708051754" color="primary">
+        {t("assistance3")}{' '}
+        <Link
+          href="tel:+212708051754"
+          color="primary"
+          sx={{
+            unicodeBidi: 'bidi-override',
+            direction: 'ltr',
+          }}
+        >
           +212 708-051754
         </Link>{' '}
-        et nous vous guiderons tout au long du processus de commande.
+        {t("assistance4")}
       </Typography>
     </Box>
   );

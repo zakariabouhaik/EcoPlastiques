@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Box, Button } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTranslation } from 'react-i18next';
 
 const Theendofthepage = ({
   text,
@@ -17,7 +18,8 @@ const Theendofthepage = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-
+  const { t, i18n } = useTranslation();
+    const isArabic = i18n.language === 'ar';
   return (
     <Box
       sx={{
@@ -139,12 +141,15 @@ const Theendofthepage = ({
                     sx={{
                       marginBottom: "3px",
                       marginTop: "10%",
-                      textAlign: isMobile ? "center" : "left"
+                      textAlign: isMobile ? "center" : "left",
                     }}
                   >
                     {titre3}
                   </Typography>
-                  <Typography sx={{ textAlign: isMobile ? "center" : "left" }}>
+                  <Typography sx={{ 
+                    textAlign: isMobile ? "center" : "left",
+                    textAlign: isArabic ? 'right' : 'left' }}
+                    >
                     {text2}
                   </Typography>
                 </>
@@ -160,7 +165,7 @@ const Theendofthepage = ({
                   >
                     {titre4}
                   </Typography>
-                  <Typography sx={{ textAlign: isMobile ? "center" : "left" }}>
+                  <Typography sx={{ textAlign: isMobile ? "center" : "left", textAlign: isArabic ? 'right' : 'left' }}>
                     {text3}
                   </Typography>
                 </>
@@ -186,7 +191,7 @@ const Theendofthepage = ({
               },
             }}
           >
-            Entrez les dimensions
+            {t("product_info_dimension")}
           </Button>
         </Box>
       </Box>
