@@ -13,7 +13,7 @@ const Header = () => {
   const {t, i18n} = useTranslation();
   const [language, setLanguage] = useState(localStorage.getItem('language') || 'fr');
   const addSpaceForArabic = (text) =>
-    i18n.language === 'ar' ? `\u00A0\u00A0${text}` : text;
+    i18n.language === 'ar' ? `${text}` : text;
 
 
   const toggleDrawer = (open) => (event) => {

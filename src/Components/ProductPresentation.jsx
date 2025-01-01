@@ -51,6 +51,21 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
     }));
   };
 
+  const handleAddCover = () => {
+    const newCover = {
+      type: selectedShape === 4 ? 'Rectangle' : 'Autre forme',
+      thickness: thickness,
+      dimensions: {
+        longueur: dimensions.longueur,
+        largeur: dimensions.largeur
+      },
+      price: prixTotal
+    };
+    setSelectedCovers([...selectedCovers, newCover]);
+    // Réinitialiser les dimensions après l'ajout
+    setDimensions({ longueur: '', largeur: '' });
+    setShowMessage(true);
+  };
 
 
 
@@ -158,7 +173,7 @@ const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [selectedShape, setSelectedShape] = useState(null);
-  const [thickness, setThickness] = useState("1.5mm");
+  const [thickness, setThickness] = useState("1.5");
   const [dimensions, setDimensions] = useState({});
 
   const shapes = [
@@ -568,14 +583,28 @@ const renderDimensionFields = () => {
                 if (Number(value) > 140) {
                   setDimensionErrors((prev) => ({
                     ...prev,
-                    longueur: `${t('Longueur140')}`,
+                    longueur: t('Longueur140'),
                   }));
                 } else {
                   setDimensionErrors((prev) => ({
                     ...prev,
                     longueur: '',
                   }));
+                  // Revalider l'arc si il existe
+              if (dimensions.arc) {
+                if (Number(dimensions.arc) > Number(value)/2) {
+                  setDimensionErrors(prev => ({
+                    ...prev,
+                    arc: t('ArcDepasse')
+                  }));
+                } else {
+                  setDimensionErrors(prev => ({
+                    ...prev,
+                    arc: ''
+                  }));
                 }
+              }
+            }
               }}
               error={!!dimensionErrors.longueur}
               helperText={dimensionErrors.longueur}
@@ -636,6 +665,7 @@ const renderDimensionFields = () => {
                 size="small"
                 fullWidth
                 value={dimensions[label.toLowerCase().replace(' ', '')] || ''}
+                onChange={(e) => handleDimensionChange(label.toLowerCase().replace(' ', ''), e.target.value)}
                 sx={{
                   '& .MuiInputLabel-root': {
                     left: isArabic ? 'auto !important' : '0px !important',
@@ -651,9 +681,6 @@ const renderDimensionFields = () => {
                     textAlign: isArabic ? 'right' : 'left',
                   }
                 }}
-                onChange={(e) =>
-                  handleDimensionChange(label.toLowerCase().replace(' ', ''), e.target.value)
-                }
               />
             </Grid2>
           ))}
@@ -945,9 +972,9 @@ const renderDimensionFields = () => {
               <Grid2 item xs={6}>
                 <Button
                   fullWidth
-                  variant={thickness === "1.5mm" ? "contained" : "outlined"}
+                  variant={thickness === "1.5" ? "contained" : "outlined"}
                   color="primary"
-                  onClick={() => setThickness("1.5mm")}
+                  onClick={() => setThickness("1.5")}
                 >
                   1.5 {t('mm')}
                 </Button>
@@ -955,9 +982,9 @@ const renderDimensionFields = () => {
               <Grid2 item xs={6}>
                 <Button
                   fullWidth
-                  variant={thickness === "2mm" ? "contained" : "outlined"}
+                  variant={thickness === "2" ? "contained" : "outlined"}
                   color="primary"
-                  onClick={() => setThickness("2mm")}
+                  onClick={() => setThickness("2")}
                 >
                   2 {t('mm')}
                 </Button>
@@ -981,17 +1008,140 @@ const renderDimensionFields = () => {
                 {t('product_presentation_enter_dimensions')}
               </Typography>
             )}
+            <Box sx={{ marginTop: 3, textAlign: "center" }}>
+  {/* Liste des nappes - toujours visible */}
+  {tableCovers.map((cover, index) => {
+  let dimensionsText = '';
+  switch(cover.type) {
+    case 'Cercle':
+      dimensionsText = `${t("Diametre")} = ${cover.diametre}${t("cm")}`;
+      break;
+    case 'Octogone':
+      dimensionsText = `${t("Longueur")} = ${cover.longueur}${t("cm")} | ${t("Arc")} = ${cover.arc}${t("cm")}`;
+      break;
+    case 'RectangleACoinsArrondis':
+      dimensionsText = `${t("Longueur")} = ${cover.longueur}${t("cm")} | ${t("Largeur")} = ${cover.largeur}${t("cm")} | ${t("Rayon")} = ${cover.rayon}${t("cm")}`;
+      break;
+    case 'RectangleChanfreiné':
+      dimensionsText = `${t("Longueur")} = ${cover.longueur}${t("cm")} | ${t("Largeur")} = ${cover.largeur}${t("cm")} | ${t("ArcA")} = ${cover.arcA}${t("cm")} | ${t("ArcB")} = ${cover.arcB}${t("cm")}`;
+      break;
+    case 'Rectangle':
+      dimensionsText = `${t("Longueur")} = ${cover.longueur}${t("cm")} | ${t("Largeur")} = ${cover.largeur}${t("cm")}`;
+      break;
+  }
+  
+  return (
+    <Box
+  key={index}
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 1,
+    marginTop: 3,
+    padding: "8px",
+    backgroundColor: "white",
+    borderRadius: "4px",
+    border: "1px solid #ddd"
+  }}
+>
+  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+    <Typography variant="body2">
+      [{t(cover.type)} ({cover.thickness}{t("mm")}): {dimensionsText}]
+    </Typography>
+    <Typography variant="body2" sx={{ color: '#9BC953', fontWeight: 'bold' }}>
+      {Math.floor(cover.price)} {t('dh')}
+    </Typography>
+  </Box>
+  <Button
+    onClick={() => {
+      const newTableCovers = [...tableCovers];
+      newTableCovers.splice(index, 1);
+      setTableCovers(newTableCovers);
+    }}
+    sx={{
+      minWidth: 'auto',
+      padding: '4px 8px',
+      color: 'red',
+      '&:hover': {
+        backgroundColor: 'rgba(255, 0, 0, 0.1)',
+      },
+    }}
+  >
+    ✕
+  </Button>
+</Box>
+  );
+})}
+
+  {/* Prix et bouton - visible seulement quand !showMessage */}
 
             {!showMessage && (
+              <>
               <Box sx={{ marginTop: 3, textAlign: "center" }}>
                 <Typography variant="h6" color="black">
-                  {t('product_presentation_total_price', { prixTotal })}
+                {t('product_presentation_total_price', { prixTotal })} 
                 </Typography>
                 <Typography variant="h17" color="black">
                   {t('product_presentation_free_shipping_note')}
                 </Typography>
                 <Button
-                  type="submit"
+                  onClick={() => {
+                    let newCover;
+                    switch(selectedShape) {
+                      case 0: // Cercle
+                        newCover = {
+                          type: "Cercle",
+                          thickness: thickness,
+                          diametre: dimensions.diametre,
+                          price: prixTotal
+                        };
+                        break;
+                      case 1: // Octogone
+                        newCover = {
+                          type: "Octogone",
+                          thickness: thickness,
+                          longueur: dimensions.longueur,
+                          arc: dimensions.arc,
+                          price: prixTotal
+                        };
+                        break;
+                      case 2: // Rectangle à coins arrondis
+                        newCover = {
+                          type: "RectangleACoinsArrondis",
+                          thickness: thickness,
+                          longueur: dimensions.longueur,
+                          largeur: dimensions.largeur,
+                          rayon: dimensions.arc,
+                          price: prixTotal
+                        };
+                        break;
+                      case 3: // Rectangle chanfreiné
+                        newCover = {
+                          type: "RectangleChanfreiné",
+                          thickness: thickness,
+                          longueur: dimensions.longueur,
+                          largeur: dimensions.largeur,
+                          arcA: dimensions.arcA,
+                          arcB: dimensions.arcB,
+                          price: prixTotal
+                        };
+                        break;
+                      case 4: // Rectangle
+                        newCover = {
+                          type: "Rectangle",
+                          thickness: thickness,
+                          longueur: dimensions.longueur,
+                          largeur: dimensions.largeur,
+                          price: prixTotal
+                        };
+                        break;
+                    }
+                    if (newCover) {
+                      setTableCovers([...tableCovers, newCover]);
+                      setShowMessage(false);
+                    }
+                  }}
                   variant="contained"
                   fullWidth
                   sx={{
@@ -1009,12 +1159,15 @@ const renderDimensionFields = () => {
                 >
                   {t('product_presentation_add_another')}
                 </Button>
-              </Box>
-            )}
+                </Box>
+                </>
+                
+  )}
+
+</Box>
+</Box>
 
 
-
-          </Box>
           
 
       <form onSubmit={handleSubmit} style={{ textAlign: isArabic ? 'right' : 'left' }}>

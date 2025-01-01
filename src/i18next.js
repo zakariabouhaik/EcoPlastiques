@@ -1,6 +1,8 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
+import RectangleACoinsArrondis from './Components/RectangleACoinsArrondis';
+import { Octagon } from 'lucide-react';
 const savedLanguage = localStorage.getItem('language') || 'fr';
 
 
@@ -137,7 +139,13 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 Longueur140:"La longueur ne peut pas dépasser 140 cm",
                 Longueur1000:"La longueur ne peut pas dépasser 1000 cm",
                 Largeur140:"La largeur ne peut pas dépasser 140 cm",
-                ArcDepasse:"L'arc ne peut pas dépasser la moitié de la longueur"
+                ArcDepasse:"L'arc ne peut pas dépasser la moitié de la longueur",
+                dh: "DH",
+                RectangleACoinsArrondis: "Rectangle à coins arrondis",
+                RectangleChanfreiné: "Rectangle chanfreiné",
+                Rectangle: "Rectangle",
+                Cercle:"Cercle",
+                Octogone: "Octogone",
             }
         },
         ar: {
@@ -265,7 +273,13 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 Longueur140:"لا يمكن أن يتجاوز الطول 140 سم",
                 Longueur1000:"لا يمكن أن يتجاوز الطول 1000 سم",
                 Largeur140:"لا يمكن أن يتجاوز العرض 140 سم",
-                ArcDepasse:"لا يمكن أن يتجاوز القوس نصف الطول"
+                ArcDepasse:"لا يمكن أن يتجاوز القوس نصف الطول",
+                dh: "درهم",
+                RectangleACoinsArrondis: "مستطيل بزوايا مستديرة",
+                RectangleChanfreiné: "مستطيل مشطوف",
+                Rectangle: "مستطيل",
+                Cercle: "دائرة",
+                Octogone: "مضلع",
             }
         }
     }

@@ -5,7 +5,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
-  const { t } = useTranslation();
+  const { t , i18n } = useTranslation();
+  const direction = i18n.dir();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -147,6 +148,7 @@ const Hero = () => {
             },
             width: '48px',
             height: '48px',
+            order: direction === 'rtl' ? 2 : 1,// Adjust order for RTL
           }}
         >
           <ArrowBackIosIcon />
@@ -166,6 +168,7 @@ const Hero = () => {
             },
             width: '48px',
             height: '48px',
+            order: direction === 'rtl' ? 1 : 2, // Adjust order for RTL
           }}
         >
           <ArrowForwardIosIcon />
@@ -206,5 +209,4 @@ const Hero = () => {
     </Box>
   );
 };
-
 export default Hero;
