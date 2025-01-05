@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import TopNavigation from '../Components/TopNavigation';
 import ProductPresentation from '../Components/ProductPresentation';
 import Bestseler from '../Components/Bestseler';
@@ -7,21 +7,19 @@ import Theendofthepage from '../Components/Theendofthepage';
 import Footer from '../Components/Footer';
 import Qcmpluspic from '../Components/Qcmpluspic';
 import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
-    const [selectedText, setSelectedText] = useState("Nappe transparente sur mesure chez Nappe.ma"); // Default text
-    const [selectedtitre1, setSelectedtitre1] = useState("Découvrez l'élégance discrète de nos nappes transparentes sur mesure chez nappe.ma. À première vue, elles captivent par leur clarté cristalline, évoquant la beauté d'une surface en verre sans en présenter les risques. Chaque nappe, délicatement déroulée, adhère parfaitement à votre mobilier grâce à son poids, garantissant stabilité et élégance sans effort."); // Default text
-    const [selectedtitre2, setSelectedtitre2] = useState("Idéale pour toute pièce de la maison, que ce soit votre table à manger, votre commode ou votre coiffeuse, notre nappe transparente transcende les attentes. Elle ne se contente pas d'ajouter une touche de sophistication ; elle offre une protection inégalée contre les rayures, les taches et l'usure quotidienne."); // Default text
-    const [selectedtitre3, setSelectedtitre3] = useState("Aucune Tache sur Vos Tables"); // Default text
-    const [selectedText2, setSelectedText2] = useState("Ne vous souciez plus de ce que vos enfants renversent sur la table à manger ni de la façon dont vous y faites face. Le film de table de 1.5 mm et 2 mm d’épaisseur protège efficacement votre belle table contre les agressions et ne laisse aucune chance aux taches. Il suffit d’essuyer le nappe transparente de la table et elle est à nouveau propre."); // Default text
-    const [selectedtitre4, setSelectedtitre4] = useState("Transparente"); // Default text
-    const [selectedText3, setSelectedText3] = useState("Gardez la vue sur votre belle table et ne cachez pas le grain. La surface reste visible et est encore plus accentuée par la feuille haute brillance."); // Default text
-    
-    const [title001, setSelectedTitle001] = useState("Nappe transparente"); // Default text
-    const [title002, setSelectedTitle002] = useState("Conçu spécialement pour protéger votre table à manger."); // Default text
-
-    
-     
+    const {t, i18n} = useTranslation();
+    const [selectedText, setSelectedText] = useState(t("product_page1")); // Default text
+    const [selectedtitre1, setSelectedtitre1] = useState(t("product_page2")); // Default text
+    const [selectedtitre2, setSelectedtitre2] = useState(t("product_page3")); // Default text
+    const [selectedtitre3, setSelectedtitre3] = useState(t("product_page4")); // Default text
+    const [selectedText2, setSelectedText2] = useState(t("product_page5")); // Default text
+    const [selectedtitre4, setSelectedtitre4] = useState(t("product_page6")); // Default text
+    const [selectedText3, setSelectedText3] = useState(t("product_page7")); // Default text
+    const [title001, setSelectedTitle001] = useState(t("product_page8")); // Default text
+    const [title002, setSelectedTitle002] = useState(t("product_page9")); // Default text
 
     const pictures = [
         "/assets/TransparantImages/6 (1).jpg",
@@ -91,64 +89,73 @@ const ProductPage = () => {
     ];
 
 
- 
+    
 
 
     const [selectpictureso1, setSelectpictureso1] = useState(pictureso1); // Default text
     const [selectpictureso2, setSelectpictureso2] = useState(picturesoo3); // Default text
     const [pictures001, setSelectpictures001] = useState(pictures); // Default text
     const [pictures004, setSelectpictures004] = useState(ImageQcm1); // Default text
-
+    useEffect(() => {
+        setSelectedText(t("product_page1"));
+        setSelectedtitre1(t("product_page2"));
+        setSelectedtitre2(t("product_page3"));
+        setSelectedtitre3(t("product_page4"));
+        setSelectedText2(t("product_page5"));
+        setSelectedtitre4(t("product_page6"));
+        setSelectedText3(t("product_page7"));
+        setSelectedTitle001(t("product_page8"));
+        setSelectedTitle002(t("product_page9"));
+    }, [i18n.language, t]);
 
 
     // Handler for image clicks
     const handleImageClick = (index) => {
-       if(index===0){
-        setSelectedText("Nappe transparente sur mesure chez Nappe.ma")
-        setSelectedtitre1("Découvrez l'élégance discrète de nos nappes transparentes sur mesure chez nappe.ma. À première vue, elles captivent par leur clarté cristalline, évoquant la beauté d'une surface en verre sans en présenter les risques. Chaque nappe, délicatement déroulée, adhère parfaitement à votre mobilier grâce à son poids, garantissant stabilité et élégance sans effort.")
-        setSelectedtitre2("Idéale pour toute pièce de la maison, que ce soit votre table à manger, votre commode ou votre coiffeuse, notre nappe transparente transcende les attentes. Elle ne se contente pas d'ajouter une touche de sophistication ; elle offre une protection inégalée contre les rayures, les taches et l'usure quotidienne.")
-        setSelectpictureso1(pictureso1)
-        setSelectpictureso2(picturesoo3)
-        setSelectedtitre3("Aucune Tache sur Vos Tables")
-        setSelectedText2("Ne vous souciez plus de ce que vos enfants renversent sur la table à manger ni de la façon dont vous y faites face. Le film de table de 1.5 mm et 2 mm d’épaisseur protège efficacement votre belle table contre les agressions et ne laisse aucune chance aux taches. Il suffit d’essuyer le nappe transparente de la table et elle est à nouveau propre.")
-        setSelectedtitre4("Transparente")
-        setSelectedText3("Gardez la vue sur votre belle table et ne cachez pas le grain. La surface reste visible et est encore plus accentuée par la feuille haute brillance.")
-        setSelectedTitle001("Nappe transparente")
-        setSelectedTitle002("Conçu spécialement pour protéger votre table à manger.")
-        setSelectpictures001(pictures)
-        setSelectpictures004(ImageQcm1)
-    }
-       if(index===1){
-        setSelectedText("La nappe mat")
-        setSelectedtitre1("La nappe mat convient parfaitement aux tables et aux surfaces en verre extrêmement lisses. Sa surface légèrement mate ne permet pas la formation de bulles d’air.")
-        setSelectedtitre2(" Que vous placiez le film de table sur la table à manger, la commode ou la coiffeuse, il a toujours un aspect de haute qualité et protège également la surface. ")
-        setSelectpictureso1(pictureso1)
-        setSelectpictureso2(pictureso2)
-        setSelectedtitre3("Des taches sur la table ?")
-        setSelectedText2("Ne vous souciez plus de ce que vos enfants renversent sur la table à manger ni de la façon dont vous y faites face. Le film de table de 1.5 mm et 2 mm d’épaisseur protège efficacement votre belle table contre les agressions et ne laisse aucune chance aux taches. Il suffit d’essuyer le nappe transparente de la table et elle est à nouveau propre.")
-        setSelectedtitre4("Bord incliné")
-        setSelectedText3("Il est difficile de croire qu’un bord incliné sur les bords du film puisse augmenter autant le confort d’assise. Les bords durs à angle droit peuvent entraîner une coupure désagréable dans l’avant-bras. Convainquez-vous en et remarquez déjà lorsque vous mettez le film mat qu’il se pose harmonieusement sur la table.")
-        setSelectedTitle001("Nappe mat")
-        setSelectedTitle002("Conçu spécialement pour protéger votre table à manger.")
-        setSelectpictures001(pictures05)
-        setSelectpictures004(ImageQcm2)
-       }
-       if(index===2){
-        setSelectedText("Tri-Or: L'Héritage du Zelij dans votre Salon")
-        setSelectedtitre1("Dans un coin tranquille du Maroc, où l'art et la tradition se mêlent, naît une nappe unique : la nappe Tri-Or. Inspirée par le riche héritage du Zelij marocain, cette création transparente est une célébration de l'artisanat marocain, conçue pour faire rayonner la tradition dans les foyers modernes. ")
-        setSelectedtitre2(" Plus qu'un simple protecteur de table, elle sert de pont entre les traditions millénaires et l'esthétique contemporaine. Facile à nettoyer et sur mesure, elle sublime chaque salon marocain, y ajoutant une touche d'élégance discrète. ")
-        setSelectpictureso1(picturesooo3)
-        setSelectpictureso2(picturesoo4)
-        setSelectedtitre3("Praticité et Durabilité")
-        setSelectedText2("Conçue pour la vie quotidienne, cette nappe ne se contente pas d'embellir ; elle offre une protection durable et facile d'entretien pour vos tables, résistant aux taches et aux liquides tout en étant simple à nettoyer.")
-        setSelectedtitre4("Élégance et Tradition Renouvelée")
-        setSelectedText3("La nappe Tri-Or, avec ses motifs inspirés du Zelij marocain, apporte une touche d'élégance intemporelle à votre intérieur, fusionnant harmonieusement l'art ancestral marocain avec une esthétique moderne.")
-        setSelectedTitle001("Nappe Tri-or")
-        setSelectedTitle002("Conçue spécialement pour sublimer votre salon marocain.")
-        setSelectpictures001(pictures002)
-        setSelectpictures004(ImageQcm3)
-        
-       }
+        if (index === 0) {
+            setSelectedText(t("product_page1"));
+            setSelectedtitre1(t("product_page2"));
+            setSelectedtitre2(t("product_page3"));
+            setSelectedtitre3(t("product_page4"));
+            setSelectedText2(t("product_page5"));
+            setSelectedtitre4(t("product_page6"));
+            setSelectedText3(t("product_page7"));
+            setSelectedTitle001(t("product_page8"));
+            setSelectedTitle002(t("product_page9"));
+            setSelectpictureso1(pictureso1);
+            setSelectpictureso2(picturesoo3);
+            setSelectpictures001(pictures);
+            setSelectpictures004(ImageQcm1);
+        }
+        if (index === 1) {
+            setSelectedText(t("product_page10"));
+            setSelectedtitre1(t("product_page11"));
+            setSelectedtitre2(t("product_page12"));
+            setSelectedtitre3(t("product_page13"));
+            setSelectedText2(t("product_page14"));
+            setSelectedtitre4(t("product_page15"));
+            setSelectedText3(t("product_page16"));
+            setSelectedTitle001(t("product_page17"));
+            setSelectedTitle002(t("product_page18"));
+            setSelectpictureso1(pictureso1);
+            setSelectpictureso2(pictureso2);
+            setSelectpictures001(pictures05);
+            setSelectpictures004(ImageQcm2);
+        }
+        if (index === 2) {
+            setSelectedText(t("product_page19"));
+            setSelectedtitre1(t("product_page20"));
+            setSelectedtitre2(t("product_page21"));
+            setSelectedtitre3(t("product_page22"));
+            setSelectedText2(t("product_page23"));
+            setSelectedtitre4(t("product_page24"));
+            setSelectedText3(t("product_page25"));
+            setSelectedTitle001(t("product_page26"));
+            setSelectedTitle002(t("product_page27"));
+            setSelectpictureso1(picturesooo3);
+            setSelectpictureso2(picturesoo4);
+            setSelectpictures001(pictures002);
+            setSelectpictures004(ImageQcm3);
+        }
     };
 
     return (
