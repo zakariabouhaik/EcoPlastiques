@@ -1,7 +1,9 @@
 import { Box, Typography, Button } from '@mui/material';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Iconscompenent = () => {
+  const { t } = useTranslation();
 
   const Chaque = ({ image, titre, text }) => {
     return (
@@ -36,7 +38,7 @@ const Iconscompenent = () => {
   return (
     <div>
       <Typography sx={{ textAlign: 'center', marginBottom: '5%', fontSize: { xs: 24, sm: 30, md: 30 } }}>
-        Qu'est-ce qui rend notre nappe la Meilleure dans le marché
+        {t('icons_title')}
       </Typography>
 
       <Box
@@ -50,18 +52,18 @@ const Iconscompenent = () => {
       >
         <Chaque
           image="/assets/icons/icons8-protect-64.png"
-          titre="Protection"
-          text="Grâce au film de 1.5mm ou 2mm d’épaisseur, votre table est protégée contre les rayures et les dommages. Vous n’avez pas à vous soucier des taches non plus, rien ne se mettra sur la table."
+          titre={t('icons_protection_title')}
+          text={t('icons_protection_text')}
         />
         <Chaque
           image="/assets/icons/icons8-ruler-64.png"
-          titre="Découpage sur mesure"
-          text="Découpe avec des machines de haute précision et de différentes formes (table rectangulaire, carrée et ronde) selon votre demande."
+          titre={t('icons_custom_cut_title')}
+          text={t('icons_custom_cut_text')}
         />
         <Chaque
           image="/assets/icons/icons8-transparent-64.png"
-          titre="Transparent"
-          text="Gardez la vue sur votre belle table et ne cachez pas le grain. La surface reste visible et est encore plus accentuée par la feuille haute brillance."
+          titre={t('icons_transparent_title')}
+          text={t('icons_transparent_text')}
         />
       </Box>
 
@@ -77,7 +79,7 @@ const Iconscompenent = () => {
           marginBottom: '2%',
         }}
       >
-        Voir le produit
+        {t('product_button')}
       </Button>
     </div>
   );

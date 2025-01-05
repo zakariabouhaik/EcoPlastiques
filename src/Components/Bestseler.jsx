@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { styled } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 const Bestseler = () => {
     const theme = useTheme();
@@ -32,6 +33,7 @@ const Bestseler = () => {
 
       
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { t } = useTranslation();
  
   const [selectedShape, setSelectedShape] = useState(null);
   const [thickness, setThickness] = useState("1.5mm");
@@ -314,7 +316,7 @@ const Bestseler = () => {
                   color="primary"
                   onClick={() => setThickness("1.5mm")}
                 >
-                  1.5 mm
+                  1.5 {t('mm')}
                 </Button>
               </Grid2>
               <Grid2 item xs={6}>
@@ -324,7 +326,7 @@ const Bestseler = () => {
                   color="primary"
                   onClick={() => setThickness("2mm")}
                 >
-                  2 mm
+                  2 {t('mm')}
                 </Button>
               </Grid2>
             </Grid2>

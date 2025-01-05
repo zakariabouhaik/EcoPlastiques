@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from "@mui/material";
+import { useTranslation } from 'react-i18next'; 
 
 const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { t } = useTranslation();
   
   // Limiter les dimensions visuelles tout en gardant les valeurs originales pour l'affichage
   const visualLength = isMobile ? Math.min(length || 50, 20) : Math.min(length|| 100, 45);
@@ -127,7 +129,7 @@ const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
         fontSize="12"
         fill="#666"
       >
-        Longueur {length} cm
+        {t('Longueur')}: {length} {t('cm')}
       </text>
 
       <text
@@ -137,7 +139,7 @@ const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
         fontSize="12"
         fill="#666"
       >
-        Arc {arc} cm
+        {t('Arc')} {arc}: {t('cm')}
       </text>
 
     
