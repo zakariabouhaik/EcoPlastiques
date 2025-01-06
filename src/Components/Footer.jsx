@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Link, Typography,useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next'; 
 
 const Footer = () => {
   const {t} = useTranslation();
+  const isMobile = useMediaQuery('(max-width:768px)');
   return (
     <Box
       sx={{
@@ -39,8 +40,8 @@ const Footer = () => {
             src="/assets/logo/EcoPlastique-logo.png"
             alt="EcoPlastique logo"
             sx={{
-              width: { xs: '30%', sm: '15%' },
-              maxWidth: '150px',
+              width: isMobile ? "60%" :"20%" ,
+              marginRight:2,
               height: 'auto',
               objectFit: 'cover',
             }}

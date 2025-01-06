@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,forwardRef } from "react";
 import { Typography, Grid2, Box, useTheme, useMediaQuery, TextField, Button } from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { styled } from '@mui/material/styles';
@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { fr, ar } from 'date-fns/locale';
 
-const ProductPresentation = ({ title, text, pictures, pictures09, onImageClick }) => {
+const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onImageClick,initialIndex },ref) => {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const [showMessage, setShowMessage] = useState(true);
@@ -252,7 +252,7 @@ const handleDimensionChange = (field, value) => {
       if (diametre) {
         const area = Math.PI * Math.pow(diametre/2, 2) * 0.0001; // en m²
         setShowMessage(false);
-        setPrixTotal(area * 215 + 50);
+        setPrixTotal(Math.floor(area * 215 + 50));
       } else {
         setShowMessage(true);
         setPrixTotal(0);
@@ -265,7 +265,7 @@ const handleDimensionChange = (field, value) => {
       if (longueurOcta && arcOcta) {
         const areaOcta = longueurOcta * longueurOcta * 0.0001; // Simplification pour l'exemple
         setShowMessage(false);
-        setPrixTotal(areaOcta * 215 + 50);
+        setPrixTotal(Math.floor(areaOcta * 215 + 50));
       } else {
         setShowMessage(true);
         setPrixTotal(0);
@@ -280,7 +280,7 @@ const handleDimensionChange = (field, value) => {
       const largeur = field === "largeur" ? newValue : dimensions.largeur;
       if (longueur && largeur) {
         setShowMessage(false);
-        setPrixTotal(longueur * 0.01 * largeur * 0.01 * 215 + 50);
+        setPrixTotal(Math.floor(longueur * 0.01 * largeur * 0.01 * 215 + 50));
       } else {
         setShowMessage(true);
         setPrixTotal(0);
@@ -693,23 +693,24 @@ const renderDimensionFields = () => {
 
 
   // Add state for current picture index
-  const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
 
   // Navigation functions
   const goToNextPicture = () => {
     setCurrentPictureIndex((prevIndex) =>
       prevIndex === pictures.length - 1 ? 0 : prevIndex + 1
     );
+    setMainPicture(pictures[currentPictureIndex === pictures.length - 1 ? 0 : currentPictureIndex + 1]);
+    // Ne pas modifier setSelectedGalleryImage ici
   };
 
   const goToPreviousPicture = () => {
     setCurrentPictureIndex((prevIndex) =>
       prevIndex === 0 ? pictures.length - 1 : prevIndex - 1
     );
+    setMainPicture(pictures[currentPictureIndex === 0 ? pictures.length - 1 : currentPictureIndex - 1]);
+    // Ne pas modifier setSelectedGalleryImage ici
   };
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'MAD' }).format(price);
-  };
+
 
   // Navigation button styles
   const NavigationButton = styled(Button)({
@@ -740,7 +741,7 @@ const renderDimensionFields = () => {
         <Box sx={{ position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
           <Box
             component="img"
-            src={pictures[currentPictureIndex]}
+            src={mainPicture || pictures[currentPictureIndex]}
             alt="Main Product"
             sx={{
               width: "100%",
@@ -750,13 +751,15 @@ const renderDimensionFields = () => {
             }}
           />
           <NavigationButton
-            onClick={goToPreviousPicture}
+             
+             onClick={goToPreviousPicture}
             sx={{ left: -24 }}
           >
             <ChevronLeft />
           </NavigationButton>
           <NavigationButton
-            onClick={goToNextPicture}
+                     onClick={goToNextPicture}
+
             sx={{ right: -24 }}
           >
             <ChevronRight />
@@ -765,16 +768,22 @@ const renderDimensionFields = () => {
       )}
     </Box>
   );
-
+  const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
+  const [selectedGalleryImage, setSelectedGalleryImage] = useState(pictures09[initialIndex || 0]);
   const [mainPicture, setMainPicture] = useState(pictures[0]);
 
-  const handlePictureClick = (picture) => {
-    setMainPicture(picture);
-  };
-
+const handlePictureClick = (picture, index) => {
+  setMainPicture(picture);
+  setSelectedGalleryImage(picture); // Mise à jour de l'image sélectionnée dans la galerie
+  if (onImageClick) {
+    onImageClick(index);
+  }
+};
 
   return (
-    <Box sx={{
+    <Box 
+    id="product-presentation"
+    sx={{
       display: 'flex',
       flexDirection: { xs: 'column', md: 'row' },
       gap: '20px',
@@ -806,13 +815,7 @@ const renderDimensionFields = () => {
 
                   color="#9BC953"
                 />
-              ) : /* selectedShape === 2 ? (
-                <OvaldynamicSvg
-                  width={dimensions.longueur || 80}
-                  height={dimensions.largeur || 40}
-                  color="#9BC953"
-                />
-              ) :*/ selectedShape === 1 ? (
+              ) : selectedShape === 1 ? (
                 <OctaShapeSVG 
                 length={dimensions.longueur   } 
                 arc={dimensions.arc } 
@@ -823,7 +826,7 @@ const renderDimensionFields = () => {
                       height={dimensions.longueur}
                      width={dimensions.largeur}
                      radius={dimensions.arc}
-  color="#9BC953" 
+                  color="#9BC953" 
 />
             ) :selectedShape === 4 ? (
 <RectangleACoinCarres 
@@ -862,16 +865,13 @@ const renderDimensionFields = () => {
                   component="img"
                   src={picture}
                   alt={`Thumbnail ${index}`}
-                  onClick={() => {
-                    handlePictureClick(picture);
-                    onImageClick(index); // Add this line to handle the text change
-                  }}
+                  onClick={() => handlePictureClick(picture, index)}
                   sx={{
                     width: "100%",
                     maxWidth: "90px",
                     height: "auto",
                     cursor: "pointer",
-                    border: picture === mainPicture ? "2px solid #007BFF" : "1px solid #ddd",
+                    border: picture === selectedGalleryImage  ? "2px solid #007BFF" : "1px solid #ddd",
                     borderRadius: "4px",
                     padding: "2px",
                   }}
@@ -1222,17 +1222,7 @@ const renderDimensionFields = () => {
             sx={{ marginBottom: 2, "& .MuiInputLabel-root": { textAlign: isArabic ? "right" : "left", right: isArabic ? 0 : 'auto', left: isArabic ? 'auto' : 0 } }}
           />
         </Grid2>
-        <Grid2 item xs={12}>
-          <TextField
-            label={t('product_presentation_promo_code')}
-            variant="standard"
-            fullWidth
-            value={formData.promoCode}
-            onChange={(e) => handleFormChange("promoCode", e.target.value)}
-            required
-            sx={{ marginBottom: 2, "& .MuiInputLabel-root": { textAlign: isArabic ? "right" : "left", right: isArabic ? 0 : 'auto', left: isArabic ? 'auto' : 0 } }}
-          />
-        </Grid2>
+ 
       </Grid2>
 
       <Button
@@ -1261,6 +1251,6 @@ const renderDimensionFields = () => {
       </Box>
     </Box>
   );
-};
+});
 
 export default ProductPresentation;

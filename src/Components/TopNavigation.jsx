@@ -7,6 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../Translation/language-selector';
 
+
+
 const Header = () => {
   const isMobile = useMediaQuery('(max-width:768px)');
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -55,7 +57,7 @@ const Header = () => {
           px: 2,
           mx: { xs: 0.5, md: 2 },
           borderRadius: 2,
-          height: 50,
+          height: 40,
         }}
       >
         <Icon sx={{ mb: 1, mr: 1, fontSize: { xs: 20, md: 30 } }} />
@@ -63,7 +65,7 @@ const Header = () => {
           variant="h6"
           align="center"
           color="inherit"
-          sx={{ fontSize: { xs: 12, sm: 16, md: 18 } }}
+          sx={{ fontSize: {  xs: 12, sm: 16, md: 18 }, marginRight:1}}
         >
           {text}
         </Typography>
@@ -138,6 +140,7 @@ const Header = () => {
         <Box
           sx={{
             width: '100%',
+            height:70,
             maxWidth: '1200px',
             display: 'flex',
             alignItems: 'center',
@@ -150,10 +153,12 @@ const Header = () => {
             src="/assets/logo/EcoPlastique-logo.png"
             alt="EcoPlastique logo"
             style={{
-              width: '15%',
-              maxWidth: 150,
+              width: isMobile ? '50%' : '30%' ,
               objectFit: 'cover',
+              cursor: 'pointer' 
+                
             }}
+            onClick={() => window.location.href = '/'}
           />
 
           {/* Menu complet pour les grands écrans */}

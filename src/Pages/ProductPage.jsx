@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect,forwardRef, useRef} from 'react';
 import TopNavigation from '../Components/TopNavigation';
 import ProductPresentation from '../Components/ProductPresentation';
 import Bestseler from '../Components/Bestseler';
@@ -7,9 +7,13 @@ import Theendofthepage from '../Components/Theendofthepage';
 import Footer from '../Components/Footer';
 import Qcmpluspic from '../Components/Qcmpluspic';
 import { Box } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+
 import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
+    const productPresentationRef = useRef(null);
+
     const {t, i18n} = useTranslation();
     const [selectedText, setSelectedText] = useState(t("product_page1")); // Default text
     const [selectedtitre1, setSelectedtitre1] = useState(t("product_page2")); // Default text
@@ -20,6 +24,10 @@ const ProductPage = () => {
     const [selectedText3, setSelectedText3] = useState(t("product_page7")); // Default text
     const [title001, setSelectedTitle001] = useState(t("product_page8")); // Default text
     const [title002, setSelectedTitle002] = useState(t("product_page9")); // Default text
+
+    const location = useLocation();
+  const selectedIndex = location.state?.selectedIndex ?? 0;
+
 
     const pictures = [
         "/assets/TransparantImages/6 (1).jpg",
@@ -53,6 +61,10 @@ const ProductPage = () => {
         "/assets/TransparantImages/nappe-mat-2.png",
         "/assets/TransparantImages/11.png",
     ];
+
+    useEffect(() => {
+        handleImageClick(location.state?.selectedIndex ?? 0);
+    }, [location.state?.selectedIndex]);
 
     const pictures05 = [
         "/assets/MAT/nappe-mat-1.png",
@@ -170,6 +182,7 @@ const ProductPage = () => {
         >
             <TopNavigation />
             <ProductPresentation
+            ref={productPresentationRef}
                 title={title001}
                 text={title002}
                 pictures={pictures001}
@@ -177,6 +190,7 @@ const ProductPage = () => {
                 onImageClick={handleImageClick} // Pass the handler to ProductPresentation
             />
             <Theendofthepage
+            ref={productPresentationRef}  
                 text={selectedText} // Use the selected text
                 titre1={selectedtitre1}
                 titre2={selectedtitre2}
@@ -188,6 +202,7 @@ const ProductPage = () => {
                 text3={selectedText3}
             />
             <Qcmpluspic 
+             ref={productPresentationRef}  
                 image={pictures004}
             />
             <Footer />

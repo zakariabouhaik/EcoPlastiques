@@ -1,10 +1,13 @@
 import React from "react";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button,useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const Textimage = () => {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
+  const isMobile = useMediaQuery('(max-width:768px)');
+  const navigate = useNavigate(); // Initialisation correcte de navigate
 
   return (
     <Box
@@ -17,7 +20,7 @@ const Textimage = () => {
       }}
     >
       <Typography
-        variant="h4"
+        variant={isMobile ? "h4" : "h2"}
         sx={{
           fontWeight: "bold",
           color: "black",
@@ -26,7 +29,7 @@ const Textimage = () => {
         {t("text_image1")}
       </Typography>
       <Typography
-        variant="h5"
+        variant={isMobile ? "h5" : "h4"}
         sx={{
           color: "#007bff",
           marginTop: "10px",
@@ -36,7 +39,7 @@ const Textimage = () => {
         {t("text_image2")}
       </Typography>
       <Typography
-        variant="body1"
+        variant= {isMobile ? "h6" : "h5"}
         sx={{
           marginTop: "20px",
           lineHeight: "1.6",
@@ -52,7 +55,8 @@ const Textimage = () => {
           backgroundColor: "#9BC953", // Couleur jaune
           color: "#000",
           fontWeight: "bold",
-          borderRadius: "20px",
+         borderRadius: 6,
+         fontSize:isMobile?16:28,
           marginTop:'5%',
           color:'white',
           padding: "10px 20px",
@@ -61,6 +65,10 @@ const Textimage = () => {
             backgroundColor: "#9BC953", // Couleur au survol
           },
         }}
+        onClick={() => {
+  console.log('Navigation vers ProductPage');
+  navigate("/productpage");
+}}
       >
         {t("text_image4")}
       </Button>

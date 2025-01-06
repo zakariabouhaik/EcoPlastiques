@@ -1,10 +1,13 @@
 import React from 'react'
-import { Box,Button,Typography } from "@mui/material";
+import { Box,Button,Typography,useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const TextZwintwo = () => {
+  const navigate = useNavigate(); // Initialisation correcte de navigate
+
     const { t } = useTranslation();
-  
+    const isMobile = useMediaQuery('(max-width:768px)');
     return (
         <Box
           sx={{
@@ -18,7 +21,7 @@ const TextZwintwo = () => {
           }}
         >
           <Typography
-            variant="h4"
+           variant={isMobile ? "h4" : "h2"}
             sx={{
               fontWeight: "bold",
               marginBottom: "20px",
@@ -29,7 +32,8 @@ const TextZwintwo = () => {
             {t("textZwintwo_title")}
           </Typography>
           <Typography
-            variant="body1"
+           variant= {isMobile ? "body1" : "h6"}
+           
             sx={{
               lineHeight: "1.8",
               color: 'black',
@@ -44,6 +48,7 @@ const TextZwintwo = () => {
           backgroundColor: "#9BC953", // Couleur jaune
           color: "#000",
           fontWeight: "bold",
+          fontSize:isMobile?16:28,
           borderRadius: "20px",
           marginTop:"6%",
           padding: "10px 20px",
@@ -53,6 +58,7 @@ const TextZwintwo = () => {
             backgroundColor: "#9BC953", // Couleur au survol
           },
         }}
+        onClick={() => navigate("/Productpage")} 
       >
         {t("twin_two2")}
       </Button>

@@ -1,9 +1,12 @@
-import { Box, Typography, Button } from '@mui/material';
 import React from 'react';
+import { Box, Typography, Button,useMediaQuery } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const Iconscompenent = () => {
   const { t } = useTranslation();
+  const isMobile = useMediaQuery('(max-width:768px)');
+  const navigate = useNavigate(); // Initialisation correcte de navigate
 
   const Chaque = ({ image, titre, text }) => {
     return (
@@ -17,17 +20,17 @@ const Iconscompenent = () => {
         <img
           src={image}
           style={{
-            width: 'auto',
+            width: 100,
             height: 'auto',
             objectFit: 'cover',
-            maxHeight: '250px', // Limite la hauteur pour les petits écrans
+            
           }}
         />
         <Box sx={{ margin: 3 }}>
-          <Typography sx={{ margin: 1, fontSize: { xs: '16px', sm: '18px', md: '20px' } }}>
+          <Typography sx={{ margin: 1, fontSize:isMobile?20:28 ,fontWeight: "bold", color: "black"}}>
             {titre}
           </Typography>
-          <Typography sx={{ textAlign: 'center', fontSize: { xs: '14px', sm: '16px', md: '18px' } }}>
+          <Typography sx={{ textAlign: 'center',fontSize:isMobile?16:28 }}>
             {text}
           </Typography>
         </Box>
@@ -70,7 +73,9 @@ const Iconscompenent = () => {
       <Button
         sx={{
           bgcolor: '#9BC953',
-          borderRadius: 3,
+          borderRadius: 6,
+          padding:"10px 20px",
+          fontSize:isMobile?16:28,
           color: 'white',
           margin: 1,
           justifySelf: 'center',
@@ -78,6 +83,10 @@ const Iconscompenent = () => {
           marginTop: '2%',
           marginBottom: '2%',
         }}
+        onClick={() => {
+  console.log('Navigation vers ProductPage');
+  navigate("/productpage");
+}}
       >
         {t('product_button')}
       </Button>

@@ -7,20 +7,22 @@ const language =[
 ]
 
 const LanguageSelector = () => {
-    const { i18n } = useTranslation();
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
-        localStorage.setItem("language", lng); // Save language in localStorage
-    };
+  const { i18n } = useTranslation();
 
-    useEffect(() => {
-        const savedLanguage = localStorage.getItem("language");
-        if (i18n.language !== savedLanguage) {
-          i18n.changeLanguage(savedLanguage); // Restore saved language
-          document.body.dir = i18n.dir(); // Ensure correct directionality
-        }
-      }, [i18n]);
-    
-      return null; 
-}
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("language");
+    if (savedLanguage && i18n.language !== savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+      document.body.dir = savedLanguage === 'ar' ? 'rtl' : 'ltr';
+    }
+  }, []); // Dépendance vide pour ne s'exécuter qu'au montage
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("language", lng);
+    document.body.dir = lng === 'ar' ? 'rtl' : 'ltr';
+  };
+
+  return null;
+};
 export default LanguageSelector;

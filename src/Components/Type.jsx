@@ -1,15 +1,27 @@
 import React from 'react'; 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography,useMediaQuery,useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
 
 const Type = () => {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
 
-  const Blan = ({ image, titre, text }) => {
+
+  const handleNavigation = (index) => {
+    navigate('/Productpage', { state: { selectedIndex: index } });
+  };
+
+
+  const Blan = ({ image, titre, text,onClick  }) => {
     return (
       <Box
         sx={{
           border: '1px solid black',
+          height:'100%',
           borderRadius: 4,
           boxShadow: '1px 3px 6px rgb(104, 114, 115)',
           width: { xs: '100%', sm: '48%', md: '30%' }, // Largeur responsive
@@ -23,9 +35,9 @@ const Type = () => {
           alt={titre}
           style={{
             width: '100%',
-            height: 'auto',
+            height: isMobile?'60%':'80%',
             objectFit: 'cover',
-            maxHeight: '250px', // Limite la hauteur pour éviter que l'image soit trop grande
+             
           }}
         />
         <Box sx={{ padding: 2 }}>
@@ -52,11 +64,13 @@ const Type = () => {
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
+             onClick={onClick}
               sx={{
                 bgcolor: '#9BC953',
-                borderRadius: 3,
-                color: 'white',
-                padding: '8px 16px',
+                borderRadius: 6,
+                color: 'white',  
+                padding:"10px 20px",
+                fontSize:isMobile?16:24,
                 textTransform: 'none', // Empêche la transformation en majuscules
                 '&:hover': {
                   bgcolor: '#7ea941',
@@ -76,8 +90,11 @@ const Type = () => {
       <Typography
         sx={{
           textAlign: 'center',
-          fontSize: { xs: 24, sm: 32, md: 40 }, // Taille de la police responsive
-          marginBottom: 4,
+         fontSize:isMobile?30:65 , // Taille de la police responsive
+           
+          color: "black",
+          marginBottom: 1,
+          marginTop:3
         }}
       >
         {t('tablecloths_title')}
@@ -96,16 +113,21 @@ const Type = () => {
           image="/assets/Typepic/12.png"
           titre={t('tablecloth_tri_or_title')}
           text={t('tablecloth_tri_or_text')}
+          onClick={() => handleNavigation(2)}
         />
         <Blan
           image="/assets/Typepic/3.jpg"
           titre={t('tablecloth_transparent_title')}
           text={t('tablecloth_transparent_text')}
+          onClick={() => handleNavigation(0)}
+
         />
         <Blan
           image="/assets/Typepic/nappe-mat-1.jpg"
           titre={t('tablecloth_mat_title')}
           text={t('tablecloth_mat_text')}
+          onClick={() => handleNavigation(1)}
+
         />
       </Box>
     </div>

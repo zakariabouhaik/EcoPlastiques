@@ -1,10 +1,10 @@
-import React from 'react';
+import React,{forwardRef } from 'react';
 import { Typography, Box, Button } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTranslation } from 'react-i18next';
 
-const Theendofthepage = ({
+const Theendofthepage = forwardRef(({
   text,
   titre1,
   titre2,
@@ -14,7 +14,7 @@ const Theendofthepage = ({
   text2,
   titre4,
   text3
-}) => {
+}, ref) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -177,15 +177,23 @@ const Theendofthepage = ({
         <Box sx={{ marginTop: "3%" }}>
           <Button
             variant="contained"
+
+            onClick={() => {
+    const productPresentationElement = document.getElementById('product-presentation');
+    if (productPresentationElement) {
+      productPresentationElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }}
+
             sx={{
               backgroundColor: "#9BC953",
               color: "white",
               fontWeight: "bold",
               borderRadius: "20px",
-              padding: isMobile ? "8px 20px" : "12px 30px",
-              fontSize: isMobile ? "0.9rem" : "1rem",
+              padding: isMobile ? "8px 40px" : "20px 45px",
+              fontSize: isMobile ? "0.9rem" : "1.4rem",
               textTransform: "none",
-              margin: '1%',
+               
               "&:hover": {
                 backgroundColor: "#7CA43B",
               },
@@ -197,6 +205,6 @@ const Theendofthepage = ({
       </Box>
     </Box>
   );
-};
+});
 
 export default Theendofthepage;

@@ -1,9 +1,9 @@
-import React, { useState} from 'react';
+import React, { useState,forwardRef} from 'react';
 import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from 'react-i18next';
 
-const ProductInfo = () => {
+const ProductInfo =forwardRef( () => {
   const { t } = useTranslation();
 
   const sections = [
@@ -94,6 +94,14 @@ const ProductInfo = () => {
 
       <Button
         variant="contained"
+
+        onClick={() => {
+    const productPresentationElement = document.getElementById('product-presentation');
+    if (productPresentationElement) {
+      productPresentationElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }}
+
         sx={{
           backgroundColor: "#9BC953",
           color: "white",
@@ -101,6 +109,9 @@ const ProductInfo = () => {
           borderRadius: "20px",
           padding: "12px 20px",
           textTransform: "none",
+          whiteSpace: 'nowrap', // Force le texte sur une seule ligne
+      minWidth: 'fit-content', // Assure que le bouton s'adapte au contenu
+      display: 'inline-block',
           margin: '1%',
           "&:hover": {
             backgroundColor: "#7CA43B",
@@ -111,5 +122,5 @@ const ProductInfo = () => {
       </Button>
     </div>
   );
-};
+});
 export default ProductInfo;
