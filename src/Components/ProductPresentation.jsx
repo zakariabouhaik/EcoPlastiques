@@ -770,7 +770,7 @@ const renderDimensionFields = () => {
   );
   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(pictures09[initialIndex || 0]);
-  const [mainPicture, setMainPicture] = useState(pictures[0]);
+  const [mainPicture, setMainPicture] = useState(pictures09[initialIndex||0]);
 
 const handlePictureClick = (picture, index) => {
   setMainPicture(picture);

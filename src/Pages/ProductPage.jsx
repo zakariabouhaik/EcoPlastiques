@@ -12,6 +12,11 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    
     const productPresentationRef = useRef(null);
     const location = useLocation();
 
