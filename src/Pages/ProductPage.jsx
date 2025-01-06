@@ -13,19 +13,20 @@ import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
     const productPresentationRef = useRef(null);
+    const location = useLocation();
 
     const {t, i18n} = useTranslation();
-    const [selectedText, setSelectedText] = useState(t("product_page1")); // Default text
-    const [selectedtitre1, setSelectedtitre1] = useState(t("product_page2")); // Default text
-    const [selectedtitre2, setSelectedtitre2] = useState(t("product_page3")); // Default text
-    const [selectedtitre3, setSelectedtitre3] = useState(t("product_page4")); // Default text
-    const [selectedText2, setSelectedText2] = useState(t("product_page5")); // Default text
-    const [selectedtitre4, setSelectedtitre4] = useState(t("product_page6")); // Default text
-    const [selectedText3, setSelectedText3] = useState(t("product_page7")); // Default text
-    const [title001, setSelectedTitle001] = useState(t("product_page8")); // Default text
-    const [title002, setSelectedTitle002] = useState(t("product_page9")); // Default text
 
-    const location = useLocation();
+    const [selectedText, setSelectedText] = useState('');
+    const [selectedtitre1, setSelectedtitre1] = useState('');
+    const [selectedtitre2, setSelectedtitre2] = useState('');
+    const [selectedtitre3, setSelectedtitre3] = useState('');
+    const [selectedText2, setSelectedText2] = useState('');
+    const [selectedtitre4, setSelectedtitre4] = useState('');
+    const [selectedText3, setSelectedText3] = useState('');
+    const [title001, setSelectedTitle001] = useState('');
+    const [title002, setSelectedTitle002] = useState('');
+   
   const selectedIndex = location.state?.selectedIndex ?? 0;
 
 
@@ -63,8 +64,9 @@ const ProductPage = () => {
     ];
 
     useEffect(() => {
-        handleImageClick(location.state?.selectedIndex ?? 0);
-    }, [location.state?.selectedIndex]);
+        const selectedIndex = location.state?.selectedIndex ?? 0;
+        handleImageClick(selectedIndex);
+    },[location.state?.selectedIndex, i18n.language]);
 
     const pictures05 = [
         "/assets/MAT/nappe-mat-1.png",
@@ -108,18 +110,7 @@ const ProductPage = () => {
     const [selectpictureso2, setSelectpictureso2] = useState(picturesoo3); // Default text
     const [pictures001, setSelectpictures001] = useState(pictures); // Default text
     const [pictures004, setSelectpictures004] = useState(ImageQcm1); // Default text
-    useEffect(() => {
-        setSelectedText(t("product_page1"));
-        setSelectedtitre1(t("product_page2"));
-        setSelectedtitre2(t("product_page3"));
-        setSelectedtitre3(t("product_page4"));
-        setSelectedText2(t("product_page5"));
-        setSelectedtitre4(t("product_page6"));
-        setSelectedText3(t("product_page7"));
-        setSelectedTitle001(t("product_page8"));
-        setSelectedTitle002(t("product_page9"));
-    }, [i18n.language, t]);
-
+   
 
     // Handler for image clicks
     const handleImageClick = (index) => {
@@ -188,6 +179,7 @@ const ProductPage = () => {
                 pictures={pictures001}
                 pictures09={pictures09}
                 onImageClick={handleImageClick} // Pass the handler to ProductPresentation
+                initialIndex={location.state?.selectedIndex ?? 0}
             />
             <Theendofthepage
             ref={productPresentationRef}  
