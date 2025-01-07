@@ -21,7 +21,7 @@ const HomePage = () => {
       <Iconscompenent/>
       <ComponentimagePlusText/>
       <Textzwin/>
-      <Twin/>
+       
       <Footer/>
   
 
