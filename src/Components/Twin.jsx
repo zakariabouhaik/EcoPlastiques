@@ -14,7 +14,7 @@ const Twin = () => {
       {/* Background Image */}
       <Box
         component="img"
-        src="/assets/ImageComponent/xxa.jpg"
+        src="/assets/ImageComponent/fast-clean.png"
         sx={{
           width: "100%", // Full width
           height: { xs: "950px", sm: "650px", md: "900px" }, // Adjust height for different screen sizes
