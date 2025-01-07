@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box, Typography, Button,useMediaQuery } from '@mui/material';
+import { Box, Typography, Button, useMediaQuery } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const Iconscompenent = () => {
   const { t } = useTranslation();
   const isMobile = useMediaQuery('(max-width:768px)');
-  const navigate = useNavigate(); // Initialisation correcte de navigate
+  const navigate = useNavigate();
 
   const Chaque = ({ image, titre, text }) => {
     return (
@@ -14,7 +14,7 @@ const Iconscompenent = () => {
         sx={{
           textAlign: 'center',
           marginBottom: { xs: 3, sm: 2, md: 2 },
-          width: { xs: '100%', sm: '48%', md: '30%' }, // Responsive width
+          width: { xs: '100%', sm: '48%', md: '30%' },
         }}
       >
         <img
@@ -23,14 +23,13 @@ const Iconscompenent = () => {
             width: 100,
             height: 'auto',
             objectFit: 'cover',
-            
           }}
         />
         <Box sx={{ margin: 3 }}>
-          <Typography sx={{ margin: 1, fontSize:isMobile?20:28 ,fontWeight: "bold", color: "black"}}>
+          <Typography sx={{ margin: 1, fontSize: isMobile ? 20 : 28, fontWeight: "bold", color: "black" }}>
             {titre}
           </Typography>
-          <Typography sx={{ textAlign: 'center',fontSize:isMobile?16:28 }}>
+          <Typography sx={{ textAlign: 'center', fontSize: isMobile ? 16 : 28 }}>
             {text}
           </Typography>
         </Box>
@@ -47,10 +46,10 @@ const Iconscompenent = () => {
       <Box
         sx={{
           display: 'flex',
-          flexWrap: 'wrap', // Permet l'empilement des éléments sur petits écrans
+          flexWrap: 'wrap',
           justifyContent: 'space-between',
-          gap: 2, // Espacement entre les éléments
-          padding: { xs: 2, sm: 4, md: 4 }, // Padding responsive
+          gap: 2,
+          padding: { xs: 2, sm: 4, md: 4 },
         }}
       >
         <Chaque
@@ -70,26 +69,32 @@ const Iconscompenent = () => {
         />
       </Box>
 
-      <Button
+      {/* Container pour centrer le bouton */}
+      <Box 
         sx={{
-          bgcolor: '#9BC953',
-          borderRadius: 6,
-          padding:"10px 20px",
-          fontSize:isMobile?16:28,
-          color: 'white',
-          margin: 1,
-          justifySelf: 'center',
           display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
           marginTop: '2%',
           marginBottom: '2%',
         }}
-        onClick={() => {
-  console.log('Navigation vers ProductPage');
-  navigate("/productpage");
-}}
       >
-        {t('product_button')}
-      </Button>
+        <Button
+          sx={{
+            bgcolor: '#9BC953',
+            borderRadius: 6,
+            padding: "10px 20px",
+            fontSize: isMobile ? 16 : 28,
+            color: 'white',
+          }}
+          onClick={() => {
+            console.log('Navigation vers ProductPage');
+            navigate("/productpage");
+          }}
+        >
+          {t('product_button')}
+        </Button>
+      </Box>
     </div>
   );
 };
