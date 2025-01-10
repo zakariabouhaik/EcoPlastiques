@@ -49,7 +49,7 @@ const Header = () => {
 
 
   const TopNavigation = () => {
-    const NavigationItem = ({ icon: Icon, text,link }) => (
+    const NavigationItem = ({ icon: Icon, text, link }) => (
       <Box
         sx={{
           display: 'flex',
@@ -57,40 +57,50 @@ const Header = () => {
           justifyContent: 'center',
           color: 'white',
           py: 0.2,
-          px: 2,
-          mx: { xs: 0.5, md: 2 },
+          px: { xs: 2, md: 2 },
+          mx: { xs: 1.5, md: 2 },
           borderRadius: 2,
-          height: 40,
+          height: 30,
           cursor: 'pointer',
         }}
         onClick={() => handleNavigation(link)}
       >
-        <Icon sx={{ mb: 1, mr: 1, fontSize: { xs: 20, md: 30 } }} />
+        <Icon sx={{ mr: 1,marginLeft:1, fontSize: { xs: 20, md: 24 } }} />
         <Typography
           variant="h6"
           align="center"
           color="inherit"
-          sx={{ fontSize: { xs: 12, sm: 16, md: 18 }, marginRight: 1 }}
+          sx={{ 
+            fontSize: { xs: 15, sm: 14, md: 16 }, 
+            whiteSpace: 'nowrap' 
+          }}
         >
           {text}
         </Typography>
       </Box>
     );
-
+  
     return (
-      <Box sx={{ bgcolor: '#687273', width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ 
+        bgcolor: '#9BC953', 
+        width: '100%', 
+        display: 'flex', 
+        justifyContent: 'center',
+        py: 1
+      }}>
         <Box
           sx={{
             width: '100%',
             maxWidth: '1200px',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: { xs: 'space-around', md: 'center' },
             alignItems: 'center',
-            flexWrap: 'wrap',
-            padding: '0 24px',
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+            px: { xs: 1, md: 3 }
           }}
         >
-         <NavigationItem icon={LocalShippingIcon} text={addSpaceForArabic(t('text1'))} link="/" />
+          <NavigationItem icon={LocalShippingIcon} text={addSpaceForArabic(t('text1'))} link="/" />
           <NavigationItem icon={StraightenIcon} text={addSpaceForArabic(t('text2'))} link="/about" />
           {!isMobile && (
             <NavigationItem icon={StarIcon} text={addSpaceForArabic(t('text3'))} link="/features" />
@@ -99,7 +109,6 @@ const Header = () => {
       </Box>
     );
   };
-
   const NavigationItem = ({ text,link  }) => (
     <Box
       sx={{
@@ -152,48 +161,79 @@ const Header = () => {
         <Box
           sx={{
             width: '100%',
-            height: 100,
-            maxWidth: '1200px',
+            height: 80,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            margin: '0 auto',
+             position: 'relative',
           }}
         >
           {/* Logo */}
           <img
-            src="/assets/logo/EcoPlastique-logo.png"
-            alt="EcoPlastique logo"
-            style={{
-              width: isMobile ? '50%' : '30%',
-              objectFit: 'cover',
-              cursor: 'pointer',
-              margin: isMobile ? 0 : -120,
-            }}
-            onClick={() => (window.location.href = '/')}
+  src="/assets/logo/EcoPlastique-logo.png"
+  alt="EcoPlastique logo"
+  style={{
+    width: isMobile ? '40%' : '20%',
+    objectFit: 'cover',
+    cursor: 'pointer',
+    margin: isMobile ? '0 auto' : '0 0 0 20px', 
+    display: 'block'
+  }}
+  onClick={() => {
+            console.log('Navigation vers ProductPage');
+            navigate("/");
+          }}
           />
 
+
+          <Button
+  sx={{
+    display: { xs: 'block', md: 'none' },
+    position: { xs: 'absolute', md: 'static' },
+    right: { xs: '16px', md: 'auto' },
+    border: '1px solid black',
+    color: 'black',
+    padding: '4px 12px',
+    minWidth: '40px',
+    '&:hover': {
+      bgcolor: '#f5f5f5',
+      borderColor: '#666',
+    },
+  }}
+  onClick={toggleLanguage}
+>
+  {t('Language')}
+</Button>
+
           {/* Menu for larger screens */}
-          <Box
+       <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
               justifyContent: 'center',
               alignItems: 'center',
-              gap: { md: 4 },
+              gap: 10,
+              position: 'absolute',
+              left: '49%',
+              transform: 'translateX(-50%)'
             }}
           >
             {MenuItems.slice(0, 3).map((item, index) => (
               <NavigationItem key={index} text={item.text} link={item.link} />
             ))}
           </Box>
-
-          {/* Language button for larger screens */}
+ 
+          {/* Language Button - Modified for all screen sizes */}
           <Button
             sx={{
-              display: { xs: 'none', md: 'block' },
+              display: { xs: 'none', md: 'block' }, // Hide on mobile, show on desktop
+              position: { xs: 'absolute', md: 'static' },
+              right: { xs: '16px', md: 'auto' },
               border: '1px solid black',
               color: 'black',
-              mt: { xs: 1, sm: 0 },
+              padding: '4px 12px',
+              minWidth: '40px',
+             marginRight:10,
+             marginLeft:5,
               '&:hover': {
                 bgcolor: '#f5f5f5',
                 borderColor: '#666',
@@ -208,6 +248,8 @@ const Header = () => {
           <IconButton
             sx={{
               display: { xs: 'block', md: 'none' },
+              position: { xs: 'absolute', md: 'static' },
+              left: { xs: '16px', md: 'auto' }
             }}
             onClick={toggleMenu}
           >
@@ -253,35 +295,7 @@ const Header = () => {
                   />
                 </ListItem>
               ))}
-              <ListItem
-                button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleLanguage();
-                  toggleMenu();
-                }}
-                sx={{
-                  borderBottom: '1px solid #eee',
-                  py: 1,
-                  border: '1px solid black',
-                  borderRadius: '34px',
-                  '&:hover': {
-                    bgcolor: '#f5f5f5',
-                    borderColor: '#666',
-                  },
-                }}
-              >
-                <ListItemText
-                  primary={t('Language')}
-                  sx={{
-                    textAlign: 'center',
-                    '& .MuiTypography-root': {
-                      fontSize: '1rem',
-                      fontWeight: 'bold',
-                    },
-                  }}
-                />
-              </ListItem>
+              
             </List>
           </Box>
         </Collapse>

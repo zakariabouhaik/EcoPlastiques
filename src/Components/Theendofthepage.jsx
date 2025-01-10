@@ -38,7 +38,7 @@ const Theendofthepage = forwardRef(({
           width: {
             xs: '90%', // Mobile
             sm: '70%', // Tablet
-            md: '40%'  // Desktop
+            md: '70%'  // Desktop
           },
           display: "flex",
           flexDirection: "column",
@@ -139,8 +139,8 @@ const Theendofthepage = forwardRef(({
                   <Typography 
                     variant={isMobile ? "subtitle1" : "h6"}
                     sx={{
-                      marginBottom: "3px",
-                      marginTop: "10%",
+                      marginBottom: "2%",
+                      marginTop: "2%",
                       textAlign: isMobile ? "center" : "left",
                     }}
                   >
@@ -158,8 +158,8 @@ const Theendofthepage = forwardRef(({
                   <Typography 
                     variant={isMobile ? "subtitle1" : "h6"}
                     sx={{
-                      marginBottom: "3px",
-                      marginTop: "10%",
+                      marginBottom: "2%",
+                      marginTop: "2%",
                       textAlign: isMobile ? "center" : "left"
                     }}
                   >
@@ -174,9 +174,9 @@ const Theendofthepage = forwardRef(({
           ))}
         </Box>
 
-        <Box sx={{ marginTop: "3%" }}>
+        <Box sx={{ marginTop: "1%" }}>
           <Button
-            variant="contained"
+             
 
             onClick={() => {
     const productPresentationElement = document.getElementById('product-presentation');
@@ -185,19 +185,14 @@ const Theendofthepage = forwardRef(({
     }
   }}
 
-            sx={{
-              backgroundColor: "#9BC953",
-              color: "white",
-              fontWeight: "bold",
-              borderRadius: "20px",
-              padding: isMobile ? "8px 40px" : "20px 45px",
-              fontSize: isMobile ? "0.9rem" : "1.4rem",
-              textTransform: "none",
+  	           sx={{
+                bgcolor: '#9BC953',
+                borderRadius: 6,
+                color: 'white',
+                padding: "10px 20px",
+                fontSize: isMobile ? 16 : 14,
                
-              "&:hover": {
-                backgroundColor: "#7CA43B",
-              },
-            }}
+              }}
           >
             {t("product_info_dimension")}
           </Button>

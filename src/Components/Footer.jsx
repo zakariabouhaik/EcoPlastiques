@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        bgcolor: '#687273',
+        bgcolor: '#9BC953',
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -44,6 +44,7 @@ const Footer = () => {
               marginRight:2,
               height: 'auto',
               objectFit: 'cover',
+              bgcolor:'white'
             }}
           />
 

@@ -4,10 +4,15 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 const Type = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation(); // Ajoutez i18n ici
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
+  
+  const getTextAlignment = () => {
+    return i18n.language === 'ar' ? 'right' : 'left';
+  };
+
 
   const Blan = ({ image, titre, text, index }) => {
     const handleClick = () => {
@@ -17,14 +22,17 @@ const Type = () => {
     return (
       <Box
         sx={{
-          border: '1px solid black',
           height: '100%',
-          borderRadius: 4,
-          boxShadow: '1px 3px 6px rgb(104, 114, 115)',
-          width: { xs: '100%', sm: '48%', md: '30%' },
+          borderBottomLeftRadius: 10,
+          borderBottomRightRadius: 10,
+         boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.2)',
+          width: { xs: '150%', sm: '48%', md: '30%' },
           margin: { xs: 2, sm: 2, md: 1 },
+          height: { xs: '550px', sm: '600px', md: '850px' },  
           overflow: 'hidden',
           flex: '1 1 auto',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
         <img
@@ -32,33 +40,46 @@ const Type = () => {
           alt={titre}
           style={{
             width: '100%',
-            height: isMobile ? '60%' : '80%',
+            height: isMobile ? '55%' : '74%',
             objectFit: 'cover',
           }}
         />
-        <Box sx={{ padding: 2 }}>
+        <Box 
+          sx={{ 
+            padding: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%'
+          }}
+        >
           <Typography
-            variant="h5"
             sx={{
               color: 'black',
-              fontWeight: 'bold',
+              fontSize: isMobile ? 20 : 20,
               marginBottom: 2,
-              textAlign: 'center',
+               textAlign: getTextAlignment(), 
+               fontFamily:'revert'
             }}
           >
             {titre}
           </Typography>
           <Typography
-            variant="body1"
             sx={{
+              fontSize: isMobile ? 14 : 20,
               color: 'black',
-              textAlign: 'center',
-              marginBottom: 2,
+              textAlign: getTextAlignment(), 
+              marginBottom: 3,
+               fontFamily:'revert'
             }}
           >
             {text}
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center',
+            marginTop: 2,
+            paddingBottom: 0
+          }}>
             <Button
               onClick={handleClick}
               sx={{
@@ -66,7 +87,7 @@ const Type = () => {
                 borderRadius: 6,
                 color: 'white',
                 padding: "10px 20px",
-                fontSize: isMobile ? 16 : 24,
+                fontSize: isMobile ? 16 : 18,
                 textTransform: 'none',
                 '&:hover': {
                   bgcolor: '#7ea941',
@@ -86,10 +107,10 @@ const Type = () => {
       <Typography
         sx={{
           textAlign: 'center',
-          fontSize: isMobile ? 30 : 65,
+          fontSize: isMobile ? 25 : 40,
           color: "black",
-          marginBottom: 1,
-          marginTop: 3
+          marginTop: 3,
+           fontFamily:'revert'
         }}
       >
         {t('tablecloths_title')}
@@ -101,7 +122,7 @@ const Type = () => {
           flexWrap: 'wrap',
           justifyContent: { xs: 'center', sm: 'space-between', md: 'space-around' },
           gap: { xs: 2, sm: 3, md: 4 },
-          padding: { xs: 2, md: 4 },
+          padding: { md: 4 },
         }}
       >
         <Blan

@@ -20,51 +20,49 @@ const Textimage = () => {
       }}
     >
       <Typography
-        variant={isMobile ? "h4" : "h2"}
+        variant={isMobile ? "h6" : "h4"}
         sx={{
           fontWeight: "bold",
           color: "black",
+           fontFamily:'revert'
         }}
       >
         {t("text_image1")}
       </Typography>
       <Typography
-        variant={isMobile ? "h5" : "h4"}
+        variant={isMobile ? "h7" : "h5"}
         sx={{
           color: "#007bff",
           marginTop: "10px",
           fontWeight: "bold",
+           fontFamily:'revert'
         }}
       >
         {t("text_image2")}
       </Typography>
       <Typography
-        variant= {isMobile ? "h6" : "h5"}
+        
         sx={{
+          fontSize:isMobile ? "h8" : "h6",
           marginTop: "20px",
           lineHeight: "1.6",
           color: "#333",
+           fontFamily:'revert'
         }}
       >
         {t("text_image3")}
       </Typography>
          
       <Button
-        variant="contained"
+       
         sx={{
-          backgroundColor: "#9BC953", // Couleur jaune
-          color: "#000",
-          fontWeight: "bold",
-         borderRadius: 6,
-         fontSize:isMobile?16:28,
-          marginTop:'5%',
-          color:'white',
-          padding: "10px 20px",
-          textTransform: "none", // Désactiver la majuscule automatique
-          "&:hover": {
-            backgroundColor: "#9BC953", // Couleur au survol
-          },
-        }}
+            bgcolor: '#9BC953',
+            marginTop:3,
+            borderRadius: 6,
+            padding: "10px 20px",
+            fontSize: isMobile ? 11 : 14,
+            color: 'white',
+          }}
         onClick={() => {
   console.log('Navigation vers ProductPage');
   navigate("/productpage");

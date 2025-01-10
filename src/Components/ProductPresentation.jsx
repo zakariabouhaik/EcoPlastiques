@@ -788,6 +788,7 @@ const handlePictureClick = (picture, index) => {
       flexDirection: { xs: 'column', md: 'row' },
       gap: '20px',
       padding: '20px',
+      
     }}>
       {/* First Box - Images and Title Section */}
       <Box sx={{

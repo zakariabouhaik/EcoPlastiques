@@ -13,23 +13,23 @@ const Iconscompenent = () => {
       <Box
         sx={{
           textAlign: 'center',
-          marginBottom: { xs: 3, sm: 2, md: 2 },
+        
           width: { xs: '100%', sm: '48%', md: '30%' },
         }}
       >
         <img
           src={image}
           style={{
-            width: 100,
+            width: 80,
             height: 'auto',
             objectFit: 'cover',
           }}
         />
         <Box sx={{ margin: 3 }}>
-          <Typography sx={{ margin: 1, fontSize: isMobile ? 20 : 28, fontWeight: "bold", color: "black" }}>
+          <Typography sx={{ margin: 1, fontSize: isMobile ? 20 : 18, fontWeight: "bold", color: "black", fontFamily:'revert' }}>
             {titre}
           </Typography>
-          <Typography sx={{ textAlign: 'center', fontSize: isMobile ? 16 : 28 }}>
+          <Typography sx={{ textAlign: 'center', fontSize: isMobile ? 16 : 15, fontFamily:'revert' }}>
             {text}
           </Typography>
         </Box>
@@ -39,7 +39,7 @@ const Iconscompenent = () => {
 
   return (
     <div>
-      <Typography sx={{ textAlign: 'center', marginBottom: '5%', fontSize: { xs: 24, sm: 30, md: 30 } }}>
+      <Typography sx={{ textAlign: 'center', marginBottom:isMobile?'5%':'1%',marginTop:isMobile?'10%':0, fontSize: { xs: 20, sm: 30, md: 30 }, fontFamily:'revert' }}>
         {t('icons_title')}
       </Typography>
 
@@ -75,7 +75,7 @@ const Iconscompenent = () => {
           display: 'flex',
           justifyContent: 'center',
           width: '100%',
-          marginTop: '2%',
+         
           marginBottom: '2%',
         }}
       >
@@ -84,7 +84,7 @@ const Iconscompenent = () => {
             bgcolor: '#9BC953',
             borderRadius: 6,
             padding: "10px 20px",
-            fontSize: isMobile ? 16 : 28,
+            fontSize: isMobile ? 12 : 14,
             color: 'white',
           }}
           onClick={() => {

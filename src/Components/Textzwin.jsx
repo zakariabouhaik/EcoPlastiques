@@ -11,12 +11,12 @@ const Textzwin = () => {
       sx={{
         textAlign: "center",
         padding: "40px",
-        maxWidth: "800px",
+        maxWidth: "1650px",
         margin: "auto",
       }}
     >
       <Typography
-        variant={isMobile ? "h4" : "h4"}
+        variant={isMobile ? "h6" : "h5"}
         sx={{
           fontWeight: "bold",
           marginBottom: "20px",
@@ -26,7 +26,7 @@ const Textzwin = () => {
         {t('flexible_film_title')}
       </Typography>
       <Typography
-      variant={isMobile ? "h7" : "h5"}
+      variant={isMobile ? "h7" : "h6"}
         sx={{
           lineHeight: "1.8",
           color: "#555",

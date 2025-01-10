@@ -93,7 +93,7 @@ const ProductInfo =forwardRef( () => {
       ))}
 
       <Button
-        variant="contained"
+        
 
         onClick={() => {
     const productPresentationElement = document.getElementById('product-presentation');
@@ -102,21 +102,18 @@ const ProductInfo =forwardRef( () => {
     }
   }}
 
-        sx={{
-          backgroundColor: "#9BC953",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: "20px",
-          padding: "12px 20px",
-          textTransform: "none",
-          whiteSpace: 'nowrap', // Force le texte sur une seule ligne
-      minWidth: 'fit-content', // Assure que le bouton s'adapte au contenu
-      display: 'inline-block',
-          margin: '1%',
-          "&:hover": {
-            backgroundColor: "#7CA43B",
-          },
-        }}
+  sx={{
+                bgcolor: '#9BC953',
+                marginTop:3,
+                borderRadius: 6,
+                color: 'white',
+                padding: "10px 20px",
+                fontSize: 16,
+                textTransform: 'none',
+                '&:hover': {
+                  bgcolor: '#7ea941',
+                },
+              }}
       >
         {t("product_info_dimension")}
       </Button>
