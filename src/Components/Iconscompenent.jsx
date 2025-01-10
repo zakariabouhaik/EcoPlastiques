@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 const Iconscompenent = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation(); // Ajoutez i18n ici
   const isMobile = useMediaQuery('(max-width:768px)');
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ const Iconscompenent = () => {
           <Typography sx={{ margin: 1, fontSize: isMobile ? 20 : 18, fontWeight: "bold", color: "black", fontFamily:'revert' }}>
             {titre}
           </Typography>
-          <Typography sx={{ textAlign: 'center', fontSize: isMobile ? 16 : 15, fontFamily:'revert' }}>
+          <Typography sx={{ textAlign: 'center', fontSize: isMobile ? 16 : 15,   fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',  fontWeight: 'normal'  }}>
             {text}
           </Typography>
         </Box>

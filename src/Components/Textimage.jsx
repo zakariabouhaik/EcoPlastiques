@@ -47,7 +47,8 @@ const Textimage = () => {
           marginTop: "20px",
           lineHeight: "1.6",
           color: "#333",
-           fontFamily:'revert'
+          fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
+          fontWeight: 'normal'
         }}
       >
         {t("text_image3")}

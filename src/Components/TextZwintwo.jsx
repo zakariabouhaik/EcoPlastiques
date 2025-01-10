@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 const TextZwintwo = () => {
   const navigate = useNavigate(); // Initialisation correcte de navigate
 
-    const { t } = useTranslation();
+     const { t, i18n } = useTranslation(); // Ajoutez i18n ici
+   
     const isMobile = useMediaQuery('(max-width:768px)');
     return (
         <Box
@@ -36,7 +37,8 @@ const TextZwintwo = () => {
               lineHeight: "1.8",
               color: 'black',
               fontSize:isMobile?13:18,
-                fontFamily:'revert'
+               fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
+               fontWeight: 'normal'
             }}
           >
             {t("twin_two1")}

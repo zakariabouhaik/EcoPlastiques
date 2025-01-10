@@ -59,7 +59,7 @@ const Type = () => {
               marginBottom: 2,
                textAlign: getTextAlignment(), 
                fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
-              fontWeight: 'normal' // Ajout de fontWeight normal
+              
             }}
           >
             {titre}
