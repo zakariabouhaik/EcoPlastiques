@@ -58,7 +58,8 @@ const Type = () => {
               fontSize: isMobile ? 20 : 20,
               marginBottom: 2,
                textAlign: getTextAlignment(), 
-               fontFamily:'revert'
+               fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
+              fontWeight: 'normal' // Ajout de fontWeight normal
             }}
           >
             {titre}
@@ -69,7 +70,8 @@ const Type = () => {
               color: 'black',
               textAlign: getTextAlignment(), 
               marginBottom: 3,
-               fontFamily:'revert'
+               fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
+              fontWeight: 'normal' // Ajout de fontWeight normal
             }}
           >
             {text}
