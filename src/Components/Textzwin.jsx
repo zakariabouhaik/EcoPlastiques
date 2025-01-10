@@ -3,7 +3,7 @@ import { Typography, Box ,useMediaQuery} from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 const Textzwin = () => {
-  const { t } = useTranslation();
+    const { t, i18n } = useTranslation(); // Ajoutez i18n ici
   const isMobile = useMediaQuery('(max-width:768px)');
 
   return (
@@ -30,7 +30,8 @@ const Textzwin = () => {
         sx={{
           lineHeight: "1.8",
           color: "#555",
-           fontWeight: 'normal'
+          fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
+          fontWeight: 'normal' // Ajout de fontWeight normal
         }}
       >
         {t('flexible_film_text')}
