@@ -58,14 +58,14 @@ const Header = () => {
           color: 'white',
           py: 0.2,
           px: { xs: 2, md: 2 },
-          mx: { xs: 1.5, md: 2 },
+          mx: { xs: -0.5, md: 2 },
           borderRadius: 2,
           height: 30,
           cursor: 'pointer',
         }}
         onClick={() => handleNavigation(link)}
       >
-        <Icon sx={{ mr: 1,marginLeft:1, fontSize: { xs: 20, md: 24 } }} />
+        <Icon sx={{ mr:1,marginLeft:1, fontSize: { xs: 20, md: 24 } }} />
         <Typography
           variant="h6"
           align="center"
