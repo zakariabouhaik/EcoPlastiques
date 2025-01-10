@@ -30,6 +30,7 @@ const Textzwin = () => {
         sx={{
           lineHeight: "1.8",
           color: "#555",
+           fontWeight: 'normal'
         }}
       >
         {t('flexible_film_text')}
