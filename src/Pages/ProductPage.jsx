@@ -12,6 +12,9 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const ProductPage = () => {
+
+    const qcmRef = useRef(null);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -178,7 +181,7 @@ const ProductPage = () => {
         >
             <TopNavigation />
             <ProductPresentation
-            ref={productPresentationRef}
+            ref={qcmRef}  
                 title={title001}
                 text={title002}
                 pictures={pictures001}
@@ -198,10 +201,11 @@ const ProductPage = () => {
                 titre4={selectedtitre4}
                 text3={selectedText3}
             />
-            <Qcmpluspic 
-             ref={productPresentationRef}  
-                image={pictures004}
-            />
+          <Box id="qcm-section" ref={qcmRef}>
+                <Qcmpluspic
+                    image={pictures004}
+                />
+            </Box>
             <Footer />
         </Box>
     );

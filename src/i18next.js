@@ -101,11 +101,23 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_text: "Texte de présentation du produit",
                 product_presentation_best_seller: "Best-seller",
                 product_presentation_free_shipping: "Livraison gratuite partout au Maroc",
+                
+                product_presentation_thickness_1_5mm_dore_mat:"Dorée / Mate : 250 DH/m², plus frais de découpage",
+                product_presentation_food_contact_dore_mat:"Le film de protection de table peut entre en contact avec des aliments.",
+                product_presentation_protection_dore_mat:"Il est résistant à l’eau et protège contre les rayures.",
+                product_presentation_transparent_dore_mat:"Grâce à sa transparence, vous pouvez toujours voir la surface de la table.",
+
+
                 product_presentation_thickness_1_5mm: "Épaisseur 1.5mm: 199 DH/m², plus frais de découpage",
                 product_presentation_thickness_2mm: "Épaisseur 2mm: 250 DH/m², plus frais de découpage",
                 product_presentation_food_contact: "Le film de protection de table peut entre en contact avec des aliments.",
                 product_presentation_protection: "Il est résistant à l’eau et protège contre les rayures.",
                 product_presentation_transparent: "Grâce à sa transparence, vous pouvez toujours voir la surface de la table.",
+
+                product_presentation_cancelicon: "Il ne convient pas pour l’extérieur ni pour les tables brillantes, laquées ou en verre  .",
+
+                clickici:"Cliquez ici",
+
                 product_presentation_in_stock: "En stock",
                 product_presentation_delivery_date: "Date de livraison : Entre le {{startDate}} et le {{endDate}}",
                 product_presentation_table_shape: "Forme de votre table :",
@@ -235,11 +247,23 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_text: "نص عرض المنتج",
                 product_presentation_best_seller: "الأكثر مبيعًا",
                 product_presentation_free_shipping: "توصيل مجاني في جميع أنحاء المغرب",
+
+
                 product_presentation_thickness_1_5mm: "السُمك 1.5 مم: 199 درهم/م²، بالإضافة إلى تكاليف القطع",
                 product_presentation_thickness_2mm: "سمك 2 مم: 250 درهم/م²، بالإضافة إلى تكاليف التقطيع",
                 product_presentation_food_contact: "فيلم حماية الطاولة يمكن أن يلامس الطعام",
                 product_presentation_protection: "مقاوم للماء ويحمي من الخدوش.",
                 product_presentation_transparent: "بفضل شفافيتها، يمكنك دائمًا رؤية سطح الطاولة.",
+                product_presentation_cancelicon: "لا يناسب الاستخدام الخارجي أو الطاولات اللامعة أو المطلية أو الزجاجية." ,
+                
+                clickici:" \t انقر هنا لمشاهدة \t "  ,
+                product_presentation_thickness_1_5mm_dore_mat:"مضبب / غطاء ذهبي : 250 درهم/م²، بالإضافة إلى تكاليف التقطيع",
+                product_presentation_food_contact_dore_mat:"فيلم حماية الطاولة يمكن أن يلامس الطعام.",
+                product_presentation_protection_dore_mat:"مقاوم للماء ويحمي من الخدوش.",
+                product_presentation_transparent_dore_mat:"بفضل شفافيتها، يمكنك دائمًا رؤية سطح الطاولة.",
+
+
+
                 product_presentation_in_stock: "متوفر",
                 product_presentation_delivery_date: "تاريخ التسليم: بين {{startDate}} و {{endDate}}",
                 product_presentation_table_shape: "شكل طاولتك:",

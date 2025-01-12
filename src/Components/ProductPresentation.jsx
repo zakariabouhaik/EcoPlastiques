@@ -1,6 +1,7 @@
 import React, { useState, useEffect,forwardRef } from "react";
 import { Typography, Grid2, Box, useTheme, useMediaQuery, TextField, Button } from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { styled } from '@mui/material/styles';
 import AssistanceComponent from "./AssistanceComponent";
 import DynamicCircleSVG from "./DynamicCircleSVG";
@@ -43,6 +44,10 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     
   });
  
+  const shouldShowThicknessSection = (selectedIndex) => {
+    // Retourne false pour les index 1 et 2
+    return ![1, 2].includes(selectedIndex);
+  };
 
   const handleFormChange = (field, value) => {
     setFormData(prev => ({
@@ -154,7 +159,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     });
   }, []);
 
-  const FeatureItem = ({ children }) => (
+  const FeatureItem = ({ children,childrentwo }) => (
     <Box sx={{
       display: 'flex',
       alignItems: 'center',
@@ -166,9 +171,57 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
           marginRight: 1
         }}
       />
-      <Typography variant="body2">{children}</Typography>
+     <Typography variant="body2" sx={{ marginRight: 0.1, marginLeft: 0.1 }}>
+  {children}
+</Typography>
+
     </Box>
   );
+
+  const FeatureItem2 = ({ children, onClickCici }) => {
+    const { t } = useTranslation();
+  
+    const handleClick = () => {
+      if (onClickCici) {
+        onClickCici();
+      }
+    };
+  
+    const renderTextWithClickable = (text) => {
+      const parts = t(text).split('{clickici}');
+      
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <CancelOutlinedIcon
+            sx={{
+              color: '#C24848',
+              marginRight: 1
+            }}
+          />
+          <Typography component="span" variant="body2">
+            {parts[0]}
+            <Box
+              component="span"
+              onClick={handleClick}
+              sx={{
+                color: '#9BC953',
+                cursor: 'pointer',
+                textDecoration: 'underline',
+                '&:hover': {
+                  color: '#7ca43b',
+                },
+              }}
+            >
+              {t('clickici')}
+            </Box>
+            {parts[1]}
+          </Typography>
+        </Box>
+      );
+    };
+  
+    return renderTextWithClickable(children);
+  };
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -872,7 +925,7 @@ const handlePictureClick = (picture, index) => {
                     maxWidth: "90px",
                     height: "auto",
                     cursor: "pointer",
-                    border: picture === selectedGalleryImage  ? "2px solid #007BFF" : "1px solid #ddd",
+                    border: picture === selectedGalleryImage  ? "2px solid #9bc953" : "1px solid #ddd",
                     borderRadius: "4px",
                     padding: "2px",
                   }}
@@ -905,13 +958,42 @@ const handlePictureClick = (picture, index) => {
           </Typography>
 
           {/* Features */}
-          <Box sx={{ marginBottom: 2 }}>
-            <FeatureItem>{t('product_presentation_thickness_1_5mm')}</FeatureItem>
-            <FeatureItem>{t('product_presentation_thickness_2mm')}</FeatureItem>
-            <FeatureItem>{t('product_presentation_food_contact')}</FeatureItem>
-            <FeatureItem>{t('product_presentation_protection')}</FeatureItem>
-            <FeatureItem>{t('product_presentation_transparent')}</FeatureItem>
-          </Box>
+          {shouldShowThicknessSection(pictures09.indexOf(selectedGalleryImage)) ? (
+            <Box sx={{ marginBottom: 2 }}>
+              <FeatureItem>{t('product_presentation_thickness_1_5mm')}</FeatureItem>
+              <FeatureItem>{t('product_presentation_thickness_2mm')}</FeatureItem>
+              <FeatureItem>{t('product_presentation_food_contact')}</FeatureItem>
+              <FeatureItem>{t('product_presentation_protection')}</FeatureItem>
+              <FeatureItem>{t('product_presentation_transparent')}</FeatureItem>
+              <FeatureItem2 onClickCici={() => {
+      if (ref?.current) {
+        ref.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }}>
+      {t('product_presentation_cancelicon')}
+    </FeatureItem2>
+            </Box>
+          ) : (
+            <Box sx={{ marginBottom: 2 }}>
+              <FeatureItem>{t('product_presentation_thickness_1_5mm_dore_mat')}</FeatureItem>
+              <FeatureItem>{t('product_presentation_food_contact_dore_mat')}</FeatureItem>
+              <FeatureItem>{t('product_presentation_protection_dore_mat')}</FeatureItem>
+              <FeatureItem>{t('product_presentation_transparent_dore_mat')}</FeatureItem>
+              <FeatureItem2 onClickCici={() => {
+      if (ref?.current) {
+        ref.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }}>
+      {t('product_presentation_cancelicon')}
+    </FeatureItem2>
+            </Box>
+          )}
 
           {/* Availability */}
           <Typography variant="body1" sx={{ marginBottom: 1, color: "green" }}>
@@ -965,32 +1047,53 @@ const handlePictureClick = (picture, index) => {
               borderRadius: 2
             }}
           >
-            <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: 2 }}>
-              {t('product_presentation_thickness')}
-            </Typography>
-
-            <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
-              <Grid2 item xs={6}>
-                <Button
-                  fullWidth
-                  variant={thickness === "1.5" ? "contained" : "outlined"}
-                  color="primary"
-                  onClick={() => setThickness("1.5")}
-                >
-                  1.5 {t('mm')}
-                </Button>
-              </Grid2>
-              <Grid2 item xs={6}>
-                <Button
-                  fullWidth
-                  variant={thickness === "2" ? "contained" : "outlined"}
-                  color="primary"
-                  onClick={() => setThickness("2")}
-                >
-                  2 {t('mm')}
-                </Button>
-              </Grid2>
-            </Grid2>
+          
+          {shouldShowThicknessSection(pictures09.indexOf(selectedGalleryImage)) && (
+  <>
+    <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: 2 }}>
+      {t('product_presentation_thickness')}
+    </Typography>
+    
+    <Grid2 container spacing={2} sx={{ marginBottom: 3 }}>
+      <Grid2 item xs={6}>
+        <Button
+          fullWidth
+          variant={thickness === "1.5" ? "contained" : "outlined"}
+          onClick={() => setThickness("1.5")}
+          sx={{
+            backgroundColor: thickness === "1.5" ? "#9bc953" : "transparent",
+            borderColor: "#9bc953",
+            color: thickness === "1.5" ? "white" : "#9bc953",
+            '&:hover': {
+              backgroundColor: thickness === "1.5" ? "#8bb947" : "rgba(155, 201, 83, 0.1)",
+              borderColor: "#9bc953"
+            }
+          }}
+        >
+          1.5 {t('mm')}
+        </Button>
+      </Grid2>
+      <Grid2 item xs={6}>
+        <Button
+          fullWidth
+          variant={thickness === "2" ? "contained" : "outlined"}
+          onClick={() => setThickness("2")}
+          sx={{
+            backgroundColor: thickness === "2" ? "#9bc953" : "transparent",
+            borderColor: "#9bc953",
+            color: thickness === "2" ? "white" : "#9bc953",
+            '&:hover': {
+              backgroundColor: thickness === "2" ? "#8bb947" : "rgba(155, 201, 83, 0.1)",
+              borderColor: "#9bc953"
+            }
+          }}
+        >
+          2 {t('mm')}
+        </Button>
+      </Grid2>
+    </Grid2>
+  </>
+)}
 
             {/* Dimensions */}
             <Typography variant="subtitle1" sx={{ fontWeight: "bold", marginBottom: 2 }}>

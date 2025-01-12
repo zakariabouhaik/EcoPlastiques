@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 import ProductInfo from './ProductInfo';
 import { Box, useTheme, useMediaQuery } from '@mui/material';
 
-const Qcmpluspic = ({image}) => {
+const Qcmpluspic = forwardRef(({ image }, ref) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   return (
-    <Box
+    <Box ref={ref}
       sx={{
         display: 'flex',
         flexDirection: {
@@ -83,6 +83,6 @@ const Qcmpluspic = ({image}) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default Qcmpluspic;
