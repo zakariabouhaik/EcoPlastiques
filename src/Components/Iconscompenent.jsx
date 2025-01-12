@@ -20,7 +20,7 @@ const Iconscompenent = () => {
         <img
           src={image}
           style={{
-            width: 80,
+            width: isMobile? 60:80,
             height: 'auto',
             objectFit: 'cover',
           }}
@@ -57,16 +57,17 @@ const Iconscompenent = () => {
           titre={t('icons_protection_title')}
           text={t('icons_protection_text')}
         />
+         <Chaque
+          image="/assets/icons/icons8-transparent-64.png"
+          titre={t('icons_transparent_title')}
+          text={t('icons_transparent_text')}
+        />
         <Chaque
           image="/assets/icons/icons8-ruler-64.png"
           titre={t('icons_custom_cut_title')}
           text={t('icons_custom_cut_text')}
         />
-        <Chaque
-          image="/assets/icons/icons8-transparent-64.png"
-          titre={t('icons_transparent_title')}
-          text={t('icons_transparent_text')}
-        />
+       
       </Box>
 
       {/* Container pour centrer le bouton */}

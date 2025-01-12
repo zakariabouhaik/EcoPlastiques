@@ -173,7 +173,7 @@ const Header = () => {
   src="/assets/logo/EcoPlastique-logo.png"
   alt="EcoPlastique logo"
   style={{
-    width: isMobile ? '40%' : '20%',
+    width: isMobile ? '55%' : '20%',
     objectFit: 'cover',
     cursor: 'pointer',
     margin: isMobile ? '0 auto' : '0 0 0 20px', 

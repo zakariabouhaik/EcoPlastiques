@@ -56,9 +56,9 @@ const ProductPage = () => {
     ];
     
     const pictures002 = [
-        "/assets/Trior/nappe-tri-or-5.png",
-        "/assets/Trior/nappe-tri-or-2.png",
-        "/assets/Trior/nappe-tri-or-4.png",
+        "/assets/Trior/nappe-Dorée-5.png",
+        "/assets/Trior/nappe-Dorée-2.png",
+        "/assets/Trior/nappe-Dorée-4.png",
     ];
 
 
@@ -84,7 +84,7 @@ const ProductPage = () => {
     ];
 
     const picturesooo3 = [
-        "/assets/ImageComponent/nappe-tri-or-1.png",
+        "/assets/ImageComponent/nappe-Dorée-1.png",
     ];
 
 
@@ -103,8 +103,8 @@ const ProductPage = () => {
     ];
 
     const picturesoo4 = [
-        "/assets/ImageComponent/tri-or-1.png",
-        "/assets/ImageComponent/tri-or-2.png",
+        "/assets/ImageComponent/Dorée-1.png",
+        "/assets/ImageComponent/Dorée-2.png",
     ];
 
 

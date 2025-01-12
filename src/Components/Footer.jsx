@@ -37,14 +37,14 @@ const Footer = () => {
           {/* Logo */}
           <Box
             component="img"
-            src="/assets/logo/EcoPlastique-logo.png"
+            src="/assets/logo/EcoPlastique-logo-white.png"
             alt="EcoPlastique logo"
             sx={{
               width: isMobile ? "60%" :"20%" ,
               marginRight:2,
               height: 'auto',
               objectFit: 'cover',
-              bgcolor:'white'
+              
             }}
           />
 

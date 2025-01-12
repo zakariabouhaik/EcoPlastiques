@@ -140,8 +140,8 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     const startDate = new Date(today);
     const endDate = new Date(today);
 
-    startDate.setDate(today.getDate() + 5);
-    endDate.setDate(today.getDate() + 6);
+    startDate.setDate(today.getDate() + 2);
+    endDate.setDate(today.getDate() + 3);
 
     const formatDate = (date) => {
       const options = { day: "2-digit", month: "2-digit" };

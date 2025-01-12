@@ -36,7 +36,7 @@ const Twin = () => {
           padding: { xs: "8px", sm: "15px", md: "10px" }, // Reduce padding on small screens
           borderRadius: "4px", // Match image's border radius
           width: { xs: "80%", sm: "60%", md: "30%" }, // Adjust width based on screen size
-          backgroundColor: "rgba(203, 211, 212, 0.92)", // Slight background for readability
+          backgroundColor: "rgba(250, 249, 248, 0.95)", // Slight background for readability
         }}
       >
         <TextZwintwo />
