@@ -22,7 +22,6 @@ const App = () => {
           <Route path="/Confidentialite" element={<PolitiquedeConfide/>} />
           <Route path="/A_propos_de_nous" element={<Proposdenous/>} />
           <Route path="/Politique_retour_remboursement" element={<PolitiqueRetourRemboursement/>} />
-         
           <Route path="*" element={<div>Page non trouvée</div>} />
         </Routes>
       </div>

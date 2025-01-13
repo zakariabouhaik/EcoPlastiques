@@ -841,6 +841,8 @@ const handlePictureClick = (picture, index) => {
       flexDirection: { xs: 'column', md: 'row' },
       gap: '20px',
       padding: '20px',
+      bgcolor:'#e6e6e6',
+      width:'98%',
       
     }}>
       {/* First Box - Images and Title Section */}
@@ -851,7 +853,7 @@ const handlePictureClick = (picture, index) => {
       }}>
         <Box sx={{ padding: 2 }}>
           {/* Title and text */}
-          <Box sx={{ marginBottom: 2 }}>
+          <Box sx={{ marginBottom: 2 , marginLeft:10, marginRight:isMobile?0:15}}>
             <Typography variant="h4" sx={{ marginBottom: 1 }}>
               {title}
             </Typography>
@@ -940,14 +942,15 @@ const handlePictureClick = (picture, index) => {
       <Box sx={{
         flex: 1,
         width: '100%',
-        order: { xs: 2, md: 2 }
+        order: { xs: 2, md: 2 },
+        bgcolor:'white'
       }}>
         <Box sx={{
           padding: { xs: 2, md: 4 },
           maxWidth: "800px",
           margin: "0 auto",
           border: "1px solid #ddd",
-          borderRadius: "8px"
+          
         }}>
           {/* Rest of the Best-seller content remains the same */}
           <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: 2 }}>
