@@ -4,6 +4,7 @@ import ProductPresentation from '../Components/ProductPresentation';
 import Bestseler from '../Components/Bestseler';
 import AssistanceComponent from '../Components/AssistanceComponent';
 import Theendofthepage from '../Components/Theendofthepage';
+import WhatsAppButton from '../Components/WhatsAppButton';
 import Footer from '../Components/Footer';
 import Qcmpluspic from '../Components/Qcmpluspic';
 import { Box } from '@mui/material';
@@ -207,6 +208,7 @@ const ProductPage = () => {
                 />
             </Box>
             <Footer />
+            <WhatsAppButton/>
         </Box>
     );
 };
