@@ -38,7 +38,7 @@ const TextZwintwo = () => {
               color: 'black',
               fontSize:isMobile?13:18,
                fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
-               fontWeight: 'normal'
+               fontWeight: 'light'
             }}
           >
             {t("twin_two1")}

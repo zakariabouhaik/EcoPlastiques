@@ -31,7 +31,7 @@ const Textzwin = () => {
           lineHeight: "1.8",
           color: "#555",
           fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
-          fontWeight: 'normal' // Ajout de fontWeight normal
+          fontWeight: 'light' // Ajout de fontWeight normal
         }}
       >
         {t('flexible_film_text')}

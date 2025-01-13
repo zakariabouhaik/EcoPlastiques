@@ -48,7 +48,7 @@ const Textimage = () => {
           lineHeight: "1.6",
           color: "#333",
           fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',
-          fontWeight: 'normal',
+          fontWeight: 'light',
           whiteSpace: 'pre-line' 
         }}
       >

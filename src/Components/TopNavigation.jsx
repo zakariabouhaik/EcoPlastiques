@@ -36,7 +36,7 @@ const Header = () => {
   const MenuItems = [
     { text: t('Home'), link: '/' },
     { text: t('Command'), link: '/productpage' },
-    { text: t('Contact'), link: '/' },
+    { text: t('Contact'), link: '/contact' },
     { text: t('Language'), link: '#' },
   ];
 

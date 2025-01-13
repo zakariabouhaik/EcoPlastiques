@@ -4,6 +4,7 @@ import HomePage from './Pages/HomePage';
 import ProductPage from './Pages/ProductPage';
 import Test from './Pages/Test';
 import { useTranslation } from 'react-i18next';
+import ContactForm from './Pages/ContactForm';
 
 const App = () => {
   const {t} = useTranslation();
@@ -14,6 +15,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/productpage" element={<ProductPage />} />
+          <Route path="/contact" element={<ContactForm />} />
+          
           <Route path="*" element={<div>Page non trouvée</div>} />
         </Routes>
       </div>

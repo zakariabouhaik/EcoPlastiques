@@ -31,11 +31,11 @@ const Twin = () => {
         sx={{
           position: "absolute", // Overlay on top of the image
           top: "50%", // Center vertically
-          left: isMobile?'50%':"30%", // Center horizontally
+          left: isMobile?'50%':"25%", // Center horizontally
           transform: "translate(-50%, -50%)", // Adjust for true center
           padding: { xs: "8px", sm: "15px", md: "10px" }, // Reduce padding on small screens
           borderRadius: "4px", // Match image's border radius
-          width: { xs: "80%", sm: "60%", md: "30%" }, // Adjust width based on screen size
+          width: { xs: "80%", sm: "60%", md: "33%" }, // Adjust width based on screen size
           backgroundColor: "rgba(250, 249, 248, 0.95)", // Slight background for readability
         }}
       >
