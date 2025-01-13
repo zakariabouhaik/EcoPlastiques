@@ -158,10 +158,13 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 Rectangle: "Rectangle",
                 Cercle:"Cercle",
                 Octogone: "Octogone",
+                Avis_de_nos_clients:"Avis de nos clients"
             }
         },
         ar: {
             translation: {
+                
+                Avis_de_nos_clients:"رأي عملائنا",
                 Home: "الرئيسية",
                 Command: "اطلب الآن",
                 Contact: "اتصل بنا",

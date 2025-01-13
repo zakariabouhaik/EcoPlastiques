@@ -9,7 +9,7 @@ import TopNavigation from '../Components/TopNavigation';
 import Twin from '../Components/Twin';
 import Type from '../Components/Type';
 import WhatsAppButton from '../Components/WhatsAppButton';
-
+import ClientReviews from '../Components/ClientReviews';
 
 
 const HomePage = () => {
@@ -24,6 +24,7 @@ const HomePage = () => {
       <Textzwin/>
         <Twin/>
       <Footer/>
+      <ClientReviews />
       <WhatsAppButton/>
   
 
