@@ -5,6 +5,7 @@ import Bestseler from '../Components/Bestseler';
 import AssistanceComponent from '../Components/AssistanceComponent';
 import Theendofthepage from '../Components/Theendofthepage';
 import WhatsAppButton from '../Components/WhatsAppButton';
+import ClientReviews from '../Components/ClientReviews';
 import Footer from '../Components/Footer';
 import Qcmpluspic from '../Components/Qcmpluspic';
 import { Box } from '@mui/material';
@@ -208,6 +209,7 @@ const ProductPage = () => {
                 />
             </Box>
             <Footer />
+            <ClientReviews />
             <WhatsAppButton/>
         </Box>
     );

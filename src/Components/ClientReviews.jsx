@@ -124,7 +124,7 @@ const ClientReviews = () => {
       onClick={handleOpen}
       sx={{
         position: 'fixed',
-        right: { xs: 10, sm: 22 },
+        right: { xs: 22, sm: 22 },
         top: '50%',
         transform: 'translateY(-50%) rotate(-90deg)',
         transformOrigin: 'right center',
