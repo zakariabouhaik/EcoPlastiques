@@ -100,10 +100,10 @@ const Footer = () => {
               }}
             >
               {[
-                { text: t('footer1'), href: '#' },
+                { text: t('footer1'), href: '/Confidentialite' },
                 { text: t('footer2'), href: '#' },
-                { text: t('footer3'), href: '#' },
-                { text: t('footer4'), href: '#' }
+                { text: t('footer3'), href: '/A_propos_de_nous' },
+                { text: t('footer4'), href: '/contact' }
               ].map((link, index) => (
                 <Link
                   key={index}
