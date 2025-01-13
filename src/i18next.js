@@ -114,7 +114,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_protection: "Il est résistant à l’eau et protège contre les rayures.",
                 product_presentation_transparent: "Grâce à sa transparence, vous pouvez toujours voir la surface de la table.",
 
-                product_presentation_cancelicon: "Il ne convient pas pour l’extérieur ni pour les tables brillantes, laquées ou en verre  .",
+                product_presentation_cancelicon: "Il ne convient pas pour l’extérieur ni pour les tables brillantes, laquées ou en verre.",
 
                 clickici:"Cliquez ici",
 

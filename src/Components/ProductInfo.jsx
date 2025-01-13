@@ -1,10 +1,11 @@
-import React, { useState,forwardRef} from 'react';
+import React, { useState, forwardRef } from 'react';
 import { Box, Accordion, AccordionSummary, AccordionDetails, Typography, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from 'react-i18next';
 
-const ProductInfo =forwardRef( () => {
+const ProductInfo = forwardRef(() => {
   const { t } = useTranslation();
+  const [expandedSection, setExpandedSection] = useState(null);
 
   const sections = [
     {
@@ -65,15 +66,19 @@ const ProductInfo =forwardRef( () => {
     borderRadius: 5,
   };
 
-  
-    const [expandedSection, setExpandedSection] = useState(null);
-  
-    const handleAccordionChange = (panel) => (_, isExpanded) => {
-      setExpandedSection(isExpanded ? panel : null);
-    };
+  const handleAccordionChange = (panel) => (_, isExpanded) => {
+    setExpandedSection(isExpanded ? panel : null);
+  };
+
+  const handleScrollToProduct = () => {
+    const productPresentationElement = document.getElementById('product-presentation');
+    if (productPresentationElement) {
+      productPresentationElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div>
+    <Box sx={{ width: '100%' }}>
       {sections.map(({ key, title, content }) => (
         <Box key={key} sx={commonBoxStyles}>
           <Accordion
@@ -86,38 +91,43 @@ const ProductInfo =forwardRef( () => {
             </AccordionSummary>
             <hr />
             <AccordionDetails>
-  <Typography sx={{ whiteSpace: 'pre-line' }}>{content}</Typography>
-</AccordionDetails>
+              <Typography sx={{ whiteSpace: 'pre-line' }}>{content}</Typography>
+            </AccordionDetails>
           </Accordion>
         </Box>
       ))}
 
-      <Button
-        
-
-        onClick={() => {
-    const productPresentationElement = document.getElementById('product-presentation');
-    if (productPresentationElement) {
-      productPresentationElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  }}
-
-  sx={{
-                bgcolor: '#9BC953',
-                marginTop:3,
-                borderRadius: 6,
-                color: 'white',
-                padding: "10px 20px",
-                fontSize: 16,
-                textTransform: 'none',
-                '&:hover': {
-                  bgcolor: '#7ea941',
-                },
-              }}
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          mt: 3,
+          mb: 2,
+          px: { xs: 2, sm: 0 } // Padding horizontal sur mobile
+        }}
       >
-        {t("product_info_dimension")}
-      </Button>
-    </div>
+        <Button
+          onClick={handleScrollToProduct}
+          sx={{
+            bgcolor: '#9BC953',
+            borderRadius: 6,
+            marginTop:4,
+            color: 'white',
+            padding: { xs: "12px 24px", sm: "10px 20px" }, // Plus grand padding sur mobile
+            fontSize: { xs: 14, sm: 16 }, // Taille de police adaptative
+            textTransform: 'none',
+            minWidth: { xs: '200px', sm: 'auto' }, // Largeur minimale sur mobile
+            '&:hover': {
+              bgcolor: '#7ea941',
+            },
+          }}
+        >
+          {t("product_info_dimension")}
+        </Button>
+      </Box>
+    </Box>
   );
 });
+
 export default ProductInfo;
