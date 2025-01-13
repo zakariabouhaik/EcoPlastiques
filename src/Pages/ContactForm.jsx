@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import TopNavigation from '../Components/TopNavigation';
-import Footer2 from '../Components/Footer2';
+import Footer from '../Components/Footer';
 
 const ContactForm = () => {
   const { t } = useTranslation();
@@ -296,7 +296,7 @@ const ContactForm = () => {
           </Alert>
         </Snackbar>
       </Box>
-      <Footer2 />
+      <Footer/>
     </Box>
   );
 };

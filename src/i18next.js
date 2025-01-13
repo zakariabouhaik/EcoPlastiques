@@ -157,18 +157,23 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 RectangleACoinsArrondis: "Rectangle à coins arrondis",
                 RectangleChanfreiné: "Rectangle chanfreiné",
                 Envoie_nous_un_message:"Envoie-nous un email",
+                Liens_rapides:"Liens rapides",
                 Envoyer_le_message:"Envoyer le message",
                 Rectangle: "Rectangle",
                 Cercle:"Cercle",
                 Octogone: "Octogone",
-                Avis_de_nos_clients:"Avis de nos clients"
+                Contactez_nous:"Contactez-nous",
+                Avis_de_nos_clients:"Avis de nos clients",
+                textfooter:'Leader dans la fabrication de nappes protectrices au Maroc, offrant des solutions innovantes pour protéger vos meubles avec style.'
             }
         },
         ar: {
             translation: {
-
+                textfooter:'الشركة المغربية الرائدة في مجال تصنيع مفارش المائدة الواقية في المغرب، والتي تقدم حلولاً مبتكرة لحماية أثاثك بأناقة.',
                 Avis_de_nos_clients:"رأي عملائنا",
                 Sujet:"الموضوع:",
+                Contactez_nous:"تواصل معنا",
+                Liens_rapides:"روابط سريعة",
                 Home: "الرئيسية",
                 Command: "اطلب الآن",
                 Envoie_nous_un_message:"أرسل لنا بريداً إلكترونياً",
