@@ -853,7 +853,7 @@ const handlePictureClick = (picture, index) => {
       }}>
         <Box sx={{ padding: 2 }}>
           {/* Title and text */}
-          <Box sx={{ marginBottom: 2 , marginLeft:isMobile?1:12, marginRight:isMobile?3:15}}>
+          <Box sx={{ marginBottom: 2 , marginLeft:isMobile?1:12, marginRight:isMobile?2:15}}>
             <Typography variant="h4" sx={{ marginBottom: 1 }}>
               {title}
             </Typography>
