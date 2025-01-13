@@ -137,7 +137,7 @@ const ContactForm = () => {
                 fontSize: { xs: '1.25rem', sm: '1.5rem' }
               }}
             >
-              {t('Envoie-nous un message')}
+              {t('Envoie_nous_un_message')}
             </Typography>
 
             <Box 
@@ -161,7 +161,7 @@ const ContactForm = () => {
                   required
                   fullWidth
                   name="fullName"
-                  placeholder={t('Nom complet')}
+                  placeholder={t('product_presentation_full_name')}
                   value={formData.fullName}
                   onChange={handleChange}
                   size={isMobile ? "small" : "medium"}
@@ -178,7 +178,7 @@ const ContactForm = () => {
                   fullWidth
                   name="email"
                   type="email"
-                  placeholder={t('Email')}
+                  placeholder={t('product_presentation_email')}
                   value={formData.email}
                   onChange={handleChange}
                   size={isMobile ? "small" : "medium"}
@@ -202,7 +202,7 @@ const ContactForm = () => {
                   required
                   fullWidth
                   name="phone"
-                  placeholder={t('Téléphone')}
+                  placeholder={t('product_presentation_phone')}
                   value={formData.phone}
                   onChange={handleChange}
                   size={isMobile ? "small" : "medium"}
@@ -267,7 +267,7 @@ const ContactForm = () => {
                   },
                 }}
               >
-                {t('Envoyer le message')}
+                {t('Envoyer_le_message')}
               </Button>
             </Box>
           </Box>

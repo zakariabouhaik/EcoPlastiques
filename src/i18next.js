@@ -131,10 +131,11 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_order_now: "Commander Maintenant",
                 product_presentation_your_info: "Vos informations :",
                 product_presentation_email: "Email :",
+                Message:"Message:",
                 product_presentation_full_name: "Nom complet :",
                 product_presentation_phone: "Téléphone :",
                 product_presentation_address: "Adresse complète :",
-             
+                Sujet:"Sujet",
                 assistance1:"Besoin d'aide pour passer votre commande ?",
                 assistance2:"Nous sommes là pour vous assister !",
                 assistance3:"Appelez-nous au ",
@@ -155,6 +156,8 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 dh: "DH",
                 RectangleACoinsArrondis: "Rectangle à coins arrondis",
                 RectangleChanfreiné: "Rectangle chanfreiné",
+                Envoie_nous_un_message:"Envoie-nous un email",
+                Envoyer_le_message:"Envoyer le message",
                 Rectangle: "Rectangle",
                 Cercle:"Cercle",
                 Octogone: "Octogone",
@@ -163,13 +166,17 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
         },
         ar: {
             translation: {
-                
+
                 Avis_de_nos_clients:"رأي عملائنا",
+                Sujet:"الموضوع:",
                 Home: "الرئيسية",
                 Command: "اطلب الآن",
+                Envoie_nous_un_message:"أرسل لنا بريداً إلكترونياً",
                 Contact: "اتصل بنا",
+                Message:"الرسالة:",
                 Language: "FR",
                 text1: "توصيل مجاني",
+                Envoyer_le_message:"إرسال الرسالة",
                 text2: "قص حسب الطلب",
                 text3: "القيمة الأفضل",
                 hero_slide_1_title: "أسبوع التخفيضات – 10% على كل شيء",
