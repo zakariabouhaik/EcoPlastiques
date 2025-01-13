@@ -167,7 +167,7 @@ const ClientReviews = () => {
         sx={{
           '& .MuiDialog-paper': {
             borderRadius: isMobile ? 0 : 2,
-            margin: isMobile ? 0 : 2,
+            margin: isMobile ? 3 : 2,
             maxHeight: '90vh'
           }
         }}
