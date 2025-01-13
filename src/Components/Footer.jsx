@@ -101,7 +101,7 @@ const Footer = () => {
             >
               {[
                 { text: t('footer1'), href: '/Confidentialite' },
-                { text: t('footer2'), href: '#' },
+                { text: t('footer2'), href: '/Politique_retour_remboursement' },
                 { text: t('footer3'), href: '/A_propos_de_nous' },
                 { text: t('footer4'), href: '/contact' }
               ].map((link, index) => (
