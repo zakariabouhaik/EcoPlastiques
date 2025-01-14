@@ -61,7 +61,7 @@ const ProductInfo = forwardRef(() => {
   };
 
   const expandIconStyles = {
-    backgroundColor: 'green',
+    backgroundColor: '#9BC953',
     color: 'white',
     borderRadius: 5,
   };

@@ -853,7 +853,7 @@ const handlePictureClick = (picture, index) => {
       }}>
         <Box sx={{ padding: 2 }}>
           {/* Title and text */}
-          <Box sx={{ marginBottom: 2 , marginLeft:isMobile?1:12, marginRight:isMobile?1:15}}>
+          <Box sx={{ marginBottom: 2 ,marginLeft: { lg: 17},marginRight: { lg: 17}}}>
             <Typography variant="h4" sx={{ marginBottom: 1 }}>
               {title}
             </Typography>
@@ -943,7 +943,9 @@ const handlePictureClick = (picture, index) => {
         flex: 1,
         width: '100%',
         order: { xs: 2, md: 2 },
-        bgcolor:'white'
+        bgcolor:'white',
+        padding :isMobile?0:2,
+         
       }}>
         <Box sx={{
           padding: { xs: 2, md: 4 },
@@ -961,42 +963,47 @@ const handlePictureClick = (picture, index) => {
           </Typography>
 
           {/* Features */}
-          {shouldShowThicknessSection(pictures09.indexOf(selectedGalleryImage)) ? (
-            <Box sx={{ marginBottom: 2 }}>
-              <FeatureItem>{t('product_presentation_thickness_1_5mm')}</FeatureItem>
-              <FeatureItem>{t('product_presentation_thickness_2mm')}</FeatureItem>
-              <FeatureItem>{t('product_presentation_food_contact')}</FeatureItem>
-              <FeatureItem>{t('product_presentation_protection')}</FeatureItem>
-              <FeatureItem>{t('product_presentation_transparent')}</FeatureItem>
-              <FeatureItem2 onClickCici={() => {
-      if (ref?.current) {
-        ref.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    }}>
+          {pictures09.indexOf(selectedGalleryImage) === 0 ? (
+  <Box sx={{ marginBottom: 2 }}>
+    <FeatureItem>{t('product_presentation_thickness_1_5mm')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_thickness_2mm')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_food_contact')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_protection')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_transparent')}</FeatureItem>
+    <FeatureItem2 
+        onClickCici={() => {
+         
+         handlePictureClick(pictures09[1],1)
+        
+     }}
+    >
       {t('product_presentation_cancelicon')}
     </FeatureItem2>
-            </Box>
-          ) : (
-            <Box sx={{ marginBottom: 2 }}>
-              <FeatureItem>{t('product_presentation_thickness_1_5mm_dore_mat')}</FeatureItem>
-              <FeatureItem>{t('product_presentation_food_contact_dore_mat')}</FeatureItem>
-              <FeatureItem>{t('product_presentation_protection_dore_mat')}</FeatureItem>
-              <FeatureItem>{t('product_presentation_transparent_dore_mat')}</FeatureItem>
-              <FeatureItem2 onClickCici={() => {
-      if (ref?.current) {
-        ref.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    }}>
+  </Box>
+) : pictures09.indexOf(selectedGalleryImage) === 1 ? (
+  <Box sx={{ marginBottom: 2 }}>
+    <FeatureItem>{t('product_presentation_thickness_1_5mm_mat')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_food_contact_dore_mat')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_protection_dore_mat')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_transparent_dore_mat')}</FeatureItem>
+ 
+  </Box>
+) :  pictures09.indexOf(selectedGalleryImage) === 2 ? (
+  <Box sx={{ marginBottom: 2 }}>
+    <FeatureItem>{t('product_presentation_thickness_1_5mm_dore')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_food_contact_dore_mat')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_protection_dore_mat')}</FeatureItem>
+    <FeatureItem>{t('product_presentation_transparent_dore_mat')}</FeatureItem>
+    <FeatureItem2
+      onClickCici={() => {
+        handlePictureClick(pictures09[1],1)
+      }}
+    >
       {t('product_presentation_cancelicon')}
+
     </FeatureItem2>
-            </Box>
-          )}
+  </Box>
+):null}
 
           {/* Availability */}
           <Typography variant="body1" sx={{ marginBottom: 1, color: "green" }}>
