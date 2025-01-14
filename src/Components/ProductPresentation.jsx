@@ -1022,7 +1022,7 @@ const handlePictureClick = (picture, index) => {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            gap: isMobile ? 1 : 2
+            gap: isMobile ? 2 : 2
           }}>
             {shapes.map((shapePath, index) => (
               <ImageButton
