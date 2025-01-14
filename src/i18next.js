@@ -273,6 +273,8 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_cancelicon: "لا يناسب الاستخدام الخارجي أو الطاولات اللامعة أو المطلية أو الزجاجية." ,
                 
                 clickici:" \t انقر هنا لمشاهدة \t "  ,
+                product_presentation_thickness_1_5mm_dore:"غطاء ذهبي : 250 درهم/م²، بالإضافة إلى تكاليف التقطيع",
+                product_presentation_thickness_1_5mm_mat:"غطاء مضبب : 250 درهم/م²، بالإضافة إلى تكاليف التقطيع",
                 product_presentation_thickness_1_5mm_dore_mat:"مضبب / غطاء ذهبي : 250 درهم/م²، بالإضافة إلى تكاليف التقطيع",
                 product_presentation_food_contact_dore_mat:"فيلم حماية الطاولة يمكن أن يلامس الطعام.",
                 product_presentation_protection_dore_mat:"مقاوم للماء ويحمي من الخدوش.",
