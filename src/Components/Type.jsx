@@ -28,7 +28,7 @@ const Type = () => {
          boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.2)',
           width: { xs: '150%', sm: '48%', md: '30%' },
           margin: { xs: 2, sm: 2, md: 1 },
-          height: { xs: '550px', sm: '600px', md: '850px' },  
+          height: { xs: i18n.language === 'ar'?'450px':'510px', sm: '600px',  md: i18n.language === 'ar' ? '820px' : '900px'  },  
           overflow: 'hidden',
           flex: '1 1 auto',
           display: 'flex',
@@ -79,7 +79,7 @@ const Type = () => {
           <Box sx={{ 
             display: 'flex', 
             justifyContent: 'center',
-            marginTop: 2,
+            
             paddingBottom: 0
           }}>
             <Button
