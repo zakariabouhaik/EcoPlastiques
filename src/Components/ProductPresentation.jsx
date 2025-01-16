@@ -797,26 +797,38 @@ const renderDimensionFields = () => {
             src={mainPicture || pictures[currentPictureIndex]}
             alt="Main Product"
             sx={{
-              width: "100%",
+              width: "90%",
               height: "auto",
               border: "1px solid #ddd",
               borderRadius: "8px",
             }}
           />
-          <NavigationButton
-             
-             onClick={goToPreviousPicture}
-            sx={{ left: -24 }}
-          >
-            <ChevronLeft />
-          </NavigationButton>
-          <NavigationButton
-                     onClick={goToNextPicture}
-
-            sx={{ right: -24 }}
-          >
-            <ChevronRight />
-          </NavigationButton>
+        <NavigationButton
+  onClick={goToPreviousPicture}
+  sx={{
+    left: -10, // Position inchangée
+    width: 50, // Réduction de la largeur
+    height: 50, // Réduction de la hauteur
+    minWidth: 30, // Taille minimum
+    minHeight: 30, // Taille minimum
+    padding: 0, // Suppression de tout espace interne supplémentaire
+  }}
+>
+  <ChevronLeft sx={{ fontSize: 20 }} /> {/* Réduction de la taille de l'icône */}
+</NavigationButton>
+         <NavigationButton
+  onClick={goToNextPicture}
+  sx={{
+    right: -10, // Position à droite
+    width: 50, // Réduction de la largeur du bouton
+    height: 50, // Réduction de la hauteur du bouton
+    minWidth: 30, // Taille minimum
+    minHeight: 30, // Taille minimum
+    padding: 0, // Suppression des marges internes
+  }}
+>
+  <ChevronRight sx={{ fontSize: 20 }} /> {/* Taille réduite de l'icône */}
+</NavigationButton>
         </Box>
       )}
     </Box>
