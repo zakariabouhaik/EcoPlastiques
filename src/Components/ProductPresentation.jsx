@@ -854,10 +854,10 @@ const handlePictureClick = (picture, index) => {
         <Box sx={{ padding: 2 }}>
           {/* Title and text */}
           <Box sx={{ marginBottom: 2 ,marginLeft: { lg: 12},marginRight: { lg: 12}}}>
-            <Typography variant="h4" sx={{ marginBottom: 1 }}>
+            <Typography variant="h5" sx={{ marginBottom: 1 }}>
               {title}
             </Typography>
-            <Typography variant="body1">{text}</Typography>
+            <Typography variant="h8">{text}</Typography>
           </Box>
 
           {/* Main Image */}
@@ -865,8 +865,6 @@ const handlePictureClick = (picture, index) => {
             {isDynamicSVG ? (
               selectedShape === 0 ? (
                 <DynamicCircleSVG
-
-
                   diameter={dimensions.diametre }
 
                   color="#9BC953"

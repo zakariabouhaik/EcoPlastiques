@@ -87,14 +87,10 @@ const Type = () => {
               onClick={handleClick}
               sx={{
                 bgcolor: '#9BC953',
-                borderRadius: 6,
-                color: 'white',
-                padding: "10px 20px",
-                fontSize: isMobile ? 16 : 18,
-                textTransform: 'none',
-                '&:hover': {
-                  bgcolor: '#7ea941',
-                },
+            borderRadius: 6,
+            padding: "10px 20px",
+            fontSize: isMobile ? 12 : 14,
+            color: 'white',
               }}
             >
               {t('product_button')}

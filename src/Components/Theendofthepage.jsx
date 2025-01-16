@@ -49,6 +49,7 @@ const Theendofthepage = forwardRef(({
           variant={isMobile ? "h6" : "h5"}
           sx={{
             textAlign:  "center" ,
+            fontWeight:520,
             fontSize: {
               xs: '1.1rem',
               sm: '1.3rem',
@@ -142,11 +143,13 @@ const Theendofthepage = forwardRef(({
                       marginBottom: "2%",
                       marginTop: "2%",
                       textAlign: isMobile ? "center" : "left",
+                      fontWeight:620,
                     }}
                   >
                     {titre3}
                   </Typography>
                   <Typography sx={{ 
+                    fontWeight:520,
                     textAlign: isMobile ? "center" : "left",
                     textAlign: isArabic ? 'right' : 'left' }}
                     >
@@ -159,6 +162,7 @@ const Theendofthepage = forwardRef(({
                     variant={isMobile ? "subtitle1" : "h6"}
                     sx={{
                       marginBottom: "2%",
+                      fontWeight:620,
                       marginTop: "2%",
                       textAlign: isMobile ? "center" : "left"
                     }}

@@ -26,7 +26,7 @@ const Iconscompenent = () => {
           }}
         />
         <Box sx={{ margin: 3 }}>
-          <Typography sx={{ margin: 1, fontSize: isMobile ? 20 : 18, color: "black", fontFamily:'revert' }}>
+          <Typography sx={{ margin: 1, fontSize: isMobile ? 20 : 18, color: "black", fontFamily:'revert',fontWeight:500 }}>
             {titre}
           </Typography>
           <Typography sx={{ textAlign: 'center', fontSize: isMobile ? 16 : 15,   fontFamily: i18n.language === 'ar' ? 'Arial' : 'revert',  fontWeight: 'light'  }}>

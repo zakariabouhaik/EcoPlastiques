@@ -27,14 +27,14 @@ const AssistanceComponent = () => {
       <Typography variant="body1">
         {t("assistance3")}{' '}
         <Link
-          href="tel:+212708051754"
+          href="tel:+212663310060"
           color="primary"
           sx={{
             unicodeBidi: 'bidi-override',
             direction: 'ltr',
           }}
         >
-          +212 708-051754
+          +212 663-310060
         </Link>{' '}
         {t("assistance4")}
       </Typography>
