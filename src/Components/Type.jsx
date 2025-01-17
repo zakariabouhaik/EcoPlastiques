@@ -90,7 +90,7 @@ const Type = () => {
             borderRadius: 6,
             padding: "10px 20px",
             fontSize: isMobile ? 12 : 14,
-            marginTop: margin ? 4 : 0,
+            marginTop: margin ? 3.6 : 0,
             color: 'white',
               }}
             >
