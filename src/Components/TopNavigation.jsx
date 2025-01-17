@@ -131,7 +131,7 @@ const Header = () => {
         variant="body2"
         align="center"
         color="inherit"
-        sx={{ fontSize: { xs: 12, sm: 18, md: 23 } }}
+        sx={{ fontSize: { xs: 12, sm: 18, md: 20 } }}
       >
         {text}
       </Typography>

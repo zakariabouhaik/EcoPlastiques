@@ -14,7 +14,7 @@ const Type = () => {
   };
 
 
-  const Blan = ({ image, titre, text, index }) => {
+  const Blan = ({ image, titre, text, index ,margin}) => {
     const handleClick = () => {
       navigate('/productpage', { state: { selectedIndex: index } });
     };
@@ -86,10 +86,11 @@ const Type = () => {
             <Button
               onClick={handleClick}
               sx={{
-                bgcolor: '#9BC953',
+            bgcolor: '#9BC953',
             borderRadius: 6,
             padding: "10px 20px",
             fontSize: isMobile ? 12 : 14,
+            marginTop: margin ? 4 : 0,
             color: 'white',
               }}
             >
@@ -129,12 +130,14 @@ const Type = () => {
           titre={t('tablecloth_tri_or_title')}
           text={t('tablecloth_tri_or_text')}
           index={2}
+          margin 
         />
         <Blan
           image="/assets/Typepic/3.jpg"
           titre={t('tablecloth_transparent_title')}
           text={t('tablecloth_transparent_text')}
           index={0}
+          margin 
         />
         <Blan
           image="/assets/Typepic/nappe-mat-1.jpg"
