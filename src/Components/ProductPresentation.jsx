@@ -863,7 +863,7 @@ const handlePictureClick = (picture, index) => {
         width: '100%',
         order: { xs: 1, md: 1 }
       }}>
-        <Box sx={{ padding: 2 }}>
+        <Box sx={{ padding: 2 ,marginTop:-3}}>
           {/* Title and text */}
           <Box sx={{ marginBottom: 2 ,marginLeft: { lg: 12},marginRight: { lg: 12}}}>
             <Typography variant="h5" sx={{ marginBottom: 1 }}>
