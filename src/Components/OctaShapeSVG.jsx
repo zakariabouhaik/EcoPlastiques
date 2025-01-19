@@ -8,8 +8,8 @@ const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
   const { t } = useTranslation();
   
   // Limiter les dimensions visuelles tout en gardant les valeurs originales pour l'affichage
-  const visualLength = isMobile ? Math.min(length || 50, 20) : Math.min(length|| 100, 45);
-  const visualArc = isMobile ? Math.min(arc || 50, 20) : Math.min(arc || 50, 45);
+  const visualLength = isMobile ? Math.min(length || 50, 20) : Math.min(length|| 100, 100);
+  const visualArc = isMobile ? Math.min(arc || 50, 20) : Math.min(arc || 50, 50);
   
   const svgSize = isMobile ? 300 : 600;
   const centerX = svgSize / 2;

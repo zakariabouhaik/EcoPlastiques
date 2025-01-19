@@ -3,13 +3,13 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import { useTranslation } from 'react-i18next'; 
 
 const RectangleChanfreine = ({
-  width = 400,
-  height = 300,
+  width,
+  height,
   color = '#9BC953',
   strokeColor,
   strokeWidth = 2,
-  arcA = 40,
-  arcB = 40,
+  arcA,
+  arcB,
   displayValues = false
 }) => {
   const theme = useTheme();
@@ -20,12 +20,18 @@ const RectangleChanfreine = ({
   
   const measureOffset = isMobile ? 30 : 50;
 
-  const parsedWidth = Number(width) || 400;
-  const parsedHeight = Number(height) || 300;
-  const parsedArcA = Number(arcA) || 40;
-  const parsedArcB = Number(arcB) || 40;
+  // Conversion des dimensions pour l'affichage SVG
+  const scale = 0.8;  
+  const visualWidth = Math.min((Number(width) || isMobile? 120: 240) * scale, 400);
+  const visualHeight = Math.min((Number(height) ||  isMobile? 200 :400) * scale, 240);
+  const visualArcA = Math.min((Number(arcA)|| isMobile? 20:  40) * scale, 40);
+  const visualArcB = Math.min((Number(arcB)|| isMobile? 20:  40) * scale, 40);
 
   const { t } = useTranslation(); 
+
+  // Debug pour vérifier les valeurs reçues
+  console.log('RectangleChanfreine props:', { width, height, arcA, arcB });
+  console.log('Visual dimensions:', { visualWidth, visualHeight, visualArcA, visualArcB });
 
   return (
     <svg
@@ -48,20 +54,20 @@ const RectangleChanfreine = ({
         </marker>
       </defs>
 
-      {/* Fond avec motif de grille */}
+      {/* Grid background */}
       <rect width={svgSize} height={svgSize} fill="url(#grid-pattern)" />
 
-      {/* Rectangle chanfreiné */}
+      {/* Chamfered rectangle */}
       <path
         d={`
-          M ${centerX - parsedWidth/2 + parsedArcB},${centerY - parsedHeight/2}
-          H ${centerX + parsedWidth/2 - parsedArcB}
-          L ${centerX + parsedWidth/2},${centerY - parsedHeight/2 + parsedArcA}
-          V ${centerY + parsedHeight/2 - parsedArcA}
-          L ${centerX + parsedWidth/2 - parsedArcB},${centerY + parsedHeight/2}
-          H ${centerX - parsedWidth/2 + parsedArcB}
-          L ${centerX - parsedWidth/2},${centerY + parsedHeight/2 - parsedArcA}
-          V ${centerY - parsedHeight/2 + parsedArcA}
+          M ${centerX - visualWidth/2 + visualArcB},${centerY - visualHeight/2}
+          H ${centerX + visualWidth/2 - visualArcB}
+          L ${centerX + visualWidth/2},${centerY - visualHeight/2 + visualArcA}
+          V ${centerY + visualHeight/2 - visualArcA}
+          L ${centerX + visualWidth/2 - visualArcB},${centerY + visualHeight/2}
+          H ${centerX - visualWidth/2 + visualArcB}
+          L ${centerX - visualWidth/2},${centerY + visualHeight/2 - visualArcA}
+          V ${centerY - visualHeight/2 + visualArcA}
           Z
         `}
         fill={color}
@@ -69,12 +75,12 @@ const RectangleChanfreine = ({
         strokeWidth={strokeWidth}
       />
 
-      {/* Ligne de largeur (bas) */}
+      {/* Width measurement */}
       <line
-        x1={centerX - parsedWidth/2}
-        y1={centerY + parsedHeight/2 + measureOffset}
-        x2={centerX + parsedWidth/2}
-        y2={centerY + parsedHeight/2 + measureOffset}
+        x1={centerX - visualWidth/2}
+        y1={centerY + visualHeight/2 + measureOffset}
+        x2={centerX + visualWidth/2}
+        y2={centerY + visualHeight/2 + measureOffset}
         stroke={color}
         strokeWidth="2"
         markerStart="url(#arrow)"
@@ -82,63 +88,61 @@ const RectangleChanfreine = ({
       />
       <text
         x={centerX}
-        y={centerY + parsedHeight/2 + measureOffset + 20}
+        y={centerY + visualHeight/2 + measureOffset + 20}
         textAnchor="middle"
         fill="#666"
       >
-        {t("Largeur")}
-        {displayValues && `: ${parsedWidth} ${t("cm")}`}
+        {t("Largeur")}: {width} {t("cm")}
       </text>
 
-      {/* Ligne de longueur (droite) */}
+      {/* Height measurement */}
       <line
-        x1={centerX + parsedWidth/2 + measureOffset}
-        y1={centerY - parsedHeight/2}
-        x2={centerX + parsedWidth/2 + measureOffset}
-        y2={centerY + parsedHeight/2}
+        x1={centerX + visualWidth/2 + measureOffset}
+        y1={centerY - visualHeight/2}
+        x2={centerX + visualWidth/2 + measureOffset}
+        y2={centerY + visualHeight/2}
         stroke={color}
         strokeWidth="2"
         markerStart="url(#arrow)"
         markerEnd="url(#arrow)"
       />
       <text
-        x={centerX + parsedWidth/2 + measureOffset + 15}
+        x={centerX + visualWidth/2 + measureOffset + 15}
         y={centerY}
         textAnchor="middle"
         fill="#666"
-        transform={`rotate(-90 ${centerX + parsedWidth/2 + measureOffset + 15} ${centerY})`}
+        transform={`rotate(-90 ${centerX + visualWidth/2 + measureOffset + 15} ${centerY})`}
       >
-        {t("Longueur")}
-        {displayValues && `: ${parsedHeight} ${t("cm")}`}
+        {t("Longueur")}: {height} {t("cm")}
       </text>
 
-      {/* Ligne arc A (côtés gauche) */}
+      {/* Arc A measurement */}
       <line
-        x1={centerX - parsedWidth/2 - measureOffset}
-        y1={centerY - parsedHeight/2 + parsedArcA}
-        x2={centerX - parsedWidth/2 - measureOffset}
-        y2={centerY + parsedHeight/2 - parsedArcA}
+        x1={centerX - visualWidth/2 - measureOffset}
+        y1={centerY - visualHeight/2 + visualArcA}
+        x2={centerX - visualWidth/2 - measureOffset}
+        y2={centerY + visualHeight/2 - visualArcA}
         stroke={color}
         strokeWidth="2"
         markerStart="url(#arrow)"
         markerEnd="url(#arrow)"
       />
       <text
-        x={centerX - parsedWidth/2 - measureOffset - 15}
+        x={centerX - visualWidth/2 - measureOffset - 15}
         y={centerY}
         textAnchor="middle"
         fill="#666"
-        transform={`rotate(-90 ${centerX - parsedWidth/2 - measureOffset - 15} ${centerY})`}
+        transform={`rotate(-90 ${centerX - visualWidth/2 - measureOffset - 15} ${centerY})`}
       >
-        {`${t("ArcA")}${displayValues ? `: ${parsedArcA} ${t("cm")}` : ''}`}
+        {t("ArcA")}: {arcA} {t("cm")}
       </text>
 
-      {/* Ligne arc B (haut) */}
+      {/* Arc B measurement */}
       <line
-        x1={centerX - parsedWidth/2 + parsedArcB}
-        y1={centerY - parsedHeight/2 - measureOffset}
-        x2={centerX + parsedWidth/2 - parsedArcB}
-        y2={centerY - parsedHeight/2 - measureOffset}
+        x1={centerX - visualWidth/2 + visualArcB}
+        y1={centerY - visualHeight/2 - measureOffset}
+        x2={centerX + visualWidth/2 - visualArcB}
+        y2={centerY - visualHeight/2 - measureOffset}
         stroke={color}
         strokeWidth="2"
         markerStart="url(#arrow)"
@@ -146,27 +150,14 @@ const RectangleChanfreine = ({
       />
       <text
         x={centerX}
-        y={centerY - parsedHeight/2 - measureOffset - 10}
+        y={centerY - visualHeight/2 - measureOffset - 10}
         textAnchor="middle"
         fill="#666"
       >
-        {`${t("ArcB")}${displayValues ? `: ${parsedArcB} ${t("cm")}` : ''}`}
+        {t("ArcB")}: {arcB} {t("cm")}
       </text>
-
-      {displayValues && (
-        <text
-          x={centerX}
-          y={centerY}
-          textAnchor="middle"
-          fill="#666"
-          fontSize="14"
-        >
-          {`${parsedWidth}x${parsedHeight}`}
-        </text>
-      )}
     </svg>
   );
 };
 
 export default RectangleChanfreine;
-

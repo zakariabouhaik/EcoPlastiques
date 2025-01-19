@@ -300,44 +300,129 @@ const handleDimensionChange = (field, value) => {
   setDimensions((prev) => ({ ...prev, [field]: newValue }));
 
   switch(selectedShape) {
-    case 0: // Circle
+    case 0: 
+    if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="1.5" ){
       const diametre = field === "diametre" ? newValue : dimensions.diametre;
       if (diametre) {
         const area = Math.PI * Math.pow(diametre/2, 2) * 0.0001; // en m²
         setShowMessage(false);
-        setPrixTotal(Math.floor(area * 215 + 50));
+
+        if(area<0.49){setPrixTotal(Math.floor(area * 199 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 199 + 40));}else if(area>1){setPrixTotal(Math.floor(area * 199 + 20));}
+      
       } else {
         setShowMessage(true);
         setPrixTotal(0);
       }
+    }
+    else if((pictures09.indexOf(selectedGalleryImage) === 1||2 )  ){
+      const diametre = field === "diametre" ? newValue : dimensions.diametre;
+      if (diametre) {
+        const area = Math.PI * Math.pow(diametre/2, 2) * 0.0001; // en m²
+        setShowMessage(false);
+        if(area<0.49){setPrixTotal(Math.floor(area * 250 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 250 + 40));}else if(area>1){setPrixTotal(Math.floor(area * 250 + 20));}
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+    } else if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="2" ){
+      const diametre = field === "diametre" ? newValue : dimensions.diametre;
+      if (diametre) {
+        const area = Math.PI * Math.pow(diametre/2, 2) * 0.0001; // en m²
+        setShowMessage(false);
+        if(area<0.49){setPrixTotal(Math.floor(area * 250 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 250 + 40));}else if(area>1){setPrixTotal(Math.floor(area * 250 + 20));}
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+    }
+  
       break;
 
     case 1: // Octogone
+    if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="1.5" ){
       const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
       const arcOcta = field === "arc" ? newValue : dimensions.arc;
       if (longueurOcta && arcOcta) {
         const areaOcta = longueurOcta * longueurOcta * 0.0001; // Simplification pour l'exemple
         setShowMessage(false);
-        setPrixTotal(Math.floor(areaOcta * 215 + 50));
+        
+        if(areaOcta<0.49){setPrixTotal(Math.floor(areaOcta * 199 + 70));} else if(areaOcta<0.99){setPrixTotal(Math.floor(areaOcta * 199 + 40));}else if(areaOcta>1){setPrixTotal(Math.floor(areaOcta * 199 + 20));}
+
       } else {
         setShowMessage(true);
         setPrixTotal(0);
       }
+    }
+    else if((pictures09.indexOf(selectedGalleryImage) === 1||2 )  ){
+      const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
+      const arcOcta = field === "arc" ? newValue : dimensions.arc;
+      if (longueurOcta && arcOcta) {
+        const areaOcta = longueurOcta * longueurOcta * 0.0001; // Simplification pour l'exemple
+        setShowMessage(false);
+        
+        if(areaOcta<0.49){setPrixTotal(Math.floor(areaOcta * 250 + 70));} else if(areaOcta<0.99){setPrixTotal(Math.floor(areaOcta * 250 + 40));}else if(areaOcta>1){setPrixTotal(Math.floor(areaOcta * 250 + 20));}
+
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+    }
+    else if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="2" ){
+      const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
+      const arcOcta = field === "arc" ? newValue : dimensions.arc;
+      if (longueurOcta && arcOcta) {
+        const areaOcta = longueurOcta * longueurOcta * 0.0001; // Simplification pour l'exemple
+        setShowMessage(false);
+        
+        if(areaOcta<0.49){setPrixTotal(Math.floor(areaOcta * 250 + 70));} else if(areaOcta<0.99){setPrixTotal(Math.floor(areaOcta * 250 + 40));}else if(areaOcta>1){setPrixTotal(Math.floor(areaOcta * 250 + 20));}
+
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+    }
       break;
 
     case 2: // Rectangle coins arrondis
     case 3: // Rectangle chanfreiné
     case 4: // Rectangle coins carrés
     default:
+      if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="1.5" ){
       const longueur = field === "longueur" ? newValue : dimensions.longueur;
       const largeur = field === "largeur" ? newValue : dimensions.largeur;
       if (longueur && largeur) {
+        const area = longueur * 0.01 * largeur * 0.01 ;
         setShowMessage(false);
-        setPrixTotal(Math.floor(longueur * 0.01 * largeur * 0.01 * 215 + 50));
+        if( area <0.49){setPrixTotal(Math.floor(area * 199 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 199 + 40));}else if(area>1){setPrixTotal(Math.floor(area * 199 + 20));}
       } else {
         setShowMessage(true);
         setPrixTotal(0);
       }
+    }
+    else if((pictures09.indexOf(selectedGalleryImage) === 1||2 )  ){
+      const longueur = field === "longueur" ? newValue : dimensions.longueur;
+      const largeur = field === "largeur" ? newValue : dimensions.largeur;
+      if (longueur && largeur) {
+        const area = longueur * 0.01 * largeur * 0.01 ;
+        setShowMessage(false);
+        if( area <0.49){setPrixTotal(Math.floor(area * 250 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 250 + 40));}else if(area>1){setPrixTotal(Math.floor(area * 250 + 20));}
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+    }
+   else if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="2" ){
+      const longueur = field === "longueur" ? newValue : dimensions.longueur;
+      const largeur = field === "largeur" ? newValue : dimensions.largeur;
+      if (longueur && largeur) {
+        const area = longueur * 0.01 * largeur * 0.01 ;
+        setShowMessage(false);
+        if( area <0.49){setPrixTotal(Math.floor(area * 250 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 250 + 40));}else if(area>1){setPrixTotal(Math.floor(area * 250 + 20));}
+      } else {
+        setShowMessage(true);
+        setPrixTotal(0);
+      }
+    }
       break;
   }
 };
@@ -900,16 +985,16 @@ const handlePictureClick = (picture, index) => {
   height={dimensions.largeur}
   color="#9BC953" 
 />
-): selectedShape === 3 ? (
-              <RectangleChanfreine 
-             height={dimensions.longueur ||(isMobile ? 40 : 400 )}
-               width={dimensions.largeur || (isMobile ? 100 :240 )}
-                arcA={dimensions.arcA || (isMobile ? 10 : 40)}
-                arcB={dimensions.arcB || (isMobile ? 10 : 40)}
-                color="#9BC953" 
-                displayValues={true}
-              />
-            )
+):selectedShape === 3 ? (
+  <RectangleChanfreine 
+    width={dimensions.largeur}    // Changer longueur en largeur
+    height={dimensions.longueur}  // Changer largeur en longueur
+    arcA={dimensions.arca}
+    arcB={dimensions.arcb}
+    color="#9BC953" 
+    displayValues={true}
+  />
+)
                 : /*  selectedShape === 1 ? (
                   <OvaleSVG 
                     width={dimensions.longueur || 200}
