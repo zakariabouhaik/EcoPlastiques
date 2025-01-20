@@ -876,14 +876,15 @@ const renderDimensionFields = () => {
           />
         ) : /* ... (keep all other shape conditions) */ null
       ) : (
-        <Box sx={{ position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+        <Box sx={{ position: 'relative', width: '100%', margin: '0 auto' }}>
           <Box
             component="img"
             src={mainPicture || pictures[currentPictureIndex]}
             alt="Main Product"
             sx={{
-              width: "95%",
-              height: "auto",
+              width: "104%",
+              marginLeft:-1,
+              height:'400px',
               border: "1px solid #ddd",
               borderRadius: "8px",
             }}
