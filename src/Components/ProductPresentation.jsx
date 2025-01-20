@@ -882,7 +882,7 @@ const renderDimensionFields = () => {
             src={mainPicture || pictures[currentPictureIndex]}
             alt="Main Product"
             sx={{
-              width: "100%",
+              width: "95%",
               height: "auto",
               border: "1px solid #ddd",
               borderRadius: "8px",

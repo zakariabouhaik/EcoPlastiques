@@ -183,7 +183,7 @@ const ProductPage = () => {
         >
             <TopNavigation />
             <ProductPresentation
-            ref={qcmRef}  
+                ref={qcmRef}  
                 title={title001}
                 text={title002}
                 pictures={pictures001}
