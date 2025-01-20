@@ -955,7 +955,10 @@ const handlePictureClick = (picture, index) => {
             <Typography variant="h5" sx={{ marginBottom: 1 }}>
               {title}
             </Typography>
-            <Typography variant="h8">{text}</Typography>
+            <Typography variant="h9" noWrap>
+               {text}
+              </Typography>
+
           </Box>
 
           {/* Main Image */}
