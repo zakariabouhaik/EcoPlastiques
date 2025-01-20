@@ -164,14 +164,14 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 Cercle:"Cercle",
                 Octogone: "Octogone",
                 Contactez_nous:"Contactez-nous",
-                Avis_de_nos_clients:"Avis de nos clients",
+                Avis_de_nos_clients:"Avis clients",
                 textfooter:'Leader dans la fabrication de nappes protectrices au Maroc, offrant des solutions innovantes pour protéger vos meubles avec style.'
             }
         },
         ar: {
             translation: {
                 textfooter:'الشركة المغربية الرائدة في مجال تصنيع مفارش المائدة الواقية في المغرب، والتي تقدم حلولاً مبتكرة لحماية أثاثك بأناقة.',
-                Avis_de_nos_clients:"رأي عملائنا",
+                Avis_de_nos_clients:"التقيمات ", 
                 Sujet:"الموضوع:",
                 Contactez_nous:"تواصل معنا",
                 Liens_rapides:"روابط سريعة",

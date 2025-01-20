@@ -882,7 +882,7 @@ const renderDimensionFields = () => {
             src={mainPicture || pictures[currentPictureIndex]}
             alt="Main Product"
             sx={{
-              width: "90%",
+              width: "100%",
               height: "auto",
               border: "1px solid #ddd",
               borderRadius: "8px",
@@ -948,7 +948,7 @@ const handlePictureClick = (picture, index) => {
         width: '100%',
         order: { xs: 1, md: 1 }
       }}>
-        <Box sx={{ padding: 2 ,marginTop:-3}}>
+        <Box sx={{ padding: 2 ,marginTop:-4}}>
           {/* Title and text */}
           <Box sx={{ marginBottom: 2 ,marginLeft: { lg: 12},marginRight: { lg: 12}}}>
             <Typography variant="h5" sx={{ marginBottom: 1 }}>
