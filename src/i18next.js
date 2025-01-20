@@ -63,7 +63,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_page6: "Transparente",
                 product_page7: "Gardez la vue sur votre belle table et ne cachez pas le grain. La surface reste visible et est encore plus accentuée par la feuille haute brillance.",
                 product_page8: "Nappe Transparente",
-                product_page9: "Conçu spécialement pour protéger votre table à manger.",
+                product_page9: "Conçu spécialement pour protéger votre table.",
                 product_page10: "La nappe Mate",
                 product_page11: "La nappe Mate convient parfaitement aux tables et aux surfaces en verre extrêmement lisses. Sa surface légèrement Mate ne permet pas la formation de bulles d’air.",
                 product_page12: "Que vous placiez le film de table sur la table à manger, la commode ou la coiffeuse, il a toujours un aspect de haute qualité et protège également la surface.",

@@ -125,7 +125,7 @@ const ClientReviews = () => {
       sx={{
         position: 'fixed',
         right: { xs: 22, sm: 22 },
-        top: '60%',
+        top: '20%',
         transform: 'translateY(-50%) rotate(-90deg)',
         transformOrigin: 'right center',
         backgroundColor: '#9BC953',
