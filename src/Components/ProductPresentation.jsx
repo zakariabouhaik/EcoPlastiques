@@ -884,7 +884,7 @@ const renderDimensionFields = () => {
             sx={{
               width: "104%",
               marginLeft:-1,
-              height:'400px',
+              height:'350px',
               border: "1px solid #ddd",
               borderRadius: "8px",
             }}
