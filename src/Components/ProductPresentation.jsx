@@ -1,5 +1,5 @@
 import React, { useState, useEffect,forwardRef } from "react";
-import { Typography, Grid2, Box, useTheme, useMediaQuery, TextField, Button } from "@mui/material";
+import { Typography, Grid2, IconButton,Box, useTheme, useMediaQuery, TextField, Button } from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { styled } from '@mui/material/styles';
@@ -13,6 +13,7 @@ import RectangleACoinCarres from "./RectangleACoinCarres";
 import RectangleChanfreine from "./RectangleChanfreine";
 import OvaleSVG from "./OvaleSVG";
 import { useTranslation } from 'react-i18next';
+import { Minus, Plus } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr, ar } from 'date-fns/locale';
 
@@ -64,12 +65,38 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
         longueur: dimensions.longueur,
         largeur: dimensions.largeur
       },
-      price: prixTotal
+      price: prixTotal,
+      quantity: 1
     };
-    setSelectedCovers([...selectedCovers, newCover]);
-    // Réinitialiser les dimensions après l'ajout
+    setTableCovers([...tableCovers, newCover]);
     setDimensions({ longueur: '', largeur: '' });
     setShowMessage(true);
+  };
+
+  const handleQuantityChange = (index, newQuantity) => {
+    const newTableCovers = [...tableCovers];
+    newTableCovers[index] = {
+      ...newTableCovers[index],
+      quantity: newQuantity,
+      totalPrice: newTableCovers[index].price * newQuantity
+    };
+    setTableCovers(newTableCovers);
+    
+    // Mise à jour du prix total
+    const total = newTableCovers.reduce((sum, cover) => 
+      sum + (cover.price * (cover.quantity || 1)), 0);
+    setPrixTotal(total);
+  };
+  
+  const handleRemoveCover = (index) => {
+    const newTableCovers = [...tableCovers];
+    newTableCovers.splice(index, 1);
+    setTableCovers(newTableCovers);
+    
+    // Mise à jour du prix total après suppression
+    const total = newTableCovers.reduce((sum, cover) => 
+      sum + (cover.price * (cover.quantity || 1)), 0);
+    setPrixTotal(total);
   };
 
 
@@ -139,6 +166,26 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
   };
 
   const isArabic = i18n.language === 'ar';
+
+  const incrementQuantity = (index) => {
+    const newTableCovers = [...tableCovers];
+    if (!newTableCovers[index].quantity) {
+      newTableCovers[index].quantity = 2;
+    } else {
+      newTableCovers[index].quantity += 1;
+    }
+    newTableCovers[index].totalPrice = newTableCovers[index].price * newTableCovers[index].quantity;
+    setTableCovers(newTableCovers);
+  };
+  
+  const decrementQuantity = (index) => {
+    const newTableCovers = [...tableCovers];
+    if (newTableCovers[index].quantity && newTableCovers[index].quantity > 1) {
+      newTableCovers[index].quantity -= 1;
+      newTableCovers[index].totalPrice = newTableCovers[index].price * newTableCovers[index].quantity;
+      setTableCovers(newTableCovers);
+    }
+  };
 
   useEffect(() => {
     const today = new Date();
@@ -297,80 +344,63 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
 
 const handleDimensionChange = (field, value) => {
   const newValue = value === "" ? "" : Number(value);
-  setDimensions((prev) => ({ ...prev, [field]: newValue }));
+  // Créer un nouvel objet dimensions avec la nouvelle valeur
+  const newDimensions = { ...dimensions, [field]: newValue };
 
-  switch(selectedShape) {
-    case 0: // Circle
-      if (pictures09.indexOf(selectedGalleryImage) === 0) {
-        const diametre = field === "diametre" ? newValue : dimensions.diametre;
-        if (diametre) {
-          const area = diametre/100 * diametre/100;
-          setShowMessage(false);
-          const basePrice = thickness === "2" ? 250 : 199;
-          
-          if (area < 0.49) {
-            setPrixTotal(Math.floor(area * basePrice + 70));
-          } else if (area < 0.99) {
-            setPrixTotal(Math.floor(area * basePrice + 40));
-          } else if (area >= 1) {
-            setPrixTotal(Math.floor(area * basePrice + 20));
-          }
-        } else {
-          setShowMessage(true);
-          setPrixTotal(0);
-        }
-      }
-      break;
+  // Vérifier si toutes les dimensions requises sont remplies
+  const allDimensionsFilled = (() => {
+    switch(selectedShape) {
+      case 0: // Circle
+        return newDimensions.diametre; // Utiliser newDimensions au lieu de dimensions
+      case 1: // Octogone
+        return newDimensions.longueur && newDimensions.arc;
+      case 2: // Rectangle coins arrondis
+        return newDimensions.longueur && newDimensions.largeur && newDimensions.arc;
+      case 3: // Rectangle chanfreiné
+        return newDimensions.longueur && newDimensions.largeur && newDimensions.arcA && newDimensions.arcB;
+      case 4: // Rectangle coins carrés
+        return newDimensions.longueur && newDimensions.largeur;
+      default:
+        return false;
+    }
+  })();
 
-    case 1: // Octogone
-      if (pictures09.indexOf(selectedGalleryImage) === 0) {
-        const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
-        const arcOcta = field === "arc" ? newValue : dimensions.arc;
-        if (longueurOcta && arcOcta) {
-          const areaOcta = (longueurOcta /100)* (longueurOcta / 100);
-          setShowMessage(false);
-          const basePrice = thickness === "2" ? 250 : 199;
-          
-          if (areaOcta < 0.49) {
-            setPrixTotal(Math.floor(areaOcta * basePrice + 70));
-          } else if (areaOcta < 0.99) {
-            setPrixTotal(Math.floor(areaOcta * basePrice + 40));
-          } else if (areaOcta >= 1) {
-            setPrixTotal(Math.floor(areaOcta * basePrice + 20));
-          }
-        } else {
-          setShowMessage(true);
-          setPrixTotal(0);
-        }
+  if (allDimensionsFilled) {
+    // Calculer le prix en utilisant newDimensions
+    const calculatePrice = () => {
+      let area;
+      switch(selectedShape) {
+        case 0:
+          area = newDimensions.diametre/100 * newDimensions.diametre/100;
+          break;
+        case 1:
+          area = (newDimensions.longueur/100) * (newDimensions.longueur/100);
+          break;
+        default:
+          area = (newDimensions.longueur/100) * (newDimensions.largeur/100);
       }
-      break;
 
-    case 2: // Rectangle coins arrondis
-    case 3: // Rectangle chanfreiné
-    case 4: // Rectangle coins carrés
-    default:
-      if (pictures09.indexOf(selectedGalleryImage) === 0) {
-        const longueur = field === "longueur" ? newValue : dimensions.longueur;
-        const largeur = field === "largeur" ? newValue : dimensions.largeur;
-        if (longueur && largeur) {
-          const area = (longueur / 100) * (largeur / 100);
-          setShowMessage(false);
-          const basePrice = thickness === "2" ? 250 : 199;
-          
-          if (area < 0.49) {
-            setPrixTotal(Math.floor(area * basePrice + 70));
-          } else if (area < 0.99) {
-            setPrixTotal(Math.floor(area * basePrice + 40));
-          } else if (area >= 1) {
-            setPrixTotal(Math.floor(area * basePrice + 20));
-          }
-        } else {
-          setShowMessage(true);
-          setPrixTotal(0);
-        }
+      const basePrice = thickness === "2" ? 250 : 199;
+      
+      if (area < 0.49) {
+        return Math.floor(area * basePrice + 70);
+      } else if (area < 0.99) {
+        return Math.floor(area * basePrice + 40);
+      } else {
+        return Math.floor(area * basePrice + 20);
       }
-      break;
+    };
+
+    const newPrice = calculatePrice();
+    setShowMessage(false);
+    setPrixTotal(newPrice);
+  } else {
+    setShowMessage(true);
+    setPrixTotal(0);
   }
+
+  // Mettre à jour les dimensions après le calcul
+  setDimensions(newDimensions);
 };
 
 useEffect(() => {
@@ -827,12 +857,13 @@ const renderDimensionFields = () => {
   const renderMainImage = () => (
     <Box sx={{ position: 'relative', marginBottom: 2 }}>
       {isDynamicSVG ? (
+
         selectedShape === 0 ? (
           <DynamicCircleSVG
             diameter={dimensions.diametre || 30}
             color="#9BC953"
           />
-        ) : /* ... (keep all other shape conditions) */ null
+        ) :  null
       ) : (
         <Box sx={{ position: 'relative', width: '100%', margin: '0 auto' }}>
           <Box
@@ -920,6 +951,7 @@ const handlePictureClick = (picture, index) => {
 
           {/* Main Image */}
           <Box sx={{ textAlign: "center", marginBottom: 2 }}>
+
             {isDynamicSVG ? (
               selectedShape === 0 ? (
                 <DynamicCircleSVG
@@ -946,7 +978,7 @@ const handlePictureClick = (picture, index) => {
   height={dimensions.largeur}
   color="#9BC953" 
 />
-):selectedShape === 3 ? (
+            ):selectedShape === 3 ? (
   <RectangleChanfreine 
     width={dimensions.largeur}    // Changer longueur en largeur
     height={dimensions.longueur}  // Changer largeur en longueur
@@ -955,14 +987,8 @@ const handlePictureClick = (picture, index) => {
     color="#9BC953" 
     displayValues={true}
   />
-)
-                : /*  selectedShape === 1 ? (
-                  <OvaleSVG 
-                    width={dimensions.longueur || 200}
-                    height={dimensions.largeur || 300}
-                    color="#9BC953" 
-                  />
-                ) */
+              )
+                :  
                 null
             ) : (
               renderMainImage()
@@ -1202,47 +1228,67 @@ const handlePictureClick = (picture, index) => {
   }
   
   return (
-    <Box
-  key={index}
-  sx={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 1,
-    marginTop: 3,
-    padding: "8px",
-    backgroundColor: "white",
-    borderRadius: "4px",
-    border: "1px solid #ddd"
-  }}
->
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-    <Typography variant="body2">
-      [{t(cover.type)} ({cover.thickness}{t("mm")}): {dimensionsText}]
-    </Typography>
-    <Typography variant="body2" sx={{ color: '#9BC953', fontWeight: 'bold' }}>
-      {Math.floor(cover.price)} {t('dh')}
-    </Typography>
-  </Box>
-  <Button
-    onClick={() => {
-      const newTableCovers = [...tableCovers];
-      newTableCovers.splice(index, 1);
-      setTableCovers(newTableCovers);
-    }}
-    sx={{
-      minWidth: 'auto',
-      padding: '4px 8px',
-      color: 'red',
-      '&:hover': {
-        backgroundColor: 'rgba(255, 0, 0, 0.1)',
-      },
-    }}
-  >
-    ✕
-  </Button>
-</Box>
-  );
+          <Box
+            key={index}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 1,
+              marginTop: 3,
+              padding: "8px",
+              backgroundColor: "white",
+              borderRadius: "4px",
+              border: "1px solid #ddd"
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+              <Typography variant="body2">
+                [{t(cover.type)} ({cover.thickness}{t("mm")}): {dimensionsText}]
+              </Typography>
+              
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <IconButton
+                    onClick={() => handleQuantityChange(index, Math.max(1, (cover.quantity || 1) - 1))}
+                    size="small"
+                  >
+                    <Minus size={16} />
+                  </IconButton>
+                  
+                  <Typography variant="body2">
+                    {cover.quantity || 1}
+                  </Typography>
+                  
+                  <IconButton
+                    onClick={() => handleQuantityChange(index, (cover.quantity || 1) + 1)}
+                    size="small"
+                  >
+                    <Plus size={16} />
+                  </IconButton>
+                </Box>
+                
+                <Typography variant="body2" sx={{ color: '#9BC953', fontWeight: 'bold' }}>
+                  {Math.floor(cover.price * (cover.quantity || 1))} {t('dh')}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Button
+              onClick={() => handleRemoveCover(index)}
+              sx={{
+                minWidth: 'auto',
+                padding: '4px 8px',
+                color: 'red',
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                },
+              }}
+            >
+              ✕
+            </Button>
+          </Box>
+        );
 })}
 
   {/* Prix et bouton - visible seulement quand !showMessage */}
@@ -1310,8 +1356,14 @@ const handlePictureClick = (picture, index) => {
                     }
                     if (newCover) {
                       setTableCovers([...tableCovers, newCover]);
-                      setShowMessage(false);
-                    }
+                      setTableCovers([...tableCovers, newCover]);
+            setDimensions({});
+            setMainPicture(pictures09[0]);
+            
+            setSelectedShape(null);
+            setShowMessage(true);
+            setIsDynamicSVG(false);// Réinitialiser la forme sélectionnée
+                     }
                   }}
                   variant="contained"
                   fullWidth
