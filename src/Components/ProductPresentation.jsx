@@ -300,136 +300,90 @@ const handleDimensionChange = (field, value) => {
   setDimensions((prev) => ({ ...prev, [field]: newValue }));
 
   switch(selectedShape) {
-    case 0: 
-    if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="1.5" ){
-      const diametre = field === "diametre" ? newValue : dimensions.diametre;
-      if (diametre) {
-        const area =  diametre/100 * diametre/100 ; // en m²
-        setShowMessage(false);
-
-        if(area<0.49){setPrixTotal(Math.floor(area * 199 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 199 + 40));}else if(area>=1){setPrixTotal(Math.floor(area * 199 + 20));}
-      
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
+    case 0: // Circle
+      if (pictures09.indexOf(selectedGalleryImage) === 0) {
+        const diametre = field === "diametre" ? newValue : dimensions.diametre;
+        if (diametre) {
+          const area = diametre/100 * diametre/100;
+          setShowMessage(false);
+          const basePrice = thickness === "2" ? 250 : 199;
+          
+          if (area < 0.49) {
+            setPrixTotal(Math.floor(area * basePrice + 70));
+          } else if (area < 0.99) {
+            setPrixTotal(Math.floor(area * basePrice + 40));
+          } else if (area >= 1) {
+            setPrixTotal(Math.floor(area * basePrice + 20));
+          }
+        } else {
+          setShowMessage(true);
+          setPrixTotal(0);
+        }
       }
-    }
-    else if((pictures09.indexOf(selectedGalleryImage) === 1||2 )  ){
-      const diametre = field === "diametre" ? newValue : dimensions.diametre;
-      if (diametre) {
-        const area = diametre/100 * diametre/100  ; // en m²
-        setShowMessage(false);
-        if(area<0.49){setPrixTotal(Math.floor(area * 250 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 250 + 40));}else if(area>=1){setPrixTotal(Math.floor(area * 250 + 20));}
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
-      }
-    } else if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="2" ){
-      const diametre = field === "diametre" ? newValue : dimensions.diametre;
-      if (diametre) {
-        const area = diametre/100 * diametre/100  ; // en m²
-        setShowMessage(false);
-        if(area<0.49){setPrixTotal(Math.floor(area * 250 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 250 + 40));}else if(area>=1){setPrixTotal(Math.floor(area * 250 + 20));}
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
-      }
-    }
-  
       break;
 
     case 1: // Octogone
-    if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="1.5" ){
-      const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
-      const arcOcta = field === "arc" ? newValue : dimensions.arc;
-      if (longueurOcta && arcOcta) {
-        const areaOcta = (longueurOcta * longueurOcta)  /100; // Simplification pour l'exemple
-        setShowMessage(false);
-        
-        if(areaOcta<0.49){setPrixTotal(Math.floor(areaOcta * 199 + 70));} else if(areaOcta<0.99){setPrixTotal(Math.floor(areaOcta * 199 + 40));}else if(areaOcta>1){setPrixTotal(Math.floor(areaOcta * 199 + 20));}
-
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
+      if (pictures09.indexOf(selectedGalleryImage) === 0) {
+        const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
+        const arcOcta = field === "arc" ? newValue : dimensions.arc;
+        if (longueurOcta && arcOcta) {
+          const areaOcta = (longueurOcta /100)* (longueurOcta / 100);
+          setShowMessage(false);
+          const basePrice = thickness === "2" ? 250 : 199;
+          
+          if (areaOcta < 0.49) {
+            setPrixTotal(Math.floor(areaOcta * basePrice + 70));
+          } else if (areaOcta < 0.99) {
+            setPrixTotal(Math.floor(areaOcta * basePrice + 40));
+          } else if (areaOcta >= 1) {
+            setPrixTotal(Math.floor(areaOcta * basePrice + 20));
+          }
+        } else {
+          setShowMessage(true);
+          setPrixTotal(0);
+        }
       }
-    }
-    else if((pictures09.indexOf(selectedGalleryImage) === 1||2 )  ){
-      const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
-      const arcOcta = field === "arc" ? newValue : dimensions.arc;
-      if (longueurOcta && arcOcta) {
-        const areaOcta = (longueurOcta * longueurOcta) /100; // Simplification pour l'exemple
-        setShowMessage(false);
-        
-        if(areaOcta<0.49){setPrixTotal(Math.floor(areaOcta * 250 + 70));} else if(areaOcta<0.99){setPrixTotal(Math.floor(areaOcta * 250 + 40));}else if(areaOcta>1){setPrixTotal(Math.floor(areaOcta * 250 + 20));}
-
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
-      }
-    }
-    else if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="2" ){
-      const longueurOcta = field === "longueur" ? newValue : dimensions.longueur;
-      const arcOcta = field === "arc" ? newValue : dimensions.arc;
-      if (longueurOcta && arcOcta) {
-        const areaOcta = (longueurOcta * longueurOcta)  /100; // Simplification pour l'exemple
-        setShowMessage(false);
-        
-        if(areaOcta<0.49){setPrixTotal(Math.floor(areaOcta * 250 + 70));} else if(areaOcta<0.99){setPrixTotal(Math.floor(areaOcta * 250 + 40));}else if(areaOcta>1){setPrixTotal(Math.floor(areaOcta * 250 + 20));}
-
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
-      }
-    }
       break;
 
     case 2: // Rectangle coins arrondis
     case 3: // Rectangle chanfreiné
     case 4: // Rectangle coins carrés
     default:
-      if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="1.5" ){
-      const longueur = field === "longueur" ? newValue : dimensions.longueur;
-      const largeur = field === "largeur" ? newValue : dimensions.largeur;
-      if (longueur && largeur) {
-        const area = (longueur /100 )* (largeur /100) ;
-        console.log("hahia l area",area);
-        
-        setShowMessage(false);
-        if( area <0.49){setPrixTotal(Math.floor(area * 199 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 199 + 40));}else if(area>=1){setPrixTotal(Math.floor(area * 199 + 20));}
-        console.log("hahoa l prix : ",prixTotal);
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
+      if (pictures09.indexOf(selectedGalleryImage) === 0) {
+        const longueur = field === "longueur" ? newValue : dimensions.longueur;
+        const largeur = field === "largeur" ? newValue : dimensions.largeur;
+        if (longueur && largeur) {
+          const area = (longueur / 100) * (largeur / 100);
+          setShowMessage(false);
+          const basePrice = thickness === "2" ? 250 : 199;
+          
+          if (area < 0.49) {
+            setPrixTotal(Math.floor(area * basePrice + 70));
+          } else if (area < 0.99) {
+            setPrixTotal(Math.floor(area * basePrice + 40));
+          } else if (area >= 1) {
+            setPrixTotal(Math.floor(area * basePrice + 20));
+          }
+        } else {
+          setShowMessage(true);
+          setPrixTotal(0);
+        }
       }
-    }
-    else if((pictures09.indexOf(selectedGalleryImage) === 1||2 )  ){
-      const longueur = field === "longueur" ? newValue : dimensions.longueur;
-      const largeur = field === "largeur" ? newValue : dimensions.largeur;
-      if (longueur && largeur) {
-        const area = longueur /100 * largeur /100 ;
-        setShowMessage(false);
-        if( area <0.49){setPrixTotal(Math.floor(area * 250 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 250 + 40));}else if(area>=1){setPrixTotal(Math.floor(area * 250 + 20));}
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
-      }
-    }
-   else if(pictures09.indexOf(selectedGalleryImage) === 0 && thickness =="2" ){
-      const longueur = field === "longueur" ? newValue : dimensions.longueur;
-      const largeur = field === "largeur" ? newValue : dimensions.largeur;
-      if (longueur && largeur) {
-        const area = (longueur /100 )* (largeur /100) ;
-        console.log("hahia l area",area)
-        setShowMessage(false);
-        if( area <0.49){setPrixTotal(Math.floor(area * 250 + 70));} else if(area<0.99){setPrixTotal(Math.floor(area * 250 + 40));}else if(area>=1){setPrixTotal(Math.floor(area * 250 + 20));}
-      } else {
-        setShowMessage(true);
-        setPrixTotal(0);
-      }
-    }
       break;
   }
 };
+
+useEffect(() => {
+  if (dimensions.longueur || dimensions.diametre) {
+    // Déclencher un recalcul du prix en réutilisant les dimensions actuelles
+    if (dimensions.diametre) {
+      handleDimensionChange('diametre', dimensions.diametre);
+    } else if (dimensions.longueur) {
+      handleDimensionChange('longueur', dimensions.longueur);
+    }
+  }
+}, [thickness]);
+
 
 const renderDimensionFields = () => {
   switch (selectedShape) {
