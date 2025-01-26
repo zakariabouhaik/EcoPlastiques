@@ -883,7 +883,7 @@ const renderDimensionFields = () => {
             alt="Main Product"
             sx={{
               marginLeft:-1,
-              height:isMobile?'350px':'550px',
+              height:isMobile?'300px':'550px',
               border: "1px solid #ddd",
               borderRadius: "8px",
             }}
@@ -1022,7 +1022,7 @@ const handlePictureClick = (picture, index) => {
                   onClick={() => handlePictureClick(picture, index)}
                   sx={{
                     width: "100%",
-                    maxWidth: "90px",
+                    maxWidth: "70px",
                     height: "auto",
                     cursor: "pointer",
                     border: picture === selectedGalleryImage  ? "2px solid #9bc953" : "1px solid #ddd",
