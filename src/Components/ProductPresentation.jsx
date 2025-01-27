@@ -379,8 +379,13 @@ const handleDimensionChange = (field, value) => {
         default:
           area = (newDimensions.longueur/100) * (newDimensions.largeur/100);
       }
+//problemedc
+const basePrice = ((thickness === "2") || (pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2)) ? 250 : 199;
 
-      const basePrice = thickness === "2" ? 250 : 199;
+    
+      
+      console.log("dddd",((thickness === "2") || (pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2)));
+      console.log("hhhh ", basePrice)
       
       if (area < 0.49) {
         return Math.floor(area * basePrice + 70);
@@ -389,9 +394,12 @@ const handleDimensionChange = (field, value) => {
       } else {
         return Math.floor(area * basePrice + 20);
       }
+     
     };
 
     const newPrice = calculatePrice();
+   
+    
     setShowMessage(false);
     setPrixTotal(newPrice);
   } else {
@@ -911,13 +919,53 @@ const renderDimensionFields = () => {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState(pictures09[initialIndex || 0]);
   const [mainPicture, setMainPicture] = useState(pictures09[initialIndex||0]);
 
+// Ajouter ce useEffect
+useEffect(() => {
+  // Recalculer le prix quand l'image change
+  if (selectedShape !== null && !showMessage) {
+    const calculatePrice = () => {
+      let area;
+      switch(selectedShape) {
+        case 0:
+          area = dimensions.diametre/100 * dimensions.diametre/100;
+          break;
+        case 1:
+          area = (dimensions.longueur/100) * (dimensions.longueur/100);
+          break;
+        default:
+          area = (dimensions.longueur/100) * (dimensions.largeur/100);
+      }
+
+      const basePrice = (() => {
+        if (pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2) {
+          return 250; // Prix fixe pour mat et doré
+        } else {
+          return thickness === "2" ? 250 : 199;
+        }
+      })();
+      
+      if (area < 0.49) {
+        return Math.floor(area * basePrice + 70);
+      } else if (area < 0.99) {
+        return Math.floor(area * basePrice + 40);
+      } else {
+        return Math.floor(area * basePrice + 20);
+      }
+    };
+
+    setPrixTotal(calculatePrice());
+  }
+}, [selectedGalleryImage, thickness, dimensions]); // Dépendances du useEffect
+
+// Modifier handlePictureClick pour être plus simple
 const handlePictureClick = (picture, index) => {
   setMainPicture(picture);
-  setSelectedGalleryImage(picture); // Mise à jour de l'image sélectionnée dans la galerie
+  setSelectedGalleryImage(picture);
   if (onImageClick) {
     onImageClick(index);
   }
 };
+
 
   return (
     <Box 
@@ -1209,9 +1257,11 @@ const handlePictureClick = (picture, index) => {
   {/* Liste des nappes - toujours visible */}
   {tableCovers.map((cover, index) => {
   let dimensionsText = '';
+ 
   switch(cover.type) {
     case 'Cercle':
       dimensionsText = `${t("Diametre")} = ${cover.diametre}${t("cm")}`;
+ 
       break;
     case 'Octogone':
       dimensionsText = `${t("Longueur")} = ${cover.longueur}${t("cm")} | ${t("Arc")} = ${cover.arc}${t("cm")}`;
@@ -1243,9 +1293,10 @@ const handlePictureClick = (picture, index) => {
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
-              <Typography variant="body2">
-                [{t(cover.type)} ({cover.thickness}{t("mm")}): {dimensionsText}]
-              </Typography>
+       
+            <Typography variant="body2">
+  [{t(cover.type)} {cover.materialType === 'standard' ? `(${cover.thickness}${t("mm")})` : ''}: {dimensionsText}]
+</Typography>
               
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -1272,6 +1323,8 @@ const handlePictureClick = (picture, index) => {
                   {Math.floor(cover.price * (cover.quantity || 1))} {t('dh')}
                 </Typography>
               </Box>
+             
+
             </Box>
 
             <Button
@@ -1291,6 +1344,7 @@ const handlePictureClick = (picture, index) => {
         );
 })}
 
+
   {/* Prix et bouton - visible seulement quand !showMessage */}
 
             {!showMessage && (
@@ -1305,11 +1359,12 @@ const handlePictureClick = (picture, index) => {
                 <Button
                   onClick={() => {
                     let newCover;
+                    const isMaterialSpecial = pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2;
                     switch(selectedShape) {
                       case 0: // Cercle
                         newCover = {
                           type: "Cercle",
-                          thickness: thickness,
+                          thickness: isMaterialSpecial ? null : thickness,
                           diametre: dimensions.diametre,
                           price: prixTotal
                         };
@@ -1317,7 +1372,7 @@ const handlePictureClick = (picture, index) => {
                       case 1: // Octogone
                         newCover = {
                           type: "Octogone",
-                          thickness: thickness,
+                          thickness: isMaterialSpecial ? null : thickness,
                           longueur: dimensions.longueur,
                           arc: dimensions.arc,
                           price: prixTotal
@@ -1326,7 +1381,7 @@ const handlePictureClick = (picture, index) => {
                       case 2: // Rectangle à coins arrondis
                         newCover = {
                           type: "RectangleACoinsArrondis",
-                          thickness: thickness,
+                          thickness: isMaterialSpecial ? null : thickness,
                           longueur: dimensions.longueur,
                           largeur: dimensions.largeur,
                           rayon: dimensions.arc,
@@ -1336,7 +1391,7 @@ const handlePictureClick = (picture, index) => {
                       case 3: // Rectangle chanfreiné
                         newCover = {
                           type: "RectangleChanfreiné",
-                          thickness: thickness,
+                          thickness: isMaterialSpecial ? null : thickness,
                           longueur: dimensions.longueur,
                           largeur: dimensions.largeur,
                           arcA: dimensions.arcA,
@@ -1347,7 +1402,7 @@ const handlePictureClick = (picture, index) => {
                       case 4: // Rectangle
                         newCover = {
                           type: "Rectangle",
-                          thickness: thickness,
+                          thickness: isMaterialSpecial ? null : thickness,
                           longueur: dimensions.longueur,
                           largeur: dimensions.largeur,
                           price: prixTotal
@@ -1355,13 +1410,22 @@ const handlePictureClick = (picture, index) => {
                         break;
                     }
                     if (newCover) {
+                      const updatedCovers = [...tableCovers, newCover];
+      setTableCovers(updatedCovers);
+      
+      // Calculer le nouveau prix total (somme de tous les articles)
+      const newTotal = updatedCovers.reduce((sum, cover) => 
+        sum + (cover.price * (cover.quantity || 1)), 0);
+      setPrixTotal(newTotal);
+
+
                       setTableCovers([...tableCovers, newCover]);
                       setTableCovers([...tableCovers, newCover]);
             setDimensions({});
-            setMainPicture(pictures09[0]);
+            
             
             setSelectedShape(null);
-            setShowMessage(true);
+            
             setIsDynamicSVG(false);// Réinitialiser la forme sélectionnée
                      }
                   }}

@@ -61,9 +61,9 @@ const ProductPage = () => {
     ];
     
     const pictures002 = [
-        "/assets/Trior/nappe-Dorée-5.png",
-        "/assets/Trior/nappe-Dorée-2.png",
-        "/assets/Trior/nappe-Dorée-4.png",
+        "/assets/Trior/nappe-tri-or-2.png",
+        "/assets/Trior/nappe-tri-or-4.png",
+        "/assets/Trior/nappe-tri-or-5.png",
     ];
 
 
