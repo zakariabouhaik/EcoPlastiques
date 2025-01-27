@@ -180,7 +180,11 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
   
   const decrementQuantity = (index) => {
     const newTableCovers = [...tableCovers];
-    if (newTableCovers[index].quantity && newTableCovers[index].quantity > 1) {
+    if (newTableCovers[index].quantity === 1) {
+      // Si la quantité est 1, supprimer l'article
+      handleRemoveCover(index);
+    } else if (newTableCovers[index].quantity > 1) {
+      // Sinon, décrémenter la quantité
       newTableCovers[index].quantity -= 1;
       newTableCovers[index].totalPrice = newTableCovers[index].price * newTableCovers[index].quantity;
       setTableCovers(newTableCovers);
@@ -357,7 +361,7 @@ const handleDimensionChange = (field, value) => {
       case 2: // Rectangle coins arrondis
         return newDimensions.longueur && newDimensions.largeur && newDimensions.arc;
       case 3: // Rectangle chanfreiné
-        return newDimensions.longueur && newDimensions.largeur && newDimensions.arcA && newDimensions.arcB;
+        return newDimensions.longueur && newDimensions.largeur && newDimensions.arca && newDimensions.arcb;
       case 4: // Rectangle coins carrés
         return newDimensions.longueur && newDimensions.largeur;
       default:
@@ -1301,6 +1305,11 @@ const handlePictureClick = (picture, index) => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <IconButton
+                    sx={{backgroundColor:'#9BC953',color:'white' ,
+                    '&:hover': {
+                        backgroundColor:'#9BC953',
+                        border: '1px solid #9BC953',
+                                }}}
                     onClick={() => handleQuantityChange(index, Math.max(1, (cover.quantity || 1) - 1))}
                     size="small"
                   >
@@ -1312,6 +1321,11 @@ const handlePictureClick = (picture, index) => {
                   </Typography>
                   
                   <IconButton
+                    sx={{backgroundColor:'#9BC953',color:'white' ,
+                    '&:hover': {
+                        backgroundColor:'#9BC953',
+                        border: '1px solid #9BC953',
+                                }}}
                     onClick={() => handleQuantityChange(index, (cover.quantity || 1) + 1)}
                     size="small"
                   >
@@ -1394,8 +1408,8 @@ const handlePictureClick = (picture, index) => {
                           thickness: isMaterialSpecial ? null : thickness,
                           longueur: dimensions.longueur,
                           largeur: dimensions.largeur,
-                          arcA: dimensions.arcA,
-                          arcB: dimensions.arcB,
+                          arcA: dimensions.arca,
+                          arcB: dimensions.arcb,
                           price: prixTotal
                         };
                         break;
