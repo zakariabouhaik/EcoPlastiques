@@ -7,7 +7,7 @@ const DynamicCircleSVG = ({ diameter = 30, color = '#9BC953' }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
   // Calculate SVG viewport size based on screen
-  const svgSize = isMobile ? 300 : 600;
+  const svgSize = isMobile ? 350 : 600;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
 

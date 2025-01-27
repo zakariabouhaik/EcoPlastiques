@@ -884,6 +884,7 @@ const renderDimensionFields = () => {
             alt="Main Product"
             sx={{
               marginLeft:-1,
+              width:'100%',
               height:isMobile?'300px':'550px',
               border: "1px solid #ddd",
               borderRadius: "8px",
@@ -965,6 +966,7 @@ useEffect(() => {
 const handlePictureClick = (picture, index) => {
   setMainPicture(picture);
   setSelectedGalleryImage(picture);
+  setIsDynamicSVG(false);
   if (onImageClick) {
     onImageClick(index);
   }
