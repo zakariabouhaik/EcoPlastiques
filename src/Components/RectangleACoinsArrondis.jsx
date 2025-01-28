@@ -19,7 +19,7 @@ const RectangleACoinsArrondis = ({
     const visualHeight = isMobile ? Math.min(height || 400, 150) : Math.min(height || 400, 300);
     const visualRadius = isMobile ? Math.min(radius || 40, 20) : Math.min(radius || 40, 40);
 
-  const svgSize = isMobile ? 350 : 600;
+  const svgSize = isMobile ? 350 : 550;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
   

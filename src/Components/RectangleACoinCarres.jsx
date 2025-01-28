@@ -17,7 +17,7 @@ const RectangleACoinCarres = ({
   const visualWidth = isMobile ? Math.min(width || 200, 100) : Math.min(width || 200, 200);
   const visualHeight = isMobile ? Math.min(height || 400, 150) : Math.min(height || 400, 300);
 
-  const svgSize = isMobile ? 350 : 600;
+  const svgSize = isMobile ? 350 : 550;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
   

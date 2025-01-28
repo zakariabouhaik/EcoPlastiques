@@ -11,7 +11,7 @@ const OctaShapeSVG = ({ length, arc, color = '#9BC953' }) => {
   const visualLength = isMobile ? Math.min(length || 50, 20) : Math.min(length|| 100, 100);
   const visualArc = isMobile ? Math.min(arc || 50, 20) : Math.min(arc || 50, 50);
   
-  const svgSize = isMobile ? 350 : 600;
+  const svgSize = isMobile ? 350 : 550;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
 

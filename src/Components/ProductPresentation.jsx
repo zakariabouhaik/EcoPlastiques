@@ -1028,8 +1028,8 @@ case 1: // Octogone
             alt="Main Product"
             sx={{
               marginLeft:-1,
-              width:'100%',
-              height:isMobile?'300px':'550px',
+              width:isMobile?'350px':'550px',
+              height:isMobile?'350px':'550px',
               border: "1px solid #ddd",
               borderRadius: "8px",
             }}

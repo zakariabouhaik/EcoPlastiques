@@ -14,7 +14,7 @@ const RectangleChanfreine = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const svgSize = isMobile ? 350 : 600;
+  const svgSize = isMobile ? 350 : 550;
   const centerX = svgSize / 2;
   const centerY = svgSize / 2;
   
