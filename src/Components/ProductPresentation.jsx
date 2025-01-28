@@ -1030,10 +1030,16 @@ case 1: // Octogone
               marginLeft:-1,
               width: {
                 xs: '100%', // Full width on extra small devices
-                sm: '100%', // Larger phones and small tablets
+                sm: '450px', // Larger phones and small tablets
                 md: '550px'  // Desktop and larger devices
               },
-              height:isMobile?'350px':'550px',
+              height: {
+                xs: 'auto',  // Maintain aspect ratio on mobile
+                sm: '450px',
+                md: '550px'
+              },
+              maxWidth: '100%',
+              objectFit: 'contain', // Maintain aspect ratio
               border: "1px solid #ddd",
               borderRadius: "8px",
             }}
