@@ -1028,7 +1028,11 @@ case 1: // Octogone
             alt="Main Product"
             sx={{
               marginLeft:-1,
-              width:isMobile?'350px':'550px',
+              width: {
+                xs: '100%', // Full width on extra small devices
+                sm: '100%', // Larger phones and small tablets
+                md: '550px'  // Desktop and larger devices
+              },
               height:isMobile?'350px':'550px',
               border: "1px solid #ddd",
               borderRadius: "8px",
