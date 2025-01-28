@@ -1035,7 +1035,7 @@ case 1: // Octogone
               },
               height: {
                 xs: 'auto',  // Maintain aspect ratio on mobile
-                sm: '450px',
+                sm: '650px',
                 md: '550px'
               },
               maxWidth: '100%',
