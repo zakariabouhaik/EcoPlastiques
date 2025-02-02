@@ -31,35 +31,35 @@ const ClientReviews = () => {
       rating: 5,
       date: '2024-01-10',
       comment: 'Merci bcp vraiment magnifique 🙏🏼',
-      image: '/assets/AvisClient/1.jpg'
+      image: '/assets/AvisClient2/1E451515-3473-473D-B0CF-92C12890E41A.jpg'
     },
     {
         name: 'Samia D. ',
         rating: 5,
         date: '2024-01-09',
         comment: 'Bonjour, j’ai reçu ma commande pour une nappe ronde hier jat parfaite m3a la table, bonne continuation',
-        image: '/assets/AvisClient/2.jpg'
+        image: '/assets/AvisClient2/20DA515B-51F5-422D-B6B8-F0CD187B152E.jpg'
       },
       {
         name: 'Soukaina I.',
         rating: 4,
         date: '2024-01-09',
         comment:'Ch7al wana tan9lb 3liha wa akhiran wslatni jat tat7m9 m3a la table chokran bzaf',
-        image: '/assets/AvisClient/3.jpg'
+        image: '/assets/AvisClient2/IMG-20220824-WA0011.jpg'
       },
     {
       name: 'Ibtissam K.',
       rating: 5,
       date: '2024-01-09',
       comment:'Franchement j’été impressionné par la qualité de la nappe, il s’adapte parfaitement à ma table je le recommande',
-      image: '/assets/AvisClient/4.jpg'
+      image: '/assets/AvisClient2/IMG-20240314-WA0031.jpg'
     },
     {
         name: 'Khaoula A. ',
         rating: 5,
         date: '2024-01-09',
         comment:'La finition était parfaite, je vous remercie également sur le geste commercial de me changer de la nappe vus que j’ai fait une erreur dans les mesures 😊',
-        image: '/assets/AvisClient/5.jpg'
+        image: '/assets/AvisClient2/IMG-20240509-WA0016.jpg'
       },
 
       {
@@ -67,49 +67,49 @@ const ClientReviews = () => {
         rating: 5,
         date: '2024-01-09',
         comment:'شكرا وصلتني فالوقت المحدد قبل مانسافر انشاء الله ندير عندكم كوموند اخرى',
-        image: '/assets/AvisClient/6.jpg'
+        image: '/assets/AvisClient2/IMG-20241016-WA0025.jpg'
       },
       {
         name: 'Asmaà K. ',
         rating: 4,
         date: '2024-01-09',
         comment:'Je suis satisfaite, service professionnel',
-        image: '/assets/AvisClient/7.jpg'
+        image: '/assets/AvisClient2/IMG-20241020-WA0002.jpg'
       },
       {
         name: 'Kawtar A.',
         rating: 5,
         date: '2024-01-09',
         comment:'Dert commande pour 3 dyal lkwafiz li3ndi jawn nichan m3ahom mercii',
-        image: '/assets/AvisClient/8.jpg'
+        image: '/assets/AvisClient2/IMG-20241020-WA0003.jpg'
       },
       {
         name: 'Naoufal K.',
         rating: 5,
         date: '2024-01-09',
         comment:'Je vous remercie pour la livraison rapide en espérant d’avoir une réduction sur la prochaine commande 🥰',
-        image: '/assets/AvisClient/9.jpg'
+        image: '/assets/AvisClient2/IMG-20241128-WA0041.jpg'
       },
       {
         name: 'Noura E.',
         rating: 5,
         date: '2024-01-09',
         comment:'Mli 3taha liya livreur t9ila 3erft bli qualité zwina jat mezyan m3a tabla',
-        image: '/assets/AvisClient/10.jpg'
+        image: '/assets/AvisClient2/IMG-20250127-WA0017.jpg'
       },
       {
         name: 'Hafida B.',
         rating: 5,
         date: '2024-01-09',
         comment:'شكرا على ليناب جاو مقادين مع الكوافيز',
-        image: '/assets/AvisClient/11.jpg'
+        image: '/assets/AvisClient2/IMG-20250127-WA0018.jpg'
       },
       {
         name: 'Salma T.',
         rating: 5,
         date: '2024-01-09',
         comment:'Franchement le service client est top et à l’écoute, j’ai reçu ma nappe dans 5 jours',
-        image: '/assets/AvisClient/12.jpg'
+        image: '/assets/AvisClient2/IMG-20250202-WA0008.jpg'
       },
     
     // Add more reviews as needed
