@@ -10,6 +10,7 @@ import OctaShapeSVG from "./OctaShapeSVG";
 import OvaldynamicSvg from "./OvaldynamicSvg";
 import RectangleACoinsArrondis from "./RectangleACoinsArrondis";
 import RectangleACoinCarres from "./RectangleACoinCarres";
+import OrderSubmitButton from "./OrderSubmitButton";
 import RectangleChanfreine from "./RectangleChanfreine";
 import OvaleSVG from "./OvaleSVG";
 import { useTranslation } from 'react-i18next';
@@ -45,6 +46,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     fullName: "",
     phone: "",
     address: "",
+    PrixTotal:"",
     
   });
  
@@ -115,24 +117,39 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     formDataToSubmit.append("Nom_complet", formData.fullName);
     formDataToSubmit.append("Telephone", formData.phone);
     formDataToSubmit.append("Adresse", formData.address);
+    formDataToSubmit.append("PrixTotal",`${prixTotal} DHs`)
+
+    const getMaterialTypeText = (materialType) => {
+      if (materialType === 'matte') {
+        return t('product_presentation_mat');
+      } else if (materialType === 'doree') {
+        return t('product_presentation_dore');
+      } else {
+        return t('product_presentation_transparentse');
+      }
+    };
+    
     
     const orderDetails = tableCovers.map(cover => {
       let coverDescription = '';
+      const materialText = getMaterialTypeText(cover.materialType);
+      let thicknessText = cover.thickness ? `(${cover.thickness}mm)` : '';
+    
       switch(cover.type) {
         case 'Cercle':
-          coverDescription = `${cover.type} (${cover.thickness}): Diamètre = ${cover.diametre}cm`;
+          coverDescription = `${cover.type} ${materialText} ${thicknessText}: Diamètre=${cover.diametre}cm (Quantité: ${cover.quantity || 1})`;
           break;
         case 'Octogone':
-          coverDescription = `${cover.type} (${cover.thickness}): longueur = ${cover.longueur}cm | arc = ${cover.arc}cm`;
+          coverDescription = `${cover.type} ${materialText} ${thicknessText}: longueur=${cover.longueur}cm | arc=${cover.arc}cm (Quantité: ${cover.quantity || 1})`;
           break;
-        case 'Rectangle à coins arrondis':
-          coverDescription = `${cover.type} (${cover.thickness}): longueur = ${cover.longueur}cm | largeur = ${cover.largeur}cm | rayon = ${cover.rayon}cm`;
+        case 'RectangleACoinsArrondis':
+          coverDescription = `${cover.type} ${materialText} ${thicknessText}: longueur=${cover.longueur}cm | largeur=${cover.largeur}cm | rayon=${cover.rayon}cm (Quantité: ${cover.quantity || 1})`;
           break;
-        case 'Rectangle chanfreiné':
-          coverDescription = `${cover.type} (${cover.thickness}): longueur = ${cover.longueur}cm | largeur = ${cover.largeur}cm | arcA = ${cover.arcA}cm | arcB = ${cover.arcB}cm`;
+        case 'RectangleChanfreiné':
+          coverDescription = `${cover.type} ${materialText} ${thicknessText}: longueur=${cover.longueur}cm | largeur=${cover.largeur}cm | arcA=${cover.arcA}cm | arcB=${cover.arcB}cm (Quantité: ${cover.quantity || 1})`;
           break;
         case 'Rectangle':
-          coverDescription = `${cover.type} (${cover.thickness}): longueur = ${cover.longueur}cm | largeur = ${cover.largeur}cm`;
+          coverDescription = `${cover.type} ${materialText} ${thicknessText}: longueur=${cover.longueur}cm | largeur=${cover.largeur}cm (Quantité: ${cover.quantity || 1})`;
           break;
       }
       return coverDescription;
@@ -145,7 +162,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
 
     // Submit form
     fetch(
-      "https://script.google.com/macros/s/AKfycbwOeGJm_OIRsbFkXAQ9JST5nyO_xz06mV39ttRfeBy_h8LoVxYUAdvMyRy-4BCrAMUA/exec",
+      "https://script.google.com/macros/s/AKfycbxDuGglDRRB-Eq8wgid8lunUJQltEqQbie-8MZ3I2PwGAG5f5vhENM4k4mcgJNbVq5J/exec",
       {
         method: "POST",
         body: formDataToSubmit
@@ -162,6 +179,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
           address: "",
           promoCode: ""
         });
+       
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
@@ -1112,8 +1130,16 @@ useEffect(() => {
       }
     };
 
-    setPrixTotal(calculatePrice());
-  }
+    const newTotal = calculatePrice();
+    setPrixTotal(newTotal);
+    // Ajouter cette ligne pour mettre à jour formData.PrixTotal
+    setFormData(prev => ({
+      ...prev,
+      PrixTotal: newTotal
+    }));
+  };
+
+
 }, [selectedGalleryImage, thickness, dimensions]); // Dépendances du useEffect
 
 // Modifier handlePictureClick pour être plus simple
@@ -1453,9 +1479,13 @@ const handlePictureClick = (picture, index) => {
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
-       
             <Typography variant="body2">
-  [{t(cover.type)} {cover.materialType === 'standard' ? `(${cover.thickness}${t("mm")})` : ''}: {dimensionsText}]
+  [{t(cover.type)} {cover.materialType === 'transparente' 
+    ? `${t('product_presentation_transparentse')} (${cover.thickness}${t("mm")})` 
+    : cover.materialType === 'doree' 
+      ? t('product_presentation_dore') 
+      : t('product_presentation_mat')
+  } {dimensionsText}]
 </Typography>
               
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -1530,11 +1560,20 @@ const handlePictureClick = (picture, index) => {
                   onClick={() => {
                     let newCover;
                     const isMaterialSpecial = pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2;
+                    let materialType;
+  if (pictures09.indexOf(selectedGalleryImage) === 0) {
+    materialType = 'transparente';
+  } else if (pictures09.indexOf(selectedGalleryImage) === 2) {
+    materialType = 'doree';
+  } else {
+    materialType = 'matte';
+  }
                     switch(selectedShape) {
                       case 0: // Cercle
                         newCover = {
                           type: "Cercle",
                           thickness: isMaterialSpecial ? null : thickness,
+                          materialType: materialType,
                           diametre: dimensions.diametre,
                           price: prixTotal
                         };
@@ -1543,6 +1582,7 @@ const handlePictureClick = (picture, index) => {
                         newCover = {
                           type: "Octogone",
                           thickness: isMaterialSpecial ? null : thickness,
+                          materialType: materialType,
                           longueur: dimensions.longueur,
                           arc: dimensions.arc,
                           price: prixTotal
@@ -1553,6 +1593,7 @@ const handlePictureClick = (picture, index) => {
                           type: "RectangleACoinsArrondis",
                           thickness: isMaterialSpecial ? null : thickness,
                           longueur: dimensions.longueur,
+                          materialType: materialType,
                           largeur: dimensions.largeur,
                           rayon: dimensions.arc,
                           price: prixTotal
@@ -1563,6 +1604,7 @@ const handlePictureClick = (picture, index) => {
                           type: "RectangleChanfreiné",
                           thickness: isMaterialSpecial ? null : thickness,
                           longueur: dimensions.longueur,
+                          materialType: materialType,
                           largeur: dimensions.largeur,
                           arcA: dimensions.arca,
                           arcB: dimensions.arcb,
@@ -1574,6 +1616,7 @@ const handlePictureClick = (picture, index) => {
                           type: "Rectangle",
                           thickness: isMaterialSpecial ? null : thickness,
                           longueur: dimensions.longueur,
+                          materialType: materialType,
                           largeur: dimensions.largeur,
                           price: prixTotal
                         };
@@ -1688,25 +1731,23 @@ const handlePictureClick = (picture, index) => {
         </Grid2>
  
       </Grid2>
-
-      <Button
-        type="submit"
-        variant="contained"
-        fullWidth
-        sx={{
-          backgroundColor: "#9BC953",
-          color: "white",
-          fontWeight: "bold",
-          borderRadius: "20px",
-          padding: "12px 20px",
-          textTransform: "none",
-          "&:hover": {
-            backgroundColor: "#7CA43B",
-          },
-        }}
-      >
-        {t('product_presentation_order_now')}
-      </Button>
+      <OrderSubmitButton 
+  onSubmit={() => {
+    setFormData({
+      email: "",
+      fullName: "",
+      phone: "",
+      address: "",
+      promoCode: ""
+    });
+    setShowMessage(true)
+    setPrixTotal(0);
+    setTableCovers([]);
+  }}
+  formData={formData}
+  prixTotal={prixTotal}
+  tableCovers={tableCovers}
+/>
     </form>
           <div style={{ marginTop: '4%' }}>
             <AssistanceComponent />

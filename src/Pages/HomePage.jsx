@@ -17,7 +17,7 @@ const HomePage = () => {
     <div>
       
       <TopNavigation />
-      
+      <Hero/>
       <Type/>
       <Iconscompenent/>
       <ComponentimagePlusText/>

@@ -133,6 +133,17 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_your_info: "Vos informations :",
                 product_presentation_email: "Email :",
                 Message:"Message:",
+                product_presentation_mat: "Nappe Mate",
+                product_presentation_dore: "Nappe Dorée",
+
+
+                loading: "Traitement en cours...",
+                order_success_title: "Commande réussie !",
+                order_success_description: "Votre commande a été enregistrée avec succès. Notre service de confirmation vous contactera dans les plus brefs délais.",
+
+
+                product_presentation_transparentse: "Nappe Transparente",
+
                 product_presentation_full_name: "Nom complet :",
                 product_presentation_phone: "Téléphone :",
                 product_presentation_address: "Adresse complète :",
@@ -152,6 +163,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 Rayon: "Rayon",
                 Longueur140:"La longueur ne peut pas dépasser 140 cm",
                 Longueur1000:"La longueur ne peut pas dépasser 1000 cm",
+                Diametre140:"le Diametre ne peux pas dépasser 140 cm",
                 Largeur140:"La largeur ne peut pas dépasser 140 cm",
                 ArcDepasse:"L'arc ne peut pas dépasser la moitié de la longueur",
                 dh: "DH",
@@ -185,6 +197,17 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 Envoyer_le_message:"إرسال الرسالة",
                 text2: "قص حسب الطلب",
                 text3: "القيمة الأفضل",
+
+                product_presentation_mat: "غطاء مضبب",
+                product_presentation_dore: "غطاء ذهبي",
+                product_presentation_transparentse: "غطاء شفاف",
+                
+
+                loading: "تتم المعالجة...",
+                order_success_title: "تم الطلب بنجاح !",
+                order_success_description: "لقد تم تسجيل طلبك بنجاح. سوف تقوم خدمة التأكيد لدينا بالاتصال بك في أقرب وقت ممكن.",
+
+
                 hero_slide_1_title: "أسبوع التخفيضات – 10% على كل شيء",
                 hero_slide_1_description: "الرمز: blackweek\nعند الشراء بمبلغ 80€، ستحصل على حامل أدوات كهدية مجانية مع كل طلب.\nستتم إضافة هديتك تلقائيًا.",
                 hero_slide_2_title: "أسبوع التخفيضات – 20% على كل شيء",
@@ -315,6 +338,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 Longueur140:"لا يمكن أن يتجاوز الطول 140 سم",
                 Longueur1000:"لا يمكن أن يتجاوز الطول 1000 سم",
                 Largeur140:"لا يمكن أن يتجاوز العرض 140 سم",
+                Diametre140:"لا يمكن أن يتجاوز القطر 140 سم" ,
                 ArcDepasse:"لا يمكن أن يتجاوز القوس نصف الطول",
                 dh: "درهم",
                 RectangleACoinsArrondis: "مستطيل بزوايا مستديرة",
