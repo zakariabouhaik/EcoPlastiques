@@ -13,12 +13,12 @@ const Hero = () => {
 
   const slides = [
     {
-      image: '/assets/Heropic/XX.jpg',
+      image: '/assets/Heropic/IMG_20240416_161146_515.jpg',
       title: t('hero_slide_1_title'),
       description: t('hero_slide_1_description')
     },
     {
-      image: '/assets/Heropic/bg-img-2.png',
+      image: '/assets/Heropic/Vue-densemble-de-la-feuille-de-table.jpg',
       title: t('hero_slide_2_title'),
       description: t('hero_slide_2_description')
     }
@@ -107,17 +107,7 @@ const Hero = () => {
         >
           {slides[currentImageIndex].title}
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            maxWidth: '600px',
-            margin: '0 auto',
-            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
-            whiteSpace: 'pre-line',
-          }}
-        >
-          {slides[currentImageIndex].description}
-        </Typography>
+         
       </Box>
 
       {/* Boutons de navigation */}
