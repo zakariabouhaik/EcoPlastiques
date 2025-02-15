@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Clarity from "@microsoft/clarity"; 
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import HomePage from './Pages/HomePage';
 import ProductPage from './Pages/ProductPage';
 import Test from './Pages/Test';
@@ -20,8 +21,15 @@ const App = () => {
 
   
   return (
+    <HelmetProvider>
     <Router>
       <div>
+      <Helmet>
+            <meta 
+              name="facebook-domain-verification" 
+              content="4nsu9lcfwcaavq4y7judy4xgpd3lu4" 
+            />
+     </Helmet>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/productpage" element={<ProductPage />} />
@@ -33,6 +41,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
+    </HelmetProvider>
   );
 };
 
