@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Clarity from "@microsoft/clarity"; 
 import HomePage from './Pages/HomePage';
 import ProductPage from './Pages/ProductPage';
 import Test from './Pages/Test';
@@ -12,6 +13,12 @@ import PolitiqueRetourRemboursement from './Pages/PolitiqueRetourRemboursement';
 const App = () => {
   const {t} = useTranslation();
   const object = t("Home");
+  
+  useEffect(() => {
+     Clarity.init("qacye282tx");
+  }, []);
+
+  
   return (
     <Router>
       <div>
