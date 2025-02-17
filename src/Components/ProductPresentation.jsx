@@ -368,49 +368,51 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
 };
 
 const handleDimensionChange = (field, value) => {
-  const newValue = value === "" ? "" : Number(value);
-  // Créer un nouvel objet dimensions avec la nouvelle valeur
-  const newDimensions = { ...dimensions, [field]: newValue };
+  // Mettre à jour directement avec la valeur (qui peut contenir un point)
+  const newDimensions = { ...dimensions, [field]: value };
+  setDimensions(newDimensions);
 
   // Vérifier si toutes les dimensions requises sont remplies
   const allDimensionsFilled = (() => {
     switch(selectedShape) {
       case 0: // Circle
-        return newDimensions.diametre; // Utiliser newDimensions au lieu de dimensions
+        return newDimensions.diametre && newDimensions.diametre !== '.';
       case 1: // Octogone
-        return newDimensions.longueur && newDimensions.arc;
+        return newDimensions.longueur && newDimensions.arc && 
+               newDimensions.longueur !== '.' && newDimensions.arc !== '.';
       case 2: // Rectangle coins arrondis
-        return newDimensions.longueur && newDimensions.largeur && newDimensions.arc;
+        return newDimensions.longueur && newDimensions.largeur && newDimensions.arc &&
+               newDimensions.longueur !== '.' && newDimensions.largeur !== '.' && 
+               newDimensions.arc !== '.';
       case 3: // Rectangle chanfreiné
-        return newDimensions.longueur && newDimensions.largeur && newDimensions.arca && newDimensions.arcb;
+        return newDimensions.longueur && newDimensions.largeur && 
+               newDimensions.arca && newDimensions.arcb &&
+               newDimensions.longueur !== '.' && newDimensions.largeur !== '.' && 
+               newDimensions.arca !== '.' && newDimensions.arcb !== '.';
       case 4: // Rectangle coins carrés
-        return newDimensions.longueur && newDimensions.largeur;
+        return newDimensions.longueur && newDimensions.largeur &&
+               newDimensions.longueur !== '.' && newDimensions.largeur !== '.';
       default:
         return false;
     }
   })();
 
   if (allDimensionsFilled) {
-    // Calculer le prix en utilisant newDimensions
+    // Calculer le prix en utilisant les valeurs numériques
     const calculatePrice = () => {
       let area;
       switch(selectedShape) {
         case 0:
-          area = newDimensions.diametre/100 * newDimensions.diametre/100;
+          area = Number(newDimensions.diametre)/100 * Number(newDimensions.diametre)/100;
           break;
         case 1:
-          area = (newDimensions.longueur/100) * (newDimensions.longueur/100);
+          area = (Number(newDimensions.longueur)/100) * (Number(newDimensions.longueur)/100);
           break;
         default:
-          area = (newDimensions.longueur/100) * (newDimensions.largeur/100);
+          area = (Number(newDimensions.longueur)/100) * (Number(newDimensions.largeur)/100);
       }
-//problemedc
-const basePrice = ((thickness === "2") || (pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2)) ? 250 : 199;
 
-    
-      
-      console.log("dddd",((thickness === "2") || (pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2)));
-      console.log("hhhh ", basePrice)
+      const basePrice = ((thickness === "2") || (pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2)) ? 250 : 199;
       
       if (area < 0.49) {
         return Math.floor(area * basePrice + 70);
@@ -419,23 +421,16 @@ const basePrice = ((thickness === "2") || (pictures09.indexOf(selectedGalleryIma
       } else {
         return Math.floor(area * basePrice + 20);
       }
-     
     };
 
     const newPrice = calculatePrice();
-   
-    
     setShowMessage(false);
     setPrixTotal(newPrice);
   } else {
     setShowMessage(true);
     setPrixTotal(0);
   }
-
-  // Mettre à jour les dimensions après le calcul
-  setDimensions(newDimensions);
 };
-
 useEffect(() => {
   if (dimensions.longueur || dimensions.diametre) {
     // Déclencher un recalcul du prix en réutilisant les dimensions actuelles
@@ -462,7 +457,9 @@ const renderDimensionFields = () => {
               dir={isArabic ? "rtl" : "ltr"}
               value={dimensions.diametre || ''}
               onChange={(e) => {
-                const value = e.target.value;
+                
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('diametre', value);
                 if (Number(value) > 140) {
                   setDimensionErrors((prev) => ({
@@ -474,6 +471,7 @@ const renderDimensionFields = () => {
                     ...prev,
                     diametre: ''
                   }));
+                }
                 }
               }}
               error={!!dimensionErrors.diametre}
@@ -509,7 +507,9 @@ const renderDimensionFields = () => {
               fullWidth
               value={dimensions.longueur || ''}
               onChange={(e) => {
-                const value = e.target.value;
+
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('longueur', value);
                 if (Number(value) > 1000) {
                   setDimensionErrors((prev) => ({
@@ -522,6 +522,7 @@ const renderDimensionFields = () => {
                     longueur: ''
                   }));
                 }
+              }
               }}
               error={!!dimensionErrors.longueur}
               helperText={dimensionErrors.longueur}
@@ -550,7 +551,8 @@ const renderDimensionFields = () => {
               fullWidth
               value={dimensions.largeur || ''}
               onChange={(e) => {
-                const value = e.target.value;
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('largeur', value);
                 if (Number(value) > 140) {
                   setDimensionErrors((prev) => ({
@@ -563,6 +565,7 @@ const renderDimensionFields = () => {
                     largeur: ''
                   }));
                 }
+              }
               }}
               error={!!dimensionErrors.largeur}
               helperText={dimensionErrors.largeur}
@@ -597,7 +600,8 @@ const renderDimensionFields = () => {
               fullWidth
               value={dimensions.longueur || ''}
               onChange={(e) => {
-                const value = e.target.value;
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('longueur', value);
                 if (Number(value) > 1000) {
                   setDimensionErrors((prev) => ({
@@ -610,6 +614,7 @@ const renderDimensionFields = () => {
                     longueur: ''
                   }));
                 }
+              }
               }}
               error={!!dimensionErrors.longueur}
               helperText={dimensionErrors.longueur}
@@ -638,7 +643,8 @@ const renderDimensionFields = () => {
               fullWidth
               value={dimensions.largeur || ''}
               onChange={(e) => {
-                const value = e.target.value;
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('largeur', value);
                 if (Number(value) > 140) {
                   setDimensionErrors((prev) => ({
@@ -651,6 +657,7 @@ const renderDimensionFields = () => {
                     largeur: ''
                   }));
                 }
+              }
               }}
               error={!!dimensionErrors.largeur}
               helperText={dimensionErrors.largeur}
@@ -679,7 +686,8 @@ const renderDimensionFields = () => {
               fullWidth
               value={dimensions.arc || ''}
               onChange={(e) => {
-                const value = e.target.value;
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('arc', value);
                 if (Number(value) > Math.min(dimensions.longueur, dimensions.largeur) / 2) {
                   setDimensionErrors((prev) => ({
@@ -692,6 +700,7 @@ const renderDimensionFields = () => {
                     arc: ''
                   }));
                 }
+              }
               }}
               error={!!dimensionErrors.arc}
               helperText={dimensionErrors.arc}
@@ -726,7 +735,8 @@ const renderDimensionFields = () => {
               fullWidth
               value={dimensions.longueur || ''}
               onChange={(e) => {
-                const value = e.target.value;
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('longueur', value);
                 if (Number(value) > 1000) {
                   setDimensionErrors((prev) => ({
@@ -739,6 +749,7 @@ const renderDimensionFields = () => {
                     longueur: ''
                   }));
                 }
+              }
               }}
               error={!!dimensionErrors.longueur}
               helperText={dimensionErrors.longueur}
@@ -767,7 +778,8 @@ const renderDimensionFields = () => {
               fullWidth
               value={dimensions.largeur || ''}
               onChange={(e) => {
-                const value = e.target.value;
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('largeur', value);
                 if (Number(value) > 140) {
                   setDimensionErrors((prev) => ({
@@ -780,6 +792,7 @@ const renderDimensionFields = () => {
                     largeur: ''
                   }));
                 }
+              }
               }}
               error={!!dimensionErrors.largeur}
               helperText={dimensionErrors.largeur}
@@ -808,7 +821,8 @@ const renderDimensionFields = () => {
               fullWidth
               value={dimensions.arca || ''}
               onChange={(e) => {
-                const value = e.target.value;
+                const value = e.target.value.replace(',', '.');
+                if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('arca', value);
                 if (Number(value) > Math.min(dimensions.longueur, dimensions.largeur) / 2) {
                   setDimensionErrors((prev) => ({
@@ -821,6 +835,7 @@ const renderDimensionFields = () => {
                     arca: ''
                   }));
                 }
+              }
               }}
               error={!!dimensionErrors.arca}
               helperText={dimensionErrors.arca}
@@ -849,7 +864,8 @@ const renderDimensionFields = () => {
     fullWidth
     value={dimensions.arcb || ''}
     onChange={(e) => {
-      const value = e.target.value;
+      const value = e.target.value.replace(',', '.');
+      if (value === '' || value === '.' || !isNaN(value)) {
       handleDimensionChange('arcb', value);
       if (Number(value) > Math.min(dimensions.longueur, dimensions.largeur) / 2) {
         setDimensionErrors((prev) => ({
@@ -862,6 +878,7 @@ const renderDimensionFields = () => {
           arcb: ''
         }));
       }
+    }
     }}
     error={!!dimensionErrors.arcb}
     helperText={dimensionErrors.arcb}
@@ -896,7 +913,8 @@ case 1: // Octogone
           fullWidth
           value={dimensions.longueur || ''}
           onChange={(e) => {
-            const value = e.target.value;
+            const value =  e.target.value.replace(',', '.');
+            if (value === '' || value === '.' || !isNaN(value)) {
             handleDimensionChange('longueur', value);
             if (Number(value) > 140) {
               setDimensionErrors((prev) => ({
@@ -922,6 +940,7 @@ case 1: // Octogone
                   }));
                 }
               }
+            }
             }
           }}
           error={!!dimensionErrors.longueur}
@@ -951,7 +970,8 @@ case 1: // Octogone
           fullWidth
           value={dimensions.arc || ''}
           onChange={(e) => {
-            const value = e.target.value;
+            const value = e.target.value.replace(',', '.');
+            if (value === '' || value === '.' || !isNaN(value)) {
             handleDimensionChange('arc', value);
             if (dimensions.longueur && Number(value) > Number(dimensions.longueur) / 2) {
               setDimensionErrors((prev) => ({
@@ -964,6 +984,7 @@ case 1: // Octogone
                 arc: ''
               }));
             }
+          }
           }}
           error={!!dimensionErrors.arc}
           helperText={dimensionErrors.arc}
