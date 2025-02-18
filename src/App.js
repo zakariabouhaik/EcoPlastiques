@@ -10,6 +10,7 @@ import ContactForm from './Pages/ContactForm';
 import PolitiquedeConfide from './Pages/PolitiquedeConfide';
 import Proposdenous from './Pages/Proposdenous';
 import PolitiqueRetourRemboursement from './Pages/PolitiqueRetourRemboursement';
+import MetaPixel from './Components/MetaPixel';
 
 const App = () => {
   const {t} = useTranslation();
@@ -30,6 +31,7 @@ const App = () => {
               content="4nsu9lcfwcaavq4y7judy4xgpd3lu4" 
             />
      </Helmet>
+     <MetaPixel pixelId="1153423339086847" />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/productpage" element={<ProductPage />} />
