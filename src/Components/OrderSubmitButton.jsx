@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Alert, AlertTitle, Box, CircularProgress, Typography } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
+import { Button, Alert, Box, CircularProgress, Typography } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 
 const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
   const [formErrors, setFormErrors] = useState({
     email: '',
     fullName: '',
@@ -13,6 +13,7 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
     cart: ''
   });
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     let isValid = true;
@@ -124,11 +125,10 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
       );
       const data = await response.json();
       if (data.status === "success") {
-        setShowSuccess(true);
         if (onSubmit) {
           onSubmit();
         }
-        // Réinitialisation des erreurs après succès
+        // Réinitialisation des erreurs
         setFormErrors({
           email: '',
           fullName: '',
@@ -136,12 +136,13 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
           address: '',
           cart: ''
         });
+        // Redirection vers la page de remerciement
+        navigate('/thankyou');
       }
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {
       setIsLoading(false);
-      
     }
   };
 
@@ -191,22 +192,6 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
           t('product_presentation_order_now')
         )}
       </Button>
-
-      {showSuccess && (
-        <Alert 
-          severity="success"
-          sx={{ 
-            mt: 2,
-            backgroundColor: '#fff',
-            color: '#52c41a'
-          }}
-        >
-          <AlertTitle>{t('order_success_title')}</AlertTitle>
-          <Typography variant="body2">
-            {t('order_success_description')}
-          </Typography>
-        </Alert>
-      )}
     </Box>
   );
 };

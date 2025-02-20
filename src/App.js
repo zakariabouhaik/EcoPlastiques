@@ -11,6 +11,7 @@ import PolitiquedeConfide from './Pages/PolitiquedeConfide';
 import Proposdenous from './Pages/Proposdenous';
 import PolitiqueRetourRemboursement from './Pages/PolitiqueRetourRemboursement';
 import MetaPixel from './Components/MetaPixel';
+import Thankyou from './Pages/Thankyou';
 
 const App = () => {
   const {t} = useTranslation();
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/A_propos_de_nous" element={<Proposdenous/>} />
           <Route path="/Politique_retour_remboursement" element={<PolitiqueRetourRemboursement/>} />
           <Route path="*" element={<div>Page non trouvée</div>} />
+          <Route path="/thankyou" element={<Thankyou/>}  /> 
         </Routes>
       </div>
     </Router>
