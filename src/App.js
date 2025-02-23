@@ -12,6 +12,7 @@ import Proposdenous from './Pages/Proposdenous';
 import PolitiqueRetourRemboursement from './Pages/PolitiqueRetourRemboursement';
 import MetaPixel from './Components/MetaPixel';
 import Thankyou from './Pages/Thankyou';
+import TikTokPixel from './Components/TikTokPixel';
 
 const App = () => {
   const {t} = useTranslation();
@@ -33,6 +34,7 @@ const App = () => {
             />
      </Helmet>
      <MetaPixel pixelId="1153423339086847" />
+     <TikTokPixel pixelId="CUSAMPRC77UC80LSRK2G" />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/productpage" element={<ProductPage />} />
