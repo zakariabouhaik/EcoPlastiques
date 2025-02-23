@@ -49,7 +49,7 @@ const Thankyou = () => {
           </Box>
 
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Nous prendrons contact avec vous dans les 48 prochaines heures, afin de confirmer les informations de votre commande.
+          Nous prendrons contact avec vous dans les prochaines heures pour la confirmation de votre commande.
           </Typography>
 
           

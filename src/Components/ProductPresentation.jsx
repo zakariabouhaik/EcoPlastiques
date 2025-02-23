@@ -824,17 +824,12 @@ const renderDimensionFields = () => {
                 const value = e.target.value.replace(',', '.');
                 if (value === '' || value === '.' || !isNaN(value)) {
                 handleDimensionChange('arca', value);
-                if (Number(value) > Math.min(dimensions.longueur, dimensions.largeur) / 2) {
-                  setDimensionErrors((prev) => ({
-                    ...prev,
-                    arca: t('ArcDepasse')
-                  }));
-                } else {
+                
                   setDimensionErrors((prev) => ({
                     ...prev,
                     arca: ''
                   }));
-                }
+               
               }
               }}
               error={!!dimensionErrors.arca}
@@ -867,17 +862,12 @@ const renderDimensionFields = () => {
       const value = e.target.value.replace(',', '.');
       if (value === '' || value === '.' || !isNaN(value)) {
       handleDimensionChange('arcb', value);
-      if (Number(value) > Math.min(dimensions.longueur, dimensions.largeur) / 2) {
-        setDimensionErrors((prev) => ({
-          ...prev,
-          arcb: t('ArcDepasse')
-        }));
-      } else {
+       
         setDimensionErrors((prev) => ({
           ...prev,
           arcb: ''
         }));
-      }
+       
     }
     }}
     error={!!dimensionErrors.arcb}
