@@ -80,16 +80,63 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
 
   const handleQuantityChange = (index, newQuantity) => {
     const newTableCovers = [...tableCovers];
+    const cover = newTableCovers[index];
+    
+    // Calculer l'aire si elle n'est pas déjà stockée lors du premier changement de quantité
+    let area;
+    
+    // Si l'article a déjà une propriété area, l'utiliser
+    if (cover.area !== undefined) {
+      area = cover.area;
+    } 
+    // Sinon, calculer l'aire en fonction du type et stocker pour usage futur
+    else {
+      switch(cover.type) {
+        case 'Cercle':
+          area = (Number(cover.diametre)/100) * (Number(cover.diametre)/100);
+          break;
+        case 'Octogone':
+          area = (Number(cover.longueur)/100) * (Number(cover.longueur)/100);
+          break;
+        default:
+          area = (Number(cover.longueur)/100) * (Number(cover.largeur)/100);
+      }
+      // Stocker l'aire calculée pour les utilisations futures
+      cover.area = area;
+    }
+    
+    // Déterminer le prix de base en fonction du matériau et de l'épaisseur
+    const basePrice = (() => {
+      if (cover.materialType === 'matte' || cover.materialType === 'doree') {
+        return 250; // Prix fixe pour mat et doré
+      } else {
+        return cover.thickness === "2" ? 250 : 199;
+      }
+    })();
+    
+    // Calculer le prix total avec la formule simplifiée
+    let totalPrice;
+    if (area < 0.49) {
+      // Formule simplifiée: (basePrice * area * quantite) + 105
+      totalPrice = (basePrice * area * newQuantity) + 105;
+    } else {
+      // Pour les autres cas, on multiplie simplement par la quantité
+      totalPrice = cover.price * newQuantity;
+    }
+    
+    // Mettre à jour la couverture avec la nouvelle quantité et le nouveau prix total
     newTableCovers[index] = {
-      ...newTableCovers[index],
+      ...cover,
       quantity: newQuantity,
-      totalPrice: newTableCovers[index].price * newQuantity
+      totalPrice: Math.floor(totalPrice)
     };
+    
     setTableCovers(newTableCovers);
     
     // Mise à jour du prix total
     const total = newTableCovers.reduce((sum, cover) => 
-      sum + (cover.price * (cover.quantity || 1)), 0);
+      sum + (cover.totalPrice !== undefined ? cover.totalPrice : cover.price * (cover.quantity || 1)), 0);
+    
     setPrixTotal(total);
   };
   
@@ -98,9 +145,25 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     newTableCovers.splice(index, 1);
     setTableCovers(newTableCovers);
     
-    // Mise à jour du prix total après suppression
-    const total = newTableCovers.reduce((sum, cover) => 
-      sum + (cover.price * (cover.quantity || 1)), 0);
+    // Mise à jour du prix total après suppression en prenant en compte les totalPrice calculés
+    const total = newTableCovers.reduce((sum, cover) => {
+      if (cover.totalPrice !== undefined) {
+        return sum + cover.totalPrice;
+      } else if (cover.area && cover.area < 0.49) {
+        // Déterminer le prix de base
+        const basePrice = (() => {
+          if (cover.materialType === 'matte' || cover.materialType === 'doree') {
+            return 250; // Prix fixe pour mat et doré
+          } else {
+            return cover.thickness === "2" ? 250 : 199;
+          }
+        })();
+        return sum + Math.floor((basePrice * cover.area * (cover.quantity || 1)) + 105);
+      } else {
+        return sum + (cover.price * (cover.quantity || 1));
+      }
+    }, 0);
+    
     setPrixTotal(total);
   };
 
@@ -1458,7 +1521,6 @@ const handlePictureClick = (picture, index) => {
   switch(cover.type) {
     case 'Cercle':
       dimensionsText = `${t("Diametre")} = ${cover.diametre}${t("cm")}`;
- 
       break;
     case 'Octogone':
       dimensionsText = `${t("Longueur")} = ${cover.longueur}${t("cm")} | ${t("Arc")} = ${cover.arc}${t("cm")}`;
@@ -1474,87 +1536,91 @@ const handlePictureClick = (picture, index) => {
       break;
   }
   
+  // Calculer le prix à afficher en fonction de la logique mise à jour
+  const displayPrice = cover.totalPrice !== undefined 
+    ? cover.totalPrice 
+    : (cover.area && cover.area < 0.49)
+      ? Math.floor((cover.price * cover.area * (cover.quantity || 1)) + 105)
+      : Math.floor(cover.price * (cover.quantity || 1));
+  
   return (
-          <Box
-            key={index}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 1,
-              marginTop: 3,
-              padding: "8px",
-              backgroundColor: "white",
-              borderRadius: "4px",
-              border: "1px solid #ddd"
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
-            <Typography variant="body2">
-  [{t(cover.type)} {cover.materialType === 'transparente' 
-    ? `${t('product_presentation_transparentse')} (${cover.thickness}${t("mm")})` 
-    : cover.materialType === 'doree' 
-      ? t('product_presentation_dore') 
-      : t('product_presentation_mat')
-  } {dimensionsText}]
-</Typography>
-              
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <IconButton
-                    sx={{backgroundColor:'#9BC953',color:'white' ,
-                    '&:hover': {
-                        backgroundColor:'#9BC953',
-                        border: '1px solid #9BC953',
-                                }}}
-                    onClick={() => handleQuantityChange(index, Math.max(1, (cover.quantity || 1) - 1))}
-                    size="small"
-                  >
-                    <Minus size={16} />
-                  </IconButton>
-                  
-                  <Typography variant="body2">
-                    {cover.quantity || 1}
-                  </Typography>
-                  
-                  <IconButton
-                    sx={{backgroundColor:'#9BC953',color:'white' ,
-                    '&:hover': {
-                        backgroundColor:'#9BC953',
-                        border: '1px solid #9BC953',
-                                }}}
-                    onClick={() => handleQuantityChange(index, (cover.quantity || 1) + 1)}
-                    size="small"
-                  >
-                    <Plus size={16} />
-                  </IconButton>
-                </Box>
-                
-                <Typography variant="body2" sx={{ color: '#9BC953', fontWeight: 'bold' }}>
-                  {Math.floor(cover.price * (cover.quantity || 1))} {t('dh')}
-                </Typography>
-              </Box>
-             
-
-            </Box>
-
-            <Button
-              onClick={() => handleRemoveCover(index)}
-              sx={{
-                minWidth: 'auto',
-                padding: '4px 8px',
-                color: 'red',
-                '&:hover': {
-                  backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                },
-              }}
+    <Box
+      key={index}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 1,
+        marginTop: 3,
+        padding: "8px",
+        backgroundColor: "white",
+        borderRadius: "4px",
+        border: "1px solid #ddd"
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+        <Typography variant="body2">
+          [{t(cover.type)} {cover.materialType === 'transparente' 
+            ? `${t('product_presentation_transparentse')} (${cover.thickness}${t("mm")})` 
+            : cover.materialType === 'doree' 
+              ? t('product_presentation_dore') 
+              : t('product_presentation_mat')
+          } {dimensionsText}]
+        </Typography>
+        
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <IconButton
+              sx={{backgroundColor:'#9BC953',color:'white' ,
+              '&:hover': {
+                  backgroundColor:'#9BC953',
+                  border: '1px solid #9BC953',
+                          }}}
+              onClick={() => handleQuantityChange(index, Math.max(1, (cover.quantity || 1) - 1))}
+              size="small"
             >
-              ✕
-            </Button>
+              <Minus size={16} />
+            </IconButton>
+            
+            <Typography variant="body2">
+              {cover.quantity || 1}
+            </Typography>
+            
+            <IconButton
+              sx={{backgroundColor:'#9BC953',color:'white' ,
+              '&:hover': {
+                  backgroundColor:'#9BC953',
+                  border: '1px solid #9BC953',
+                          }}}
+              onClick={() => handleQuantityChange(index, (cover.quantity || 1) + 1)}
+              size="small"
+            >
+              <Plus size={16} />
+            </IconButton>
           </Box>
-        );
-})}
+          
+          <Typography variant="body2" sx={{ color: '#9BC953', fontWeight: 'bold' }}>
+            {displayPrice} {t('dh')}
+          </Typography>
+        </Box>
+      </Box>
 
+      <Button
+        onClick={() => handleRemoveCover(index)}
+        sx={{
+          minWidth: 'auto',
+          padding: '4px 8px',
+          color: 'red',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 0, 0, 0.1)',
+          },
+        }}
+      >
+        ✕
+      </Button>
+    </Box>
+  );
+})}
 
   {/* Prix et bouton - visible seulement quand !showMessage */}
 
@@ -1568,10 +1634,11 @@ const handlePictureClick = (picture, index) => {
                   {t('product_presentation_free_shipping_note')}
                 </Typography>
                 <Button
-                  onClick={() => {
-                    let newCover;
-                    const isMaterialSpecial = pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2;
-                    let materialType;
+                onClick={() => {
+  let newCover;
+  const isMaterialSpecial = pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2;
+  let materialType;
+  
   if (pictures09.indexOf(selectedGalleryImage) === 0) {
     materialType = 'transparente';
   } else if (pictures09.indexOf(selectedGalleryImage) === 2) {
@@ -1579,80 +1646,95 @@ const handlePictureClick = (picture, index) => {
   } else {
     materialType = 'matte';
   }
-                    switch(selectedShape) {
-                      case 0: // Cercle
-                        newCover = {
-                          type: "Cercle",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          materialType: materialType,
-                          diametre: dimensions.diametre,
-                          price: prixTotal
-                        };
-                        break;
-                      case 1: // Octogone
-                        newCover = {
-                          type: "Octogone",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          materialType: materialType,
-                          longueur: dimensions.longueur,
-                          arc: dimensions.arc,
-                          price: prixTotal
-                        };
-                        break;
-                      case 2: // Rectangle à coins arrondis
-                        newCover = {
-                          type: "RectangleACoinsArrondis",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          longueur: dimensions.longueur,
-                          materialType: materialType,
-                          largeur: dimensions.largeur,
-                          rayon: dimensions.arc,
-                          price: prixTotal
-                        };
-                        break;
-                      case 3: // Rectangle chanfreiné
-                        newCover = {
-                          type: "RectangleChanfreiné",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          longueur: dimensions.longueur,
-                          materialType: materialType,
-                          largeur: dimensions.largeur,
-                          arcA: dimensions.arca,
-                          arcB: dimensions.arcb,
-                          price: prixTotal
-                        };
-                        break;
-                      case 4: // Rectangle
-                        newCover = {
-                          type: "Rectangle",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          longueur: dimensions.longueur,
-                          materialType: materialType,
-                          largeur: dimensions.largeur,
-                          price: prixTotal
-                        };
-                        break;
-                    }
-                    if (newCover) {
-                      const updatedCovers = [...tableCovers, newCover];
-      setTableCovers(updatedCovers);
-      
-      // Calculer le nouveau prix total (somme de tous les articles)
-      const newTotal = updatedCovers.reduce((sum, cover) => 
-        sum + (cover.price * (cover.quantity || 1)), 0);
-      setPrixTotal(newTotal);
-
-
-                      setTableCovers([...tableCovers, newCover]);
-                      setTableCovers([...tableCovers, newCover]);
-            setDimensions({});
-            
-            
-            setSelectedShape(null);
-            
-            setIsDynamicSVG(false);// Réinitialiser la forme sélectionnée
-                     }
-                  }}
+  
+  // Calculer l'aire pour stockage
+  let area;
+  switch(selectedShape) {
+    case 0: // Cercle
+      area = (Number(dimensions.diametre)/100) * (Number(dimensions.diametre)/100);
+      break;
+    case 1: // Octogone
+      area = (Number(dimensions.longueur)/100) * (Number(dimensions.longueur)/100);
+      break;
+    default: // Rectangles, etc.
+      area = (Number(dimensions.longueur)/100) * (Number(dimensions.largeur)/100);
+  }
+  
+  switch(selectedShape) {
+    case 0: // Cercle
+      newCover = {
+        type: "Cercle",
+        thickness: isMaterialSpecial ? null : thickness,
+        materialType: materialType,
+        diametre: dimensions.diametre,
+        price: prixTotal,
+        area: area // Stocker l'aire
+      };
+      break;
+    case 1: // Octogone
+      newCover = {
+        type: "Octogone",
+        thickness: isMaterialSpecial ? null : thickness,
+        materialType: materialType,
+        longueur: dimensions.longueur,
+        arc: dimensions.arc,
+        price: prixTotal,
+        area: area // Stocker l'aire
+      };
+      break;
+    case 2: // Rectangle à coins arrondis
+      newCover = {
+        type: "RectangleACoinsArrondis",
+        thickness: isMaterialSpecial ? null : thickness,
+        longueur: dimensions.longueur,
+        materialType: materialType,
+        largeur: dimensions.largeur,
+        rayon: dimensions.arc,
+        price: prixTotal,
+        area: area // Stocker l'aire
+      };
+      break;
+    case 3: // Rectangle chanfreiné
+      newCover = {
+        type: "RectangleChanfreiné",
+        thickness: isMaterialSpecial ? null : thickness,
+        longueur: dimensions.longueur,
+        materialType: materialType,
+        largeur: dimensions.largeur,
+        arcA: dimensions.arca,
+        arcB: dimensions.arcb,
+        price: prixTotal,
+        area: area // Stocker l'aire
+      };
+      break;
+    case 4: // Rectangle
+      newCover = {
+        type: "Rectangle",
+        thickness: isMaterialSpecial ? null : thickness,
+        longueur: dimensions.longueur,
+        materialType: materialType,
+        largeur: dimensions.largeur,
+        price: prixTotal,
+        area: area // Stocker l'aire
+      };
+      break;
+  }
+  
+  if (newCover) {
+    const updatedCovers = [...tableCovers, newCover];
+    setTableCovers(updatedCovers);
+    
+    // Calculer le nouveau prix total (somme de tous les articles)
+    const newTotal = updatedCovers.reduce((sum, cover) => 
+      sum + (cover.price * (cover.quantity || 1)), 0);
+    setPrixTotal(newTotal);
+    
+    // Réinitialiser les états
+    setDimensions({});
+    setSelectedShape(null);
+    setIsDynamicSVG(false);
+  }
+}}
                   variant="contained"
                   fullWidth
                   disabled={Object.values(dimensionErrors).some(error => error !== '')}
