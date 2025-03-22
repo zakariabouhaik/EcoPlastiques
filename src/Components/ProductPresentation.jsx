@@ -24,6 +24,11 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
   const [showMessage, setShowMessage] = useState(true);
   const [tableCovers, setTableCovers] = useState([]);
   const [prixTotal, setPrixTotal] = useState(0);
+  const [promoCodeError, setPromoCodeError] = useState('');
+  const [showPromoCodeInput, setShowPromoCodeInput] = useState(false);
+  const [discount, setDiscount] = useState(0);
+  const [hasAppliedPromo, setHasAppliedPromo] = useState(false);
+
   const [deliveryDates, setDeliveryDates] = useState({ startDate: "", endDate: "" });
   const [selectedCovers, setSelectedCovers] = useState([]);
   const [dimensionErrors, setDimensionErrors] = useState({
@@ -36,6 +41,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
   });
 
   
+  
   const [rectangleErrors, setRectangleErrors] = useState({
     longueur: '',
     largeur: ''
@@ -46,6 +52,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     fullName: "",
     phone: "",
     address: "",
+    promoCode: "",
     PrixTotal:"",
     
   });
@@ -56,11 +63,27 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
   };
 
   const handleFormChange = (field, value) => {
+
+    if (field === 'promoCode') {
+      if (hasAppliedPromo) {
+        // Réinitialiser la réduction si l'utilisateur modifie le code après application
+        setDiscount(0);
+        setHasAppliedPromo(false);
+      }
+      // Réinitialiser le message d'erreur quand l'utilisateur commence à taper
+      setPromoCodeError('');
+    }
+
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
   };
+
+  const togglePromoCodeInput = () => {
+    setShowPromoCodeInput(!showPromoCodeInput);
+  };
+
 
   const handleAddCover = () => {
     const newCover = {
@@ -92,6 +115,25 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
       sum + (cover.price * (cover.quantity || 1)), 0);
     setPrixTotal(total);
   };
+
+  const applyPromoCode = () => {
+    // Liste des codes promo valides (insensibles à la casse)
+    const validPromoCodes = ['maryam10', 'imane10', 'Maryam10', 'Imane10'];
+    
+    // Vérifier si le code promo est valide
+    if (validPromoCodes.includes(formData.promoCode)) {
+      // Code valide - calculer la réduction de 10%
+      const discountAmount = Math.round(prixTotal * 0.1);
+      setDiscount(discountAmount);
+      setHasAppliedPromo(true);
+      setPromoCodeError(''); // Effacer le message d'erreur
+    } else {
+      // Code promo invalide
+      setDiscount(0);
+      setHasAppliedPromo(false);
+      setPromoCodeError(t('Code promo invalide'));
+    }
+  };
   
   const handleRemoveCover = (index) => {
     const newTableCovers = [...tableCovers];
@@ -117,7 +159,12 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     formDataToSubmit.append("Nom_complet", formData.fullName);
     formDataToSubmit.append("Telephone", formData.phone);
     formDataToSubmit.append("Adresse", formData.address);
+    formDataToSubmit.append("Code_Promo", formData.promoCode || "Aucun");
+    formDataToSubmit.append("Réduction", discount > 0 ? `${discount} DHs (10%)` : "Aucune");
+    formDataToSubmit.append("Prix_Total", `${prixTotal - discount} DHs`);
     formDataToSubmit.append("PrixTotal",`${prixTotal} DHs`)
+    
+
 
     const getMaterialTypeText = (materialType) => {
       if (materialType === 'matte') {
@@ -162,7 +209,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
 
     // Submit form
     fetch(
-      "https://script.google.com/macros/s/AKfycbxDuGglDRRB-Eq8wgid8lunUJQltEqQbie-8MZ3I2PwGAG5f5vhENM4k4mcgJNbVq5J/exec",
+      "https://script.google.com/macros/s/AKfycbyUkLCS1t8uMiBHoqZtBvLZ2AqsY9E4smvq3Kg47m2awn5Vl-SfET6ipb2mZ8naJXSF/exec",
       {
         method: "POST",
         body: formDataToSubmit
@@ -466,7 +513,13 @@ const renderDimensionFields = () => {
                     ...prev,
                     diametre: t('Diametre140')
                   }));
-                } else {
+                }
+                if (Number(value) < 15) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    diametre: t('Diametre15')
+                  }));
+                }  else {
                   setDimensionErrors((prev) => ({
                     ...prev,
                     diametre: ''
@@ -516,6 +569,12 @@ const renderDimensionFields = () => {
                     ...prev,
                     longueur: t('Longueur1000')
                   }));
+                }
+               else if (Number(value) < 15) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    longueur: t('Longueur15')
+                  }));
                 } else {
                   setDimensionErrors((prev) => ({
                     ...prev,
@@ -559,7 +618,13 @@ const renderDimensionFields = () => {
                     ...prev,
                     largeur: t('Largeur140')
                   }));
-                } else {
+                } 
+                else if (Number(value) < 15) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    largeur: t('Largeur15')
+                  }));
+                }else {
                   setDimensionErrors((prev) => ({
                     ...prev,
                     largeur: ''
@@ -608,7 +673,14 @@ const renderDimensionFields = () => {
                     ...prev,
                     longueur: t('Longueur1000')
                   }));
-                } else {
+                } 
+               else if (Number(value) < 15) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    longueur: t('Longueur15')
+                  }));
+                }
+                else {
                   setDimensionErrors((prev) => ({
                     ...prev,
                     longueur: ''
@@ -651,7 +723,14 @@ const renderDimensionFields = () => {
                     ...prev,
                     largeur: t('Largeur140')
                   }));
-                } else {
+                }
+               else if (Number(value) < 15) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    largeur: t('Largeur15')
+                  }));
+                } 
+                else {
                   setDimensionErrors((prev) => ({
                     ...prev,
                     largeur: ''
@@ -743,7 +822,14 @@ const renderDimensionFields = () => {
                     ...prev,
                     longueur: t('Longueur1000')
                   }));
-                } else {
+                } 
+                else if (Number(value) < 15) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    longueur: t('Longueur15')
+                  }));
+                }
+                else {
                   setDimensionErrors((prev) => ({
                     ...prev,
                     longueur: ''
@@ -786,7 +872,14 @@ const renderDimensionFields = () => {
                     ...prev,
                     largeur: t('Largeur140')
                   }));
-                } else {
+                } 
+               else if (Number(value) < 15) {
+                  setDimensionErrors((prev) => ({
+                    ...prev,
+                    largeur: t('Largeur15')
+                  }));
+                } 
+                else {
                   setDimensionErrors((prev) => ({
                     ...prev,
                     largeur: ''
@@ -911,7 +1004,14 @@ case 1: // Octogone
                 ...prev,
                 longueur: t('Longueur140')
               }));
-            } else {
+            } 
+            else if(Number(value) < 15) {
+              setDimensionErrors((prev) => ({
+                ...prev,
+                longueur: t('Longueur15')
+              }));
+            } 
+            else {
               setDimensionErrors((prev) => ({
                 ...prev,
                 longueur: ''
@@ -1558,129 +1658,147 @@ const handlePictureClick = (picture, index) => {
 
   {/* Prix et bouton - visible seulement quand !showMessage */}
 
-            {!showMessage && (
-              <>
-              <Box sx={{ marginTop: 3, textAlign: "center" }}>
-                <Typography variant="h6" color="black">
-                {t('product_presentation_total_price', { prixTotal })} 
-                </Typography>
-                <Typography variant="h17" color="black">
-                  {t('product_presentation_free_shipping_note')}
-                </Typography>
-                <Button
-                  onClick={() => {
-                    let newCover;
-                    const isMaterialSpecial = pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2;
-                    let materialType;
-  if (pictures09.indexOf(selectedGalleryImage) === 0) {
-    materialType = 'transparente';
-  } else if (pictures09.indexOf(selectedGalleryImage) === 2) {
-    materialType = 'doree';
-  } else {
-    materialType = 'matte';
-  }
-                    switch(selectedShape) {
-                      case 0: // Cercle
-                        newCover = {
-                          type: "Cercle",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          materialType: materialType,
-                          diametre: dimensions.diametre,
-                          price: prixTotal
-                        };
-                        break;
-                      case 1: // Octogone
-                        newCover = {
-                          type: "Octogone",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          materialType: materialType,
-                          longueur: dimensions.longueur,
-                          arc: dimensions.arc,
-                          price: prixTotal
-                        };
-                        break;
-                      case 2: // Rectangle à coins arrondis
-                        newCover = {
-                          type: "RectangleACoinsArrondis",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          longueur: dimensions.longueur,
-                          materialType: materialType,
-                          largeur: dimensions.largeur,
-                          rayon: dimensions.arc,
-                          price: prixTotal
-                        };
-                        break;
-                      case 3: // Rectangle chanfreiné
-                        newCover = {
-                          type: "RectangleChanfreiné",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          longueur: dimensions.longueur,
-                          materialType: materialType,
-                          largeur: dimensions.largeur,
-                          arcA: dimensions.arca,
-                          arcB: dimensions.arcb,
-                          price: prixTotal
-                        };
-                        break;
-                      case 4: // Rectangle
-                        newCover = {
-                          type: "Rectangle",
-                          thickness: isMaterialSpecial ? null : thickness,
-                          longueur: dimensions.longueur,
-                          materialType: materialType,
-                          largeur: dimensions.largeur,
-                          price: prixTotal
-                        };
-                        break;
-                    }
-                    if (newCover) {
-                      const updatedCovers = [...tableCovers, newCover];
-      setTableCovers(updatedCovers);
+  
+{!showMessage && (
+  <>
+    <Box sx={{ marginTop: 3, textAlign: "center" }}>
+      {discount > 0 ? (
+        // Prix avec promotion
+        <>
+          <Typography variant="body2" sx={{ textDecoration: 'line-through', color: '#777' }}>
+            {t('product_presentation_total_price', { prixTotal })}
+          </Typography>
+          <Typography variant="h6" color="black" sx={{ color: '#9BC953', fontWeight: 'bold' }}>
+            {t('product_presentation_total_price', { prixTotal: prixTotal - discount })}
+            <Typography component="span" variant="body2" sx={{ ml: 1 }}>
+              (-10%)
+            </Typography>  
+          </Typography>
+        </>
+      ) : (
+        // Prix normal sans promotion
+        <Typography variant="h6" color="black">
+          {t('product_presentation_total_price', { prixTotal })}
+        </Typography>
+      )}
+      <Typography variant="body2" color="black">
+        {t('product_presentation_free_shipping_note')}
+      </Typography>
       
-      // Calculer le nouveau prix total (somme de tous les articles)
-      const newTotal = updatedCovers.reduce((sum, cover) => 
-        sum + (cover.price * (cover.quantity || 1)), 0);
-      setPrixTotal(newTotal);
-
-
-                      setTableCovers([...tableCovers, newCover]);
-                      setTableCovers([...tableCovers, newCover]);
+      <Button
+        onClick={() => {
+          let newCover;
+          const isMaterialSpecial = pictures09.indexOf(selectedGalleryImage) === 1 || pictures09.indexOf(selectedGalleryImage) === 2;
+          let materialType;
+          if (pictures09.indexOf(selectedGalleryImage) === 0) {
+            materialType = 'transparente';
+          } else if (pictures09.indexOf(selectedGalleryImage) === 2) {
+            materialType = 'doree';
+          } else {
+            materialType = 'matte';
+          }
+          
+          // Calculer le prix unitaire avec la promotion appliquée si nécessaire
+          const itemPrice = discount > 0 
+            ? Math.floor(prixTotal * 0.9)  // Prix avec 10% de réduction
+            : prixTotal;
+            
+          switch(selectedShape) {
+            case 0: // Cercle
+              newCover = {
+                type: "Cercle",
+                thickness: isMaterialSpecial ? null : thickness,
+                materialType: materialType,
+                diametre: dimensions.diametre,
+                price: itemPrice  // Prix avec promotion appliquée
+              };
+              break;
+            case 1: // Octogone
+              newCover = {
+                type: "Octogone",
+                thickness: isMaterialSpecial ? null : thickness,
+                materialType: materialType,
+                longueur: dimensions.longueur,
+                arc: dimensions.arc,
+                price: itemPrice
+              };
+              break;
+            case 2: // Rectangle à coins arrondis
+              newCover = {
+                type: "RectangleACoinsArrondis",
+                thickness: isMaterialSpecial ? null : thickness,
+                longueur: dimensions.longueur,
+                materialType: materialType,
+                largeur: dimensions.largeur,
+                rayon: dimensions.arc,
+                price: itemPrice
+              };
+              break;
+            case 3: // Rectangle chanfreiné
+              newCover = {
+                type: "RectangleChanfreiné",
+                thickness: isMaterialSpecial ? null : thickness,
+                longueur: dimensions.longueur,
+                materialType: materialType,
+                largeur: dimensions.largeur,
+                arcA: dimensions.arca,
+                arcB: dimensions.arcb,
+                price: itemPrice
+              };
+              break;
+            case 4: // Rectangle
+              newCover = {
+                type: "Rectangle",
+                thickness: isMaterialSpecial ? null : thickness,
+                longueur: dimensions.longueur,
+                materialType: materialType,
+                largeur: dimensions.largeur,
+                price: itemPrice
+              };
+              break;
+          }
+          
+          if (newCover) {
+            const updatedCovers = [...tableCovers, newCover];
+            setTableCovers(updatedCovers);
+            
+            // Calculer le nouveau prix total (somme de tous les articles)
+            const newTotal = updatedCovers.reduce((sum, cover) => 
+              sum + (cover.price * (cover.quantity || 1)), 0);
+            setPrixTotal(newTotal);
+            
             setDimensions({});
-            
-            
             setSelectedShape(null);
-            
-            setIsDynamicSVG(false);// Réinitialiser la forme sélectionnée
-                     }
-                  }}
-                  variant="contained"
-                  fullWidth
-                  disabled={Object.values(dimensionErrors).some(error => error !== '')}
-                  sx={{
-                    backgroundColor: Object.values(dimensionErrors).some(error => error !== '') 
-      ? "#ccc" 
-      : "#9BC953",
-    color: "white",
-    fontWeight: "bold",
-    borderRadius: "20px",
-    padding: "12px 20px",
-    marginTop: 2,
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: dimensionErrors.longueur || dimensionErrors.largeur ? "#ccc" : "#7CA43B",
-    },
-    "&:disabled": {
-      backgroundColor: "#ccc",
-      color: "white",
-    }
-  }}
-                >
-                  {t('product_presentation_add_another')}
-                </Button>
-                </Box>
-                </>
-                
-  )}
+            setIsDynamicSVG(false);
+          }
+        }}
+        variant="contained"
+        fullWidth
+        disabled={Object.values(dimensionErrors).some(error => error !== '')}
+        sx={{
+          backgroundColor: Object.values(dimensionErrors).some(error => error !== '') 
+            ? "#ccc" 
+            : "#9BC953",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "20px",
+          padding: "12px 20px",
+          marginTop: 2,
+          textTransform: "none",
+          "&:hover": {
+            backgroundColor: dimensionErrors.longueur || dimensionErrors.largeur ? "#ccc" : "#7CA43B",
+          },
+          "&:disabled": {
+            backgroundColor: "#ccc",
+            color: "white",
+          }
+        }}
+      >
+        {t('product_presentation_add_another')}
+      </Button>
+    </Box>
+  </>
+)}
 
 </Box>
 </Box>
@@ -1742,7 +1860,99 @@ const handlePictureClick = (picture, index) => {
         </Grid2>
  
       </Grid2>
-      <OrderSubmitButton 
+
+      <Grid2 item xs={12}>
+  <Box sx={{ marginBottom: 2, marginTop: 2 }}>
+    <Typography 
+      variant="body2" 
+      onClick={togglePromoCodeInput}
+      sx={{ 
+        color: '#9BC953', 
+        cursor: 'pointer', 
+        textDecoration: 'underline',
+        '&:hover': {
+          color: '#7ca43b',
+        },
+      }}
+    >
+      {t('Vousavezuncodepromo')}
+    </Typography>
+    
+    {showPromoCodeInput && (
+  <Box sx={{ marginTop: 2 }}>
+    <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+      <TextField
+        label={t('Code_promo')}
+        variant="standard"
+        fullWidth
+        value={formData.promoCode}
+        onChange={(e) => handleFormChange("promoCode", e.target.value)}
+        error={!!promoCodeError}
+        sx={{ 
+          marginRight: 1,
+          "& .MuiInputLabel-root": { 
+            textAlign: isArabic ? "right" : "left", 
+            right: isArabic ? 0 : 'auto', 
+            left: isArabic ? 'auto' : 0 
+          } 
+        }}
+      />
+      <Button
+        variant="contained"
+        onClick={applyPromoCode}
+        sx={{
+          backgroundColor: "#9BC953",
+          color: "white",
+          '&:hover': {
+            backgroundColor: "#7ca43b",
+          },
+          marginBottom: '3px'
+        }}
+      >
+        {t('Appliquer')}
+      </Button>
+    </Box>
+    {promoCodeError && (
+      <Typography 
+        variant="caption" 
+        color="error" 
+        sx={{ 
+          display: 'block', 
+          mt: 0.5,
+          ml: isArabic ? 'auto' : '12px',
+          mr: isArabic ? '12px' : 'auto',
+          textAlign: isArabic ? 'right' : 'left'
+        }}
+      >
+        {promoCodeError}
+      </Typography>
+    )}
+  </Box>
+)}
+
+  </Box>
+</Grid2>
+
+{prixTotal > 0 && discount > 0 && (
+  <Box sx={{ 
+    marginTop: 2, 
+    padding: 2, 
+    backgroundColor: 'rgba(155, 201, 83, 0.1)', 
+    borderRadius: 1, 
+    border: '1px dashed #9BC953' 
+  }}>
+     <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#9BC953' }}>
+      {t('Prix_original')}: <span style={{ textDecoration: 'line-through' }}>{prixTotal} {t('dh')}</span>
+    </Typography>
+   
+    <Typography variant="h5" sx={{ fontWeight: 'bold',marginTop:1 }}>
+      {t('Prix_final')}: {prixTotal - discount} {t('dh')}
+    </Typography>
+  </Box>
+)}
+
+
+<OrderSubmitButton 
   onSubmit={() => {
     setFormData({
       email: "",
@@ -1751,12 +1961,14 @@ const handlePictureClick = (picture, index) => {
       address: "",
       promoCode: ""
     });
-    setShowMessage(true)
+    setShowMessage(true);
     setPrixTotal(0);
     setTableCovers([]);
+    setDiscount(0);
+    setHasAppliedPromo(false);
   }}
   formData={formData}
-  prixTotal={prixTotal}
+  prixTotal={prixTotal - discount}
   tableCovers={tableCovers}
 />
     </form>

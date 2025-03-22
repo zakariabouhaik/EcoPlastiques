@@ -101,13 +101,15 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_text: "Texte de présentation du produit",
                 product_presentation_best_seller: "Best-seller",
                 product_presentation_free_shipping: "Livraison gratuite partout au Maroc",
-                
+                Appliquer:"Appliquer",  
                 product_presentation_thickness_1_5mm_dore:"Dorée : 250 DH/m², plus frais de découpage",
                 product_presentation_thickness_1_5mm_mat:"Mate : 250 DH/m², plus frais de découpage",
                 product_presentation_food_contact_dore_mat:"Le film de protection de table peut entre en contact avec des aliments.",
                 product_presentation_protection_dore_mat:"Il est résistant à l’eau et protège contre les rayures.",
                 product_presentation_transparent_dore_mat:"Grâce à sa transparence, vous pouvez toujours voir la surface de la table.",
-
+                
+                Prix_final:"Prix final",
+                Prix_original:"Prix original",
 
                 product_presentation_thickness_1_5mm: "Épaisseur 1.5mm: 199 DH/m², plus frais de découpage",
                 product_presentation_thickness_2mm: "Épaisseur 2mm: 250 DH/m², plus frais de découpage",
@@ -161,10 +163,19 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 ArcA: "Arc A",
                 ArcB: "Arc B",
                 Rayon: "Rayon",
+
+                Longueur15:"La longueur ne peut pas être moins 15 cm",
+                Longueur15:"La longueur ne peut pas être moins 15 cm",
+                Diametre15:"le Diametre ne peut pas être moins 15 cm",
+                Largeur15:"La largeur ne peut pas être moins 15 cm",
+                Vousavezuncodepromo:"Vous avez un code promo ?",
+                Code_promo:"Code promo",
                 Longueur140:"La longueur ne peut pas dépasser 140 cm",
                 Longueur1000:"La longueur ne peut pas dépasser 1000 cm",
                 Diametre140:"le Diametre ne peux pas dépasser 140 cm",
                 Largeur140:"La largeur ne peut pas dépasser 140 cm",
+
+
                 ArcDepasse:"L'arc ne peut pas dépasser la moitié de la longueur",
                 dh: "DH",
                 RectangleACoinsArrondis: "Rectangle à coins arrondis",
@@ -304,6 +315,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 product_presentation_transparent_dore_mat:"بفضل شفافيتها، يمكنك دائمًا رؤية سطح الطاولة.",
 
 
+                Vousavezuncodepromo:"هل لديك رمز ترويجي ؟",
 
                 product_presentation_in_stock: "متوفر",
                 product_presentation_delivery_date: "تاريخ التسليم: بين {{startDate}} و {{endDate}}",
@@ -335,10 +347,20 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
                 ArcA: "القوس أ",
                 ArcB: "القوس ب",
                 Rayon: "النصف",
+
                 Longueur140:"لا يمكن أن يتجاوز الطول 140 سم",
                 Longueur1000:"لا يمكن أن يتجاوز الطول 1000 سم",
                 Largeur140:"لا يمكن أن يتجاوز العرض 140 سم",
                 Diametre140:"لا يمكن أن يتجاوز القطر 140 سم" ,
+                Code_promo:"الرمز الترويجي",
+                Longueur15:"لا يمكن أن يكون أقل الطول 15 سم",
+            
+                Largeur15:"لا يمكن أن يكون أقل العرض 15 سم",
+                Diametre15:"لا يمكن أن يكون أقل القطر 15 سم" ,
+                
+                Prix_final:"السعر النهائي",
+                Prix_original:"السعر الأصلي",
+                Appliquer:"طبّق",  
                 ArcDepasse:"لا يمكن أن يتجاوز القوس نصف الطول",
                 dh: "درهم",
                 RectangleACoinsArrondis: "مستطيل بزوايا مستديرة",
