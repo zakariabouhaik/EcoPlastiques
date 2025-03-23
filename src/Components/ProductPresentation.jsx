@@ -24,8 +24,8 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
   const [showMessage, setShowMessage] = useState(true);
   const [tableCovers, setTableCovers] = useState([]);
   const [prixTotal, setPrixTotal] = useState(0);
-  const [promoCodeError, setPromoCodeError] = useState('');
-  const [showPromoCodeInput, setShowPromoCodeInput] = useState(false);
+  const [CodePromoError, setCodePromoError] = useState('');
+  const [showCodePromoInput, setShowCodePromoInput] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [hasAppliedPromo, setHasAppliedPromo] = useState(false);
 
@@ -52,7 +52,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     fullName: "",
     phone: "",
     address: "",
-    promoCode: "",
+    CodePromo: "",
     PrixTotal:"",
     
   });
@@ -64,14 +64,14 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
 
   const handleFormChange = (field, value) => {
 
-    if (field === 'promoCode') {
+    if (field === 'CodePromo') {
       if (hasAppliedPromo) {
         // Réinitialiser la réduction si l'utilisateur modifie le code après application
         setDiscount(0);
         setHasAppliedPromo(false);
       }
       // Réinitialiser le message d'erreur quand l'utilisateur commence à taper
-      setPromoCodeError('');
+      setCodePromoError('');
     }
 
     setFormData(prev => ({
@@ -80,8 +80,8 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     }));
   };
 
-  const togglePromoCodeInput = () => {
-    setShowPromoCodeInput(!showPromoCodeInput);
+  const toggleCodePromoInput = () => {
+    setShowCodePromoInput(!showCodePromoInput);
   };
 
 
@@ -116,22 +116,22 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     setPrixTotal(total);
   };
 
-  const applyPromoCode = () => {
+  const applyCodePromo = () => {
     // Liste des codes promo valides (insensibles à la casse)
-    const validPromoCodes = ['maryam10', 'imane10', 'Maryam10', 'Imane10'];
+    const validCodePromos = ['maryam10', 'imane10', 'Maryam10', 'Imane10'];
     
     // Vérifier si le code promo est valide
-    if (validPromoCodes.includes(formData.promoCode)) {
+    if (validCodePromos.includes(formData.CodePromo)) {
       // Code valide - calculer la réduction de 10%
       const discountAmount = Math.round(prixTotal * 0.1);
       setDiscount(discountAmount);
       setHasAppliedPromo(true);
-      setPromoCodeError(''); // Effacer le message d'erreur
+      setCodePromoError(''); // Effacer le message d'erreur
     } else {
       // Code promo invalide
       setDiscount(0);
       setHasAppliedPromo(false);
-      setPromoCodeError(t('Code promo invalide'));
+      setCodePromoError(t('Code promo invalide'));
     }
   };
   
@@ -159,7 +159,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     formDataToSubmit.append("Nom_complet", formData.fullName);
     formDataToSubmit.append("Telephone", formData.phone);
     formDataToSubmit.append("Adresse", formData.address);
-    formDataToSubmit.append("Code_Promo", formData.promoCode || "Aucun");
+    formDataToSubmit.append("CodePromo", formData.CodePromo || "Aucun");
     formDataToSubmit.append("Réduction", discount > 0 ? `${discount} DHs (10%)` : "Aucune");
     formDataToSubmit.append("Prix_Total", `${prixTotal - discount} DHs`);
     formDataToSubmit.append("PrixTotal",`${prixTotal} DHs`)
@@ -206,10 +206,10 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     formDataToSubmit.append("Commande", orderDetails);
     formDataToSubmit.append("Prix_Total", `${prixTotal} DHs`);
     
-
+   
     // Submit form
     fetch(
-      "https://script.google.com/macros/s/AKfycbyUkLCS1t8uMiBHoqZtBvLZ2AqsY9E4smvq3Kg47m2awn5Vl-SfET6ipb2mZ8naJXSF/exec",
+      "https://script.google.com/macros/s/AKfycbyH9Sp_0j7VYojml6eEPD0KLnbIOGPi0qrItffpkkug-3SLVxg4qhfi4_3TLgxnBjEr/exec",
       {
         method: "POST",
         body: formDataToSubmit
@@ -224,7 +224,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
           fullName: "",
           phone: "",
           address: "",
-          promoCode: ""
+          CodePromo: ""
         });
        
       })
@@ -1865,7 +1865,7 @@ const handlePictureClick = (picture, index) => {
   <Box sx={{ marginBottom: 2, marginTop: 2 }}>
     <Typography 
       variant="body2" 
-      onClick={togglePromoCodeInput}
+      onClick={toggleCodePromoInput}
       sx={{ 
         color: '#9BC953', 
         cursor: 'pointer', 
@@ -1878,16 +1878,16 @@ const handlePictureClick = (picture, index) => {
       {t('Vousavezuncodepromo')}
     </Typography>
     
-    {showPromoCodeInput && (
+    {showCodePromoInput && (
   <Box sx={{ marginTop: 2 }}>
     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
       <TextField
-        label={t('Code_promo')}
+        label={t('CodePromo')}
         variant="standard"
         fullWidth
-        value={formData.promoCode}
-        onChange={(e) => handleFormChange("promoCode", e.target.value)}
-        error={!!promoCodeError}
+        value={formData.CodePromo}
+        onChange={(e) => handleFormChange("CodePromo", e.target.value)}
+        error={!!CodePromoError}
         sx={{ 
           marginRight: 1,
           "& .MuiInputLabel-root": { 
@@ -1899,7 +1899,7 @@ const handlePictureClick = (picture, index) => {
       />
       <Button
         variant="contained"
-        onClick={applyPromoCode}
+        onClick={applyCodePromo}
         sx={{
           backgroundColor: "#9BC953",
           color: "white",
@@ -1912,7 +1912,7 @@ const handlePictureClick = (picture, index) => {
         {t('Appliquer')}
       </Button>
     </Box>
-    {promoCodeError && (
+    {CodePromoError && (
       <Typography 
         variant="caption" 
         color="error" 
@@ -1924,7 +1924,7 @@ const handlePictureClick = (picture, index) => {
           textAlign: isArabic ? 'right' : 'left'
         }}
       >
-        {promoCodeError}
+        {CodePromoError}
       </Typography>
     )}
   </Box>
@@ -1959,7 +1959,7 @@ const handlePictureClick = (picture, index) => {
       fullName: "",
       phone: "",
       address: "",
-      promoCode: ""
+      CodePromo: ""
     });
     setShowMessage(true);
     setPrixTotal(0);

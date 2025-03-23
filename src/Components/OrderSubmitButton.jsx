@@ -78,6 +78,9 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
     formDataToSubmit.append("Adresse", formData.address);
     formDataToSubmit.append("PrixTotal", `${prixTotal} DHs`);
     
+    // FIX: Utiliser CodePromo (avec C majuscule) pour correspondre au nom dans ProductPresentation
+    formDataToSubmit.append("Code_Promo", formData.CodePromo || "Aucun");
+    
     const getMaterialTypeText = (materialType) => {
       if (materialType === 'matte') {
         return t('product_presentation_mat');
@@ -114,10 +117,16 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
     }).join('\n');
 
     formDataToSubmit.append("Commande", orderDetails);
+    
+    // For debugging purposes
+    console.log("Form data being submitted:");
+    for (let pair of formDataToSubmit.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
 
     try {
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbxDuGglDRRB-Eq8wgid8lunUJQltEqQbie-8MZ3I2PwGAG5f5vhENM4k4mcgJNbVq5J/exec",
+        "https://script.google.com/macros/s/AKfycbyUkLCS1t8uMiBHoqZtBvLZ2AqsY9E4smvq3Kg47m2awn5Vl-SfET6ipb2mZ8naJXSF/exec",
         {
           method: "POST",
           body: formDataToSubmit
