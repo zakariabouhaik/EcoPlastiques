@@ -117,23 +117,30 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
   };
 
   const applyCodePromo = () => {
-    // Liste des codes promo valides (insensibles à la casse)
-    const validCodePromos = ['maryam10', 'imane10', 'Maryam10', 'Imane10'];
+  // Liste des codes promo valides (insensibles à la casse)
+  const validCodePromos = ['maryam10', 'imane10', 'Maryam10', 'Imane10', 'PROMOEID15', 'Promoeid15'];
+  
+  // Codes promo avec 15% de réduction
+  const fifteenPercentCodes = ['PROMOEID15', 'Promoeid15'];
+  
+  // Vérifier si le code promo est valide
+  if (validCodePromos.includes(formData.CodePromo)) {
+    // Déterminer le pourcentage de réduction à appliquer
+    const discountPercentage = fifteenPercentCodes.includes(formData.CodePromo) ? 0.15 : 0.1;
     
-    // Vérifier si le code promo est valide
-    if (validCodePromos.includes(formData.CodePromo)) {
-      // Code valide - calculer la réduction de 10%
-      const discountAmount = Math.round(prixTotal * 0.1);
-      setDiscount(discountAmount);
-      setHasAppliedPromo(true);
-      setCodePromoError(''); // Effacer le message d'erreur
-    } else {
-      // Code promo invalide
-      setDiscount(0);
-      setHasAppliedPromo(false);
-      setCodePromoError(t('Code promo invalide'));
-    }
-  };
+    // Calculer la réduction
+    const discountAmount = Math.round(prixTotal * discountPercentage);
+    setDiscount(discountAmount);
+    setHasAppliedPromo(true);
+    setCodePromoError(''); // Effacer le message d'erreur
+  } else {
+    // Code promo invalide
+    setDiscount(0);
+    setHasAppliedPromo(false);
+    setCodePromoError(t('Code promo invalide'));
+  }
+};
+   
   
   const handleRemoveCover = (index) => {
     const newTableCovers = [...tableCovers];
