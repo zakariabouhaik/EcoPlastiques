@@ -45,7 +45,7 @@ const ProductPage = () => {
         "/assets/TransparantImages/8.jpg",
         "/assets/TransparantImages/7.jpg",
         "/assets/ImageComponent/5.jpg",
-        "/assets/TransparantImages/IMG_2744.JPEG.jpg",
+         
     ];
 
     const ImageQcm1 = [
@@ -62,7 +62,7 @@ const ProductPage = () => {
     ];
     
     const pictures002 = [
-        "/assets/Trior/IMG_2574.JPEG.jpg",
+      
         "/assets/Trior/nappe-tri-or-2.png",
         "/assets/Trior/nappe-tri-or-4.png",
         "/assets/Trior/nappe-tri-or-5.png",
@@ -87,8 +87,7 @@ const ProductPage = () => {
         "/assets/MAT/nappe-mat-1.png",
         "/assets/MAT/nappe-mat-4.png",
         "/assets/MAT/nappe-mat-2 (1).png",
-        "/assets/MAT/IMG_2575.JPEG.jpg",
-        
+       
     ];
 
     const pictureso1 = [
