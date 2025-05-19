@@ -71,9 +71,10 @@ const ProductPage = () => {
 
 
     const pictures09 = [
-        "/assets/TransparantImages/6 (1).jpg",
-        "/assets/TransparantImages/nappe-mat-2.png",
-        "/assets/TransparantImages/11.png",
+        "/assets/TransparantImages/IMG_2744.JPEG.jpg",
+        "/assets/MAT/IMG_2575.JPEG.jpg",
+        "/assets/Trior/IMG_2574.JPEG.jpg",
+
     ];
 
     useEffect(() => {
