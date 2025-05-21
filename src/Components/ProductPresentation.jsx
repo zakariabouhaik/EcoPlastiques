@@ -118,10 +118,10 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
 
   const applyCodePromo = () => {
   // Liste des codes promo valides (insensibles à la casse)
-  const validCodePromos = ['maryam10', 'imane10', 'Maryam10', 'Imane10', 'PROMOEID15', 'Promoeid15'];
+  const validCodePromos = ['PROMOEID10', 'Promoeid10'];
   
   // Codes promo avec 15% de réduction
-  const fifteenPercentCodes = ['PROMOEID15', 'Promoeid15'];
+  const fifteenPercentCodes = ['ÖÄü'];
   
   // Vérifier si le code promo est valide
   if (validCodePromos.includes(formData.CodePromo)) {

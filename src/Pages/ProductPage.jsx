@@ -41,6 +41,7 @@ const ProductPage = () => {
 
 
     const pictures = [
+         "/assets/TransparantImages/Poste-4-5-Transparent.png",
         "/assets/TransparantImages/6 (1).jpg",
         "/assets/TransparantImages/8.jpg",
         "/assets/TransparantImages/7.jpg",
@@ -62,7 +63,7 @@ const ProductPage = () => {
     ];
     
     const pictures002 = [
-      
+      "/assets/Trior/Poste-4-5-Doree.png",
         "/assets/Trior/nappe-tri-or-2.png",
         "/assets/Trior/nappe-tri-or-4.png",
         "/assets/Trior/nappe-tri-or-5.png",
@@ -71,9 +72,9 @@ const ProductPage = () => {
 
 
     const pictures09 = [
-        "/assets/TransparantImages/IMG_2744.JPEG.jpg",
-        "/assets/MAT/IMG_2575.JPEG.jpg",
-        "/assets/Trior/IMG_2574.JPEG.jpg",
+        "/assets/TransparantImages/Poste-4-5-Transparent.png",
+        "/assets/MAT/Poste-4-5-Mate.png",
+        "/assets/Trior/Poste-4-5-Doree.png",
 
     ];
 
@@ -83,7 +84,7 @@ const ProductPage = () => {
     },[location.state?.selectedIndex, i18n.language]);
 
     const pictures05 = [
-      
+       "/assets/MAT/Poste-4-5-Mate.png",
         "/assets/MAT/nappe-mat-1.png",
         "/assets/MAT/nappe-mat-4.png",
         "/assets/MAT/nappe-mat-2 (1).png",
