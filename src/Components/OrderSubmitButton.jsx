@@ -62,6 +62,19 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
     return isValid;
   };
 
+
+   const getCurrentDate = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    
+    return `${day}/${month}/${year} à ${hours}:${minutes}`;
+  };
+
+
   const handleSubmitWithLoading = async (e) => {
     e.preventDefault();
     
@@ -80,6 +93,8 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
     
     // FIX: Utiliser CodePromo (avec C majuscule) pour correspondre au nom dans ProductPresentation
     formDataToSubmit.append("Code_Promo", formData.CodePromo || "Aucun");
+    formDataToSubmit.append("Date_Commande", getCurrentDate());
+    
     
     const getMaterialTypeText = (materialType) => {
       if (materialType === 'matte') {
@@ -126,7 +141,7 @@ const OrderSubmitButton = ({ onSubmit, formData, prixTotal, tableCovers }) => {
 
     try {
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbyUkLCS1t8uMiBHoqZtBvLZ2AqsY9E4smvq3Kg47m2awn5Vl-SfET6ipb2mZ8naJXSF/exec",
+        "https://script.google.com/macros/s/AKfycbwt-9cBiZyAtA5H7oSKEUMnrV-lr8JufQDnsn9kjTsitV2ztXhWlTSBIAyV6q0GbH4z/exec",
         {
           method: "POST",
           body: formDataToSubmit

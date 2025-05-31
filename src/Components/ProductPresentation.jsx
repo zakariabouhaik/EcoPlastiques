@@ -40,7 +40,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
     arcb: ''
   });
 
-  
+   const fifteenPercentCodes = ['ÖÄü'];
   
   const [rectangleErrors, setRectangleErrors] = useState({
     longueur: '',
@@ -117,24 +117,21 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
   };
 
   const applyCodePromo = () => {
-  // Liste des codes promo valides (insensibles à la casse)
   const validCodePromos = ['PROMOEID10', 'Promoeid10'];
+   const fifteenPercentCodes = ['ÖÄü'];
   
-  // Codes promo avec 15% de réduction
-  const fifteenPercentCodes = ['ÖÄü'];
-  
-  // Vérifier si le code promo est valide
   if (validCodePromos.includes(formData.CodePromo)) {
-    // Déterminer le pourcentage de réduction à appliquer
     const discountPercentage = fifteenPercentCodes.includes(formData.CodePromo) ? 0.15 : 0.1;
     
-    // Calculer la réduction
-    const discountAmount = Math.round(prixTotal * discountPercentage);
+    // Calculer la réduction sur le total actuel du panier
+    const currentTotal = tableCovers.reduce((sum, cover) => 
+      sum + (cover.price * (cover.quantity || 1)), 0);
+    
+    const discountAmount = Math.round(currentTotal * discountPercentage);
     setDiscount(discountAmount);
     setHasAppliedPromo(true);
-    setCodePromoError(''); // Effacer le message d'erreur
+    setCodePromoError('');
   } else {
-    // Code promo invalide
     setDiscount(0);
     setHasAppliedPromo(false);
     setCodePromoError(t('Code promo invalide'));
@@ -216,7 +213,7 @@ const ProductPresentation = forwardRef(({ title, text, pictures, pictures09, onI
    
     // Submit form
     fetch(
-      "https://script.google.com/macros/s/AKfycbyH9Sp_0j7VYojml6eEPD0KLnbIOGPi0qrItffpkkug-3SLVxg4qhfi4_3TLgxnBjEr/exec",
+      "https://script.google.com/macros/s/AKfycbwo9I5OW-SnWbonHKc5ioY1ASbzIk7CN0Q6mIxLrEUOV31PBYBshvUHepgt8hyJkk_u/exec",
       {
         method: "POST",
         body: formDataToSubmit
@@ -1705,10 +1702,7 @@ const handlePictureClick = (picture, index) => {
             materialType = 'matte';
           }
           
-          // Calculer le prix unitaire avec la promotion appliquée si nécessaire
-          const itemPrice = discount > 0 
-            ? Math.floor(prixTotal * 0.9)  // Prix avec 10% de réduction
-            : prixTotal;
+          const itemPrice = prixTotal;
             
           switch(selectedShape) {
             case 0: // Cercle
@@ -1717,7 +1711,7 @@ const handlePictureClick = (picture, index) => {
                 thickness: isMaterialSpecial ? null : thickness,
                 materialType: materialType,
                 diametre: dimensions.diametre,
-                price: itemPrice  // Prix avec promotion appliquée
+                 price: itemPrice 
               };
               break;
             case 1: // Octogone
@@ -1766,19 +1760,26 @@ const handlePictureClick = (picture, index) => {
           }
           
           if (newCover) {
-            const updatedCovers = [...tableCovers, newCover];
-            setTableCovers(updatedCovers);
-            
-            // Calculer le nouveau prix total (somme de tous les articles)
-            const newTotal = updatedCovers.reduce((sum, cover) => 
-              sum + (cover.price * (cover.quantity || 1)), 0);
-            setPrixTotal(newTotal);
-            
-            setDimensions({});
-            setSelectedShape(null);
-            setIsDynamicSVG(false);
-          }
-        }}
+    const updatedCovers = [...tableCovers, newCover];
+    setTableCovers(updatedCovers);
+    
+    // Calculer le nouveau prix total (somme de tous les articles)
+    const newTotal = updatedCovers.reduce((sum, cover) => 
+      sum + (cover.price * (cover.quantity || 1)), 0);
+    setPrixTotal(newTotal);
+    
+    // Réappliquer la réduction si elle existe
+    if (hasAppliedPromo) {
+      const discountPercentage = fifteenPercentCodes.includes(formData.CodePromo) ? 0.15 : 0.1;
+      const newDiscountAmount = Math.round(newTotal * discountPercentage);
+      setDiscount(newDiscountAmount);
+    }
+    
+    setDimensions({});
+    setSelectedShape(null);
+    setIsDynamicSVG(false);
+  }
+}}
         variant="contained"
         fullWidth
         disabled={Object.values(dimensionErrors).some(error => error !== '')}
